@@ -2,6 +2,8 @@ package it.unifi.dinfo.stlab.WebApp_PT_Support.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Table;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
@@ -24,9 +26,9 @@ public class User {
 	private ArrayList<WorkoutProgram> workoutProgramList;
 	private WorkoutSession workout;
 	/*/
+	
 	@Id
 	@Column(name = "id", nullable = false)
-	@NotNull
 	public int getId() {
 		return id;
 	}

@@ -25,7 +25,7 @@ public class Exercise{
 	private GymMachine machine;
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name = "id", nullable = false)
 	public int getId() {
 		return id;
 	}

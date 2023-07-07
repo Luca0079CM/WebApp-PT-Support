@@ -12,6 +12,7 @@ import it.unifi.dinfo.stlab.WebApp_PT_Support.dao.UserDao;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.PersonalTrainer;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.dao.PersonalTrainerDao;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.WorkoutProgram;
+import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.WorkoutProgramType;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.dao.WorkoutProgramDao;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.Exercise;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.dao.ExerciseDao;
@@ -78,7 +79,11 @@ public class App {
     		u1.setPassword("password");
     		u1.setEmail("user"+id+"@gmail.com");
     		u1.setDateOfBirth(1997, id%12+1, id%30+1);
-    		userDao.save(u1);
+    		boolean esito = userDao.save(u1);
+    		if (esito)
+    			System.out.println("Funziona");
+    		else
+    			System.out.println("Porca madonna");
     		if (i==3)
     			deletingUser = u1;
     	}
@@ -181,6 +186,7 @@ public class App {
     	wp.setId(id1);
     	wp.setDifficultyLevel(2);
     	wp.setEstimatedDuration(60);
+    	wp.setWorkoutProgramType(WorkoutProgramType.CALISTHENICS);
     	/*/
     	u.setPersonalTrainer(null);
     	u.setWorkout(null);
@@ -194,6 +200,7 @@ public class App {
     		wp1.setId(id);
     		wp1.setDifficultyLevel(id%10+1);
     		wp1.setEstimatedDuration(id%60+20);
+    		wp1.setWorkoutProgramType(WorkoutProgramType.CALISTHENICS);
     		workoutProgramDao.save(wp1);
     	}
     	System.out.println("Salvataggio riuscito");

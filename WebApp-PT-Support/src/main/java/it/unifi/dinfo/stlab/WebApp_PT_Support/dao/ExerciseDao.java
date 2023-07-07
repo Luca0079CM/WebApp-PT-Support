@@ -22,10 +22,8 @@ public class ExerciseDao extends BaseDao<Exercise>{
 		try {
 			tx = em.getTransaction();
 			tx.begin();
-
-			em.persist(e);
+			em.merge(e);
 			success = true;
-
 			tx.commit();
 		} catch (Exception ex) {
 			if (tx != null && tx.isActive()) {

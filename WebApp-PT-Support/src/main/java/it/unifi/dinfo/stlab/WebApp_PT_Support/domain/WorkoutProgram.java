@@ -1,13 +1,14 @@
 package it.unifi.dinfo.stlab.WebApp_PT_Support.domain;
 
+
+import java.util.ArrayList;
+
 import javax.persistence.Column;
-
-// import java.util.ArrayList;
-
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "workoutprograms")
@@ -15,13 +16,13 @@ public class WorkoutProgram {
 	private int id;
 	private int difficultyLevel;
 	private int EstimatedDuration;
+	private WorkoutProgramType workoutProgramType;
 	/*/
 	private ArrayList<Exercise> exerciseList;
 	/*/
 	
 	@Id
 	@Column(name = "id", nullable = false)
-	@NotNull
 	public int getId() {
 		return id;
 	}
@@ -45,6 +46,16 @@ public class WorkoutProgram {
 	public void setEstimatedDuration(int estimatedDuration) {
 		EstimatedDuration = estimatedDuration;
 	}
+
+	public WorkoutProgramType getWorkoutProgramType() {
+		return workoutProgramType;
+	}
+
+	public void setWorkoutProgramType(WorkoutProgramType workoutProgramType) {
+		this.workoutProgramType = workoutProgramType;
+	}
+	
+	
 	/*/
 	public ArrayList<Exercise> getExerciseList() {
 		return exerciseList;

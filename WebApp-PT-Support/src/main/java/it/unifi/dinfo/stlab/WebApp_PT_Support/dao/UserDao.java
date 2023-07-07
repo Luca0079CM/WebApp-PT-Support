@@ -21,10 +21,8 @@ public class UserDao extends BaseDao<User>{
 		try {
 			tx = em.getTransaction();
 			tx.begin();
-
-			em.persist(u);
+			em.merge(u);
 			success = true;
-
 			tx.commit();
 		} catch (Exception e) {
 			if (tx != null && tx.isActive()) {
