@@ -22,7 +22,6 @@ public class Exercise{
 	private int difficultyLevel;
 	private String description;
 	
-	
 	private GymMachine machine;
 	
 	@Id
@@ -51,6 +50,7 @@ public class Exercise{
 		this.description = description;
 	}
 	
+	@ManyToOne(targetEntity = GymMachine.class, fetch = FetchType.EAGER)
 	public GymMachine getMachine() {
 		return machine;
 	}

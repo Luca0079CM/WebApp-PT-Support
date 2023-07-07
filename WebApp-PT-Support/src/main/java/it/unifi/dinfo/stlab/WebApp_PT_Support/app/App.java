@@ -28,7 +28,6 @@ public class App {
 	private int id1;
 	private User deletingUser;
 	private PersonalTrainer deletingPersonalTrainer;
-	private GymMachine testMachine;
 
     @PostConstruct
     @Transactional
@@ -221,6 +220,10 @@ public class App {
     	ExerciseDao exerciseDao = new ExerciseDao(entityManagerFactory);
     	Random random = new Random();
     	int id;
+    	GymMachineDao gymMachineDao = new GymMachineDao(entityManagerFactory);
+    	List<GymMachine> gymMachines = gymMachineDao.findAll();
+    	GymMachine testMachine = gymMachines.get(0);
+		
     	for(int i = 0; i<4; i++) {
     		id = random.nextInt(2000);
     		Exercise e = new Exercise();
@@ -254,8 +257,6 @@ public class App {
     		m.setName("Macchinario n°"+id);
     		m.setDescription("Serve per allenarsi");
     		gymMachineDao.save(m);
-    		if (i==3)
-    			testMachine = m;
     	}
     	System.out.println("Salvataggio riuscito");
     }
