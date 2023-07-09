@@ -7,8 +7,8 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.transaction.Transactional;
 
-import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.User;
-import it.unifi.dinfo.stlab.WebApp_PT_Support.dao.UserDao;
+import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.Customer;
+import it.unifi.dinfo.stlab.WebApp_PT_Support.dao.CustomerDao;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.PersonalTrainer;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.dao.PersonalTrainerDao;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.WorkoutProgram;
@@ -27,87 +27,96 @@ import java.util.List;
 public class App {
 	EntityManagerFactory entityManagerFactory;
 	private int id1;
-	private User deletingUser;
+	private Customer deletingUser;
 	private PersonalTrainer deletingPersonalTrainer;
 
     @PostConstruct
     @Transactional
     public void init() {
     	entityManagerFactory = Persistence.createEntityManagerFactory("WebApp-PT-Support");
-    	populateUser();
+    	
+    	// Popola Tabelle
+    	populateGymMachine();
+    	populateExercise();
+    	populateWorkoutProgram();
+    	populateCustomer();
+    	populatePersonalTrainer();
+    	    	
+    	// Prendi elementi ed elimina
     	retrieveUser();
     	deleteUser();
     	retrieveUser();
-    	populatePersonalTrainer();
     	retrievePersonalTrainer();
     	deletePersonalTrainer();
     	retrievePersonalTrainer();
-    	populateWorkoutProgram();
     	retrieveWorkoutProgram();
-    	populateGymMachine();
     	retrieveGymMachine();
-    	populateExercise();
     	retrieveExercise();
     }
     
-    private void populateUser() {
+    private void populateCustomer() {
     	System.out.println("Provo a salvare un utente");
-    	UserDao userDao = new UserDao(entityManagerFactory);
-    	User u = new User();
+    	CustomerDao userDao = new CustomerDao(entityManagerFactory);
+    	Customer c = new Customer();
     	Random random = new Random();
     	id1 = random.nextInt(1000);
-    	System.out.println(id1);
-    	u.setId(id1);
-    	u.setName("Luca");
-    	u.setSurname("Leuter");
-    	u.setEmail("luca0079@hotmail.it");
-    	u.setDateOfBirth(1997, 3, 8);
-    	u.setPassword("password");
-    	/*/
-    	u.setPersonalTrainer(null);
-    	u.setWorkout(null);
-    	u.setWorkoutProgramList(null);
-    	/*/
-    	userDao.save(u);
+    	
+    	WorkoutProgramDao wpDao = new WorkoutProgramDao(entityManagerFactory);
+    	PersonalTrainerDao ptDao = new PersonalTrainerDao(entityManagerFactory);
+    	List<WorkoutProgram> wpList = wpDao.findAll();
+    	List<PersonalTrainer> ptList = ptDao.findAll();
+
+    	c.setId(id1);
+    	c.setName("Luca");
+    	c.setSurname("Leuter");
+    	c.setEmail("luca0079@hotmail.it");
+    	c.setDateOfBirth(1997, 3, 8);
+    	c.setPassword("password");
+    	c.setPersonalTrainer(ptList.get(0));
+    	c.setWorkoutProgramList(wpList);
+  
+    	userDao.save(c);
     	int id;
     	for(int i = 0; i<4; i++) {
     		id = random.nextInt(2000);
-    		User u1 = new User();
-    		u1.setId(id);
-    		u1.setName("Name-"+id);
-    		u1.setSurname("Surname-"+id);
-    		u1.setPassword("password");
-    		u1.setEmail("user"+id+"@gmail.com");
-    		u1.setDateOfBirth(1997, id%12+1, id%30+1);
-    		boolean esito = userDao.save(u1);
+    		Customer c1 = new Customer();
+    		c1.setId(id);
+    		c1.setName("Name-"+id);
+    		c1.setSurname("Surname-"+id);
+    		c1.setPassword("password");
+    		c1.setEmail("user"+id+"@gmail.com");
+    		c1.setDateOfBirth(1997, id%12+1, id%30+1);
+    		c1.setPersonalTrainer(ptList.get(0));
+        	c1.setWorkoutProgramList(wpList);
+    		boolean esito = userDao.save(c1);
     		if (esito)
     			System.out.println("Funziona");
     		else
     			System.out.println("Porca madonna");
     		if (i==3)
-    			deletingUser = u1;
+    			deletingUser = c1;
     	}
     	System.out.println("Salvataggio riuscito");
     }
     
     private void retrieveUser() {
-    	UserDao userDao = new UserDao(entityManagerFactory);
+    	CustomerDao userDao = new CustomerDao(entityManagerFactory);
     	System.out.println("Provo a prendere il primo utente");
     	System.out.println(id1);
-    	User u1 = userDao.findOne(id1);
+    	Customer u1 = userDao.findOne(id1);
     	if (u1 != null)
     		System.out.println("Utente: " + u1.getName());
     	else
     		System.out.println("Utente non trovato");
     	System.out.println("Provo a prenderli tutti");
-    	List<User> userList = userDao.findAll();
-    	for(User u : userList) {
+    	List<Customer> userList = userDao.findAll();
+    	for(Customer u : userList) {
     		System.out.println("Utente: "+u.getName());
     	}
     }
 
     private void deleteUser() {
-    	UserDao userDao = new UserDao(entityManagerFactory);
+    	CustomerDao userDao = new CustomerDao(entityManagerFactory);
     	System.out.println("Provo ad eliminare l'utente con id "+ id1 + " (Luca)");
     	userDao.deleteById(id1);
     	System.out.println("Successo");
@@ -122,17 +131,22 @@ public class App {
     	PersonalTrainer pt = new PersonalTrainer();
     	Random random = new Random();
     	id1 = random.nextInt(1000);
-    	System.out.println(id1);
+    	
+    	CustomerDao cDao = new CustomerDao(entityManagerFactory);
+    	WorkoutProgramDao wpDao = new WorkoutProgramDao(entityManagerFactory);
+    	List<Customer> cList = cDao.findAll();
+    	List<WorkoutProgram> wpList = wpDao.findAll();
+    	
     	pt.setId(id1);
     	pt.setName("Luca");
     	pt.setSurname("Leuter - versione PT");
     	pt.setEmail("luca0079@hotmail.it");
     	pt.setDateOfBirth(1997, 3, 8);
     	pt.setPassword("password");
-    	/*/
-    	altri setter 
-    	/*/
+    	pt.setCustomersList(cList);
+    	pt.setWorkoutProgramList(wpList);
     	personalTrainerDao.save(pt);
+    	
     	int id;
     	for(int i = 0; i<4; i++) {
     		id = random.nextInt(2000);
@@ -143,6 +157,8 @@ public class App {
     		pt1.setPassword("password");
     		pt1.setEmail("user"+id+"@gmail.com");
     		pt1.setDateOfBirth(1997, id%12+1, id%30+1);
+    		pt1.setCustomersList(cList);
+        	pt1.setWorkoutProgramList(wpList);
     		personalTrainerDao.save(pt1);
     		if (i==3)
     			deletingPersonalTrainer = pt1;
@@ -182,16 +198,16 @@ public class App {
     	WorkoutProgram wp = new WorkoutProgram();
     	Random random = new Random();
     	id1 = random.nextInt(1000);
-    	System.out.println(id1);
+    	
+    	ExerciseDao exerciseDao = new ExerciseDao(entityManagerFactory);
+    	List<Exercise> eList = exerciseDao.findAll();
+    	
     	wp.setId(id1);
     	wp.setDifficultyLevel(2);
     	wp.setEstimatedDuration(60);
     	wp.setWorkoutProgramType(WorkoutProgramType.CALISTHENICS);
-    	/*/
-    	u.setPersonalTrainer(null);
-    	u.setWorkout(null);
-    	u.setWorkoutProgramList(null);
-    	/*/
+    	wp.setExerciseList(eList);
+
     	workoutProgramDao.save(wp);
     	int id;
     	for(int i = 0; i<4; i++) {
@@ -201,6 +217,7 @@ public class App {
     		wp1.setDifficultyLevel(id%10+1);
     		wp1.setEstimatedDuration(id%60+20);
     		wp1.setWorkoutProgramType(WorkoutProgramType.CALISTHENICS);
+    		wp1.setExerciseList(eList);
     		workoutProgramDao.save(wp1);
     	}
     	System.out.println("Salvataggio riuscito");
@@ -268,7 +285,6 @@ public class App {
     	System.out.println("Salvataggio riuscito");
     }
     
-    
     private void retrieveGymMachine() {
     	GymMachineDao gymMachineDao = new GymMachineDao(entityManagerFactory);
     	System.out.println("Provo a prenderli tutti");
@@ -277,4 +293,5 @@ public class App {
     		System.out.println("Macchinario: "+ m.getId());
     	}
     }
+
 }

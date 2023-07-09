@@ -1,19 +1,19 @@
 package it.unifi.dinfo.stlab.WebApp_PT_Support.dao;
 
-import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.User;
+import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.Customer;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 
-public class UserDao extends BaseDao<User>{
+public class CustomerDao extends BaseDao<Customer>{
 	
-	public UserDao(EntityManagerFactory emf) {
+	public CustomerDao(EntityManagerFactory emf) {
 		super(emf);
 	}
 	
-	public boolean save(User u) {
+	public boolean save(Customer u) {
 		EntityManager em = emf.createEntityManager();
 		boolean success = false;
 
@@ -34,18 +34,18 @@ public class UserDao extends BaseDao<User>{
 		return success;
 	}
 	
-	public User findOne(int id) {
+	public Customer findOne(int id) {
 		EntityManager em = emf.createEntityManager();
-		return em.find(User.class, id);
+		return em.find(Customer.class, id);
 	}
 
 	
-	public List<User> findAll() {
+	public List<Customer> findAll() {
 		EntityManager em = emf.createEntityManager();
-		return em.createQuery("from User " + " ORDER BY id DESC", User.class).getResultList();
+		return em.createQuery("from User " + " ORDER BY id DESC", Customer.class).getResultList();
 	}
 	
-	public boolean update(User u) {
+	public boolean update(Customer u) {
 		boolean success = false;
 
 		EntityManager em = emf.createEntityManager();
@@ -70,7 +70,7 @@ public class UserDao extends BaseDao<User>{
 		return success;
 	}
 
-	public boolean delete(User u) {
+	public boolean delete(Customer u) {
 		boolean success = false;
 
 		EntityManager em = emf.createEntityManager();
@@ -103,7 +103,7 @@ public class UserDao extends BaseDao<User>{
 			tx = em.getTransaction();
 			tx.begin();
 
-			User user = findOne(id);
+			Customer user = findOne(id);
 			em.remove(em.contains(user) ? user : em.merge(user));
 			success = true;
 
