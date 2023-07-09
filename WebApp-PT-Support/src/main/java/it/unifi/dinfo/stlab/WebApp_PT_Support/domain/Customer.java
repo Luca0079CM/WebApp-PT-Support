@@ -2,18 +2,19 @@ package it.unifi.dinfo.stlab.WebApp_PT_Support.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.FetchType;
 import javax.persistence.Table;
 import javax.persistence.Id;
-import javax.validation.constraints.NotNull;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 import java.time.LocalDate;
+import java.util.List;
 // import java.util.ArrayList;
 
 @Entity
-@Table(name = "users")
-public class User {
+@Table(name = "customers")
+public class Customer {
 	private int id;
 	private String name;
 	private String surname;
@@ -21,11 +22,11 @@ public class User {
 	// Da rivedere come implementare la password
 	private String password;
 	private LocalDate dateOfBirth;
-	/*/
+	
 	private PersonalTrainer personalTrainer;
-	private ArrayList<WorkoutProgram> workoutProgramList;
-	private WorkoutSession workout;
-	/*/
+	private List<WorkoutProgram> workoutProgramList;
+	// private WorkoutSession workout;
+	
 	
 	@Id
 	@Column(name = "id", nullable = false)
@@ -82,7 +83,7 @@ public class User {
 		dateOfBirth = LocalDate.of(year, month, day);
 	}
 
-	/*/
+	@ManyToOne(fetch=FetchType.EAGER)
 	public PersonalTrainer getPersonalTrainer() {
 		return personalTrainer;
 	}
@@ -91,21 +92,13 @@ public class User {
 		this.personalTrainer = personalTrainer;
 	}
 
-	public ArrayList<WorkoutProgram> getWorkoutProgramList() {
+	@ManyToMany(fetch=FetchType.EAGER)
+	public List<WorkoutProgram> getWorkoutProgramList() {
 		return workoutProgramList;
 	}
 
-	public void setWorkoutProgramList(ArrayList<WorkoutProgram> workoutProgramList) {
+	public void setWorkoutProgramList(List<WorkoutProgram> workoutProgramList) {
 		this.workoutProgramList = workoutProgramList;
 	}
-
-	public WorkoutSession getWorkout() {
-		return workout;
-	}
-
-	public void setWorkout(WorkoutSession workout) {
-		this.workout = workout;
-	}
 	
-	/*/
 }

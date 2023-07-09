@@ -3,7 +3,7 @@
 	<persistence-unit name="WebApp-PT-Support" transaction-type="JTA">
 	<jta-data-source>generalDS</jta-data-source>
 	
-	<class>it.unifi.dinfo.stlab.WebApp_PT_Support.domain.User</class>
+	<class>it.unifi.dinfo.stlab.WebApp_PT_Support.domain.Customer</class>
 	<class>it.unifi.dinfo.stlab.WebApp_PT_Support.domain.PersonalTrainer</class>
 	<class>it.unifi.dinfo.stlab.WebApp_PT_Support.domain.WorkoutProgram</class>
 	<class>it.unifi.dinfo.stlab.WebApp_PT_Support.domain.GymMachine</class>

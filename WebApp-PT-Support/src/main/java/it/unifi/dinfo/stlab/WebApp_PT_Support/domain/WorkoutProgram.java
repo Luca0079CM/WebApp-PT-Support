@@ -1,13 +1,12 @@
 package it.unifi.dinfo.stlab.WebApp_PT_Support.domain;
 
-
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -17,9 +16,9 @@ public class WorkoutProgram {
 	private int difficultyLevel;
 	private int EstimatedDuration;
 	private WorkoutProgramType workoutProgramType;
-	/*/
-	private ArrayList<Exercise> exerciseList;
-	/*/
+	
+	private List<Exercise> exerciseList;
+	
 	
 	@Id
 	@Column(name = "id", nullable = false)
@@ -55,14 +54,13 @@ public class WorkoutProgram {
 		this.workoutProgramType = workoutProgramType;
 	}
 	
-	
-	/*/
-	public ArrayList<Exercise> getExerciseList() {
+	@ManyToMany(fetch=FetchType.EAGER)
+	public List<Exercise> getExerciseList() {
 		return exerciseList;
 	}
 	
-	public void setExerciseList(ArrayList<Exercise> exerciseList) {
+	public void setExerciseList(List<Exercise> exerciseList) {
 		this.exerciseList = exerciseList;
 	}
-	/*/
+	
 }
