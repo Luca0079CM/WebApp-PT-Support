@@ -162,17 +162,14 @@ public class App {
     	}
     }    
 
-    
     private void populateWorkoutProgram() {
     	System.out.println("Provo a salvare un workout program");
     	WorkoutProgramDao workoutProgramDao = new WorkoutProgramDao(entityManagerFactory);
-    	WorkoutProgram wp = new WorkoutProgram();
     	Random random = new Random();
     	
     	ExerciseDao exerciseDao = new ExerciseDao(entityManagerFactory);
     	List<Exercise> eList = exerciseDao.findAll();
     	
-    	workoutProgramDao.save(wp);
     	int id;
     	for(int i = 0; i<4; i++) {
     		id = random.nextInt(2000);
