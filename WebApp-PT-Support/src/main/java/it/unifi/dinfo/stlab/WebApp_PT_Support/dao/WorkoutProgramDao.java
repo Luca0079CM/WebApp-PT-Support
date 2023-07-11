@@ -21,12 +21,14 @@ public class WorkoutProgramDao extends BaseDao<WorkoutProgram>{
 		try {
 			tx = em.getTransaction();
 			tx.begin();
-			em.merge(wp);
+			em.persist(wp);
+			em.flush();
 			success = true;
 			tx.commit();
 		} catch (Exception e) {
 			if (tx != null && tx.isActive()) {
 				tx.rollback();
+				System.out.println(e.toString());
 			}
 		} finally {
 			em.close();

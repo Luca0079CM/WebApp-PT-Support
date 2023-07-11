@@ -22,12 +22,13 @@ public class GymMachineDao extends BaseDao<GymMachine>{
 		try {
 			tx = em.getTransaction();
 			tx.begin();
-			em.merge(m);
+			em.persist(m);
 			success = true;
 			tx.commit();
 		} catch (Exception e) {
 			if (tx != null && tx.isActive()) {
 				tx.rollback();
+				System.out.println(e.toString());
 			}
 		} finally {
 			em.close();

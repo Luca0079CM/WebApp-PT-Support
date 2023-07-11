@@ -21,7 +21,7 @@ public class CustomerDao extends BaseDao<Customer>{
 		try {
 			tx = em.getTransaction();
 			tx.begin();
-			em.merge(u);
+			em.persist(u);
 			success = true;
 			tx.commit();
 		} catch (Exception e) {

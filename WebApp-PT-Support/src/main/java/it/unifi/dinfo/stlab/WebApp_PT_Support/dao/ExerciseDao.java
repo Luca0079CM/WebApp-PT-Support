@@ -22,12 +22,14 @@ public class ExerciseDao extends BaseDao<Exercise>{
 		try {
 			tx = em.getTransaction();
 			tx.begin();
-			em.merge(e);
+			em.persist(e);
+			em.flush();
 			success = true;
 			tx.commit();
 		} catch (Exception ex) {
 			if (tx != null && tx.isActive()) {
 				tx.rollback();
+				System.out.println(e.toString());
 			}
 		} finally {
 			em.close();

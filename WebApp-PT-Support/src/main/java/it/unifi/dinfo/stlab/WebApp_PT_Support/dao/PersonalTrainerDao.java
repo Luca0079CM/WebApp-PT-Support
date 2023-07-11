@@ -22,7 +22,7 @@ public class PersonalTrainerDao extends BaseDao<PersonalTrainer>{
 		try {
 			tx = em.getTransaction();
 			tx.begin();
-			em.merge(pt);
+			em.persist(pt);
 			success = true;
 			tx.commit();
 		} catch (Exception e) {
