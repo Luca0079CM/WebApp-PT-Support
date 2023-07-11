@@ -21,7 +21,8 @@ public class CustomerDao extends BaseDao<Customer>{
 		try {
 			tx = em.getTransaction();
 			tx.begin();
-			em.merge(u);
+			em.persist(u);
+			em.flush();
 			success = true;
 			tx.commit();
 		} catch (Exception e) {
@@ -42,7 +43,7 @@ public class CustomerDao extends BaseDao<Customer>{
 	
 	public List<Customer> findAll() {
 		EntityManager em = emf.createEntityManager();
-		return em.createQuery("from User " + " ORDER BY id DESC", Customer.class).getResultList();
+		return em.createQuery("from Customer " + " ORDER BY id DESC", Customer.class).getResultList();
 	}
 	
 	public boolean update(Customer u) {

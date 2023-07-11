@@ -7,6 +7,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -79,7 +82,9 @@ public class PersonalTrainer {
 		this.password = password;
 	}
 	
-	@OneToMany(fetch=FetchType.EAGER)
+	@OneToMany(fetch=FetchType.LAZY)
+	@JoinTable(name="customers_ptrainers", 
+	joinColumns={@JoinColumn(name="ptrainers_id")}, inverseJoinColumns={@JoinColumn(name="customers_id")})
 	public List<Customer> getCustomersList(){
 		return usersList;
 	}
@@ -88,13 +93,36 @@ public class PersonalTrainer {
 		this.usersList = usersList;
 	}
 	
-	@OneToMany(fetch=FetchType.EAGER)
+	@ManyToMany(fetch=FetchType.LAZY)
 	public List<WorkoutProgram> getWorkoutProgramList() {
 		return workoutProgramList;
 	}
 
 	public void setWorkoutProgramList(List<WorkoutProgram> workoutProgramList) {
 		this.workoutProgramList = workoutProgramList;
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + id;
+		return result;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		
+		PersonalTrainer other = (PersonalTrainer) obj;
+		if (id != other.getId())
+			return false;
+		return true;
 	}
 	
 }

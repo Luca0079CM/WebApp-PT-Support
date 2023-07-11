@@ -21,7 +21,8 @@ public class WorkoutProgramDao extends BaseDao<WorkoutProgram>{
 		try {
 			tx = em.getTransaction();
 			tx.begin();
-			em.merge(wp);
+			em.persist(wp);
+			em.flush();
 			success = true;
 			tx.commit();
 		} catch (Exception e) {

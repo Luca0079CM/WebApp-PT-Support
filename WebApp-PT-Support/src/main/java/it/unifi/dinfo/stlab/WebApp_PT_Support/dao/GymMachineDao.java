@@ -22,7 +22,8 @@ public class GymMachineDao extends BaseDao<GymMachine>{
 		try {
 			tx = em.getTransaction();
 			tx.begin();
-			em.merge(m);
+			em.persist(m);
+			em.flush();
 			success = true;
 			tx.commit();
 		} catch (Exception e) {

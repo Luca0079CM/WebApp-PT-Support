@@ -45,7 +45,7 @@ public class Exercise{
 		this.description = description;
 	}
 	
-	@ManyToOne(targetEntity = GymMachine.class, fetch = FetchType.EAGER)
+	@ManyToOne(fetch=FetchType.LAZY)
 	public GymMachine getMachine() {
 		return machine;
 	}
@@ -53,5 +53,28 @@ public class Exercise{
 	public void setMachine(GymMachine machine) {
 		this.machine = machine;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + id;
+		return result;
+	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		
+		Exercise other = (Exercise) obj;
+		if (id != other.getId())
+			return false;
+		return true;
+	}
+
 }

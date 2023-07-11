@@ -8,7 +8,7 @@
 		<connection-url>jdbc:mysql://localhost:3306/pt_schema?serverTimezone=UTC</connection-url>
 		<driver>mysql</driver>
 		<security>
-			<user-name>java-client</user-name>
+			<user-name>luca0079</user-name>
 			<password>password</password>
 		</security>
 		</datasource>

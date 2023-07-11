@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Table;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
@@ -83,7 +85,9 @@ public class Customer {
 		dateOfBirth = LocalDate.of(year, month, day);
 	}
 
-	@ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinTable(name="customers_ptrainers", 
+	joinColumns={@JoinColumn(name="customers_id")}, inverseJoinColumns={@JoinColumn(name="ptrainers_id")})
 	public PersonalTrainer getPersonalTrainer() {
 		return personalTrainer;
 	}
@@ -92,13 +96,36 @@ public class Customer {
 		this.personalTrainer = personalTrainer;
 	}
 
-	@ManyToMany(fetch=FetchType.EAGER)
+	@ManyToMany(fetch=FetchType.LAZY)
 	public List<WorkoutProgram> getWorkoutProgramList() {
 		return workoutProgramList;
 	}
 
 	public void setWorkoutProgramList(List<WorkoutProgram> workoutProgramList) {
 		this.workoutProgramList = workoutProgramList;
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + id;
+		return result;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		
+		Customer other = (Customer) obj;
+		if (id != other.getId())
+			return false;
+		return true;
 	}
 	
 }
