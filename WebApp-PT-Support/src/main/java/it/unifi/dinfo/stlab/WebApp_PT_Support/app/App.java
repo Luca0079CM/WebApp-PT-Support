@@ -19,9 +19,19 @@ import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.Exercise;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.dao.ExerciseDao;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.GymMachine;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.dao.GymMachineDao;
+import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.WorkoutSession;
+import it.unifi.dinfo.stlab.WebApp_PT_Support.dao.WorkoutSessionDao;
 import java.util.Random;
 import java.util.List;
 import java.util.ArrayList;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONArray;
+//import org.json.simple.parser.ParseException;
+import org.json.simple.parser.JSONParser;
+import java.io.Reader;
+import java.io.FileReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 // classe principale per fare le prove
 @Startup
@@ -38,11 +48,13 @@ public class App {
     	entityManagerFactory = Persistence.createEntityManagerFactory("WebApp-PT-Support");
     	
     	// Popola Tabelle
-    	populateGymMachine();
-    	populateExercise();
-    	populateWorkoutProgram();
-    	populatePersonalTrainer();
-    	populateCustomer();
+//    	populateGymMachine();
+//    	populateExercise();
+//    	populateWorkoutProgram();
+//    	populatePersonalTrainer();
+//    	populateCustomer();
+    	
+//    	populateWorkoutSession();
     	    	
     	// Prendi elementi ed elimina
 //    	retrieveUser();
@@ -56,7 +68,7 @@ public class App {
 //    	retrieveExercise();
     	
     	//metodo che recupera tutti i customers associati ad un dato PT
-    	retrieveCustomersFromPersonalTrainer();
+//    	retrieveCustomersFromPersonalTrainer();
     }
     
     private void populateCustomer() {
@@ -313,5 +325,23 @@ public class App {
     	for(Customer c : customersOfPersonalTrainer)
     		System.out.println("CUSTOMER DEL PT " + ptId + ": " + c.getName());
     }
+    
+//    private void populateWorkoutSession() throws ParseException, FileNotFoundException, IOException {
+//    	System.out.println("Popolo una workout session su InfluxDB");
+//    	WorkoutSessionDao wsDao = new WorkoutSessionDao();
+//    	WorkoutSession ws = new WorkoutSession();
+//    	ws.setId(Long.valueOf(100));
+//    	ws.setDuration(60);
+//    	
+//    	JSONParser parser = new JSONParser();
+//		Reader reader = new FileReader("src/main/java/it/unifi/dinfo/stlab/WebApp_PT_Support/app/testWorkoutSession.json");
+//		JSONObject jsonObj = (JSONObject)parser.parse(reader);
+//		ws.setSessionData(jsonObj);
+//		
+//		wsDao.buildConnection("gVYfigM83pD3n2evLZx3NI8Iv_df5S00R4kFw03oTrHoazIw1MWfEBnE-lMlOe-iULDND8w8Qrrf2_kp07rW9w==", "mainbucket", "PT-Support");
+//		System.out.println("Connessione stabilita");
+//		wsDao.save(ws);
+//		System.out.println("Salvataggio finito");
+//    }
 
 }

@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class WorkoutProgram {
 	private Long id;
 	private int difficultyLevel;
-	private int EstimatedDuration;
+	private int estimatedDuration;
 	private WorkoutProgramType workoutProgramType;
 	
 	private List<Exercise> exerciseList = new ArrayList<Exercise>();
@@ -44,11 +44,11 @@ public class WorkoutProgram {
 	}
 	
 	public int getEstimatedDuration() {
-		return EstimatedDuration;
+		return estimatedDuration;
 	}
 	
 	public void setEstimatedDuration(int estimatedDuration) {
-		EstimatedDuration = estimatedDuration;
+		estimatedDuration = estimatedDuration;
 	}
 
 	public WorkoutProgramType getWorkoutProgramType() {
