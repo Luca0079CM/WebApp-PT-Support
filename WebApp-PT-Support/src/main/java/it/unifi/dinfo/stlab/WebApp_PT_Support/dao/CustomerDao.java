@@ -34,7 +34,7 @@ public class CustomerDao extends BaseDao<Customer>{
 		return success;
 	}
 	
-	public Customer findOne(int id) {
+	public Customer findById(Long id) {
 		EntityManager em = emf.createEntityManager();
 		return em.find(Customer.class, id);
 	}
@@ -42,7 +42,7 @@ public class CustomerDao extends BaseDao<Customer>{
 	
 	public List<Customer> findAll() {
 		EntityManager em = emf.createEntityManager();
-		return em.createQuery("from User " + " ORDER BY id DESC", Customer.class).getResultList();
+		return em.createQuery("from Customer " + " ORDER BY id DESC", Customer.class).getResultList();
 	}
 	
 	public boolean update(Customer u) {
@@ -69,32 +69,8 @@ public class CustomerDao extends BaseDao<Customer>{
 		}
 		return success;
 	}
-
-	public boolean delete(Customer u) {
-		boolean success = false;
-
-		EntityManager em = emf.createEntityManager();
-		EntityTransaction tx = null;
-		try {
-			tx = em.getTransaction();
-			tx.begin();
-			
-			// se u è già persistente viene tolta, altrimenti viene prima salvata e poi tolta
-			em.remove(em.contains(u) ? u : em.merge(u)); 
-			success = true;
-
-			tx.commit();
-		} catch (Exception e) {
-			if (tx != null && tx.isActive()) {
-				tx.rollback();
-			}
-		} finally {
-			em.close();
-		}
-		return success;
-	}
 	
-	public boolean deleteById(int id) {
+	public boolean deleteById(Long id) {
 		boolean success = false;
 
 		EntityManager em = emf.createEntityManager();
@@ -103,7 +79,7 @@ public class CustomerDao extends BaseDao<Customer>{
 			tx = em.getTransaction();
 			tx.begin();
 
-			Customer user = findOne(id);
+			Customer user = findById(id);
 			em.remove(em.contains(user) ? user : em.merge(user));
 			success = true;
 
