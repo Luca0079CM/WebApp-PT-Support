@@ -5,8 +5,12 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Table;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.CascadeType;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -15,7 +19,7 @@ import java.util.List;
 @Entity
 @Table(name = "customers")
 public class Customer {
-	private int id;
+	private Long id;
 	private String name;
 	private String surname;
 	private String email;
@@ -29,12 +33,12 @@ public class Customer {
 	
 	
 	@Id
-	@Column(name = "id", nullable = false)
-	public int getId() {
+//	@GeneratedValue
+	public Long getId() {
 		return id;
 	}
 	
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	
@@ -90,15 +94,36 @@ public class Customer {
 
 	public void setPersonalTrainer(PersonalTrainer personalTrainer) {
 		this.personalTrainer = personalTrainer;
+		personalTrainer.addCustomer(this);
 	}
 
-	@ManyToMany(fetch=FetchType.EAGER)
+	@ManyToMany(fetch=FetchType.LAZY)
 	public List<WorkoutProgram> getWorkoutProgramList() {
 		return workoutProgramList;
 	}
 
 	public void setWorkoutProgramList(List<WorkoutProgram> workoutProgramList) {
 		this.workoutProgramList = workoutProgramList;
+	}
+	
+	@Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        return result;
+    }
+	
+	@Override 
+	public boolean equals(Object obj) { 
+		if (this == obj) 
+			return true;
+		if (obj == null) 
+			return false;
+		if (!(obj instanceof Customer)) 
+			return false;
+		Customer otherUser = (Customer)obj; 
+		return id.equals(otherUser.id);
 	}
 	
 }

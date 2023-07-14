@@ -12,10 +12,9 @@ public abstract class BaseDao<T> {
 	}
 	
 	public abstract boolean save(T entity);
-	public abstract T findOne(int id);
+	public abstract T findById(Long id);
 	public abstract List<T> findAll();
 	public abstract boolean update(T entity);
-	public abstract boolean delete(T entity);
-	public abstract boolean deleteById(int id);
+	public abstract boolean deleteById(Long id);
 	
 }

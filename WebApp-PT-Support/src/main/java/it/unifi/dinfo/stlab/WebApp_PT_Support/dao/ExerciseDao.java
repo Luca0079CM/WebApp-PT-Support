@@ -22,12 +22,14 @@ public class ExerciseDao extends BaseDao<Exercise>{
 		try {
 			tx = em.getTransaction();
 			tx.begin();
-			em.merge(e);
+			em.persist(e);
+			em.flush();
 			success = true;
 			tx.commit();
 		} catch (Exception ex) {
 			if (tx != null && tx.isActive()) {
 				tx.rollback();
+				System.out.println(e.toString());
 			}
 		} finally {
 			em.close();
@@ -35,7 +37,7 @@ public class ExerciseDao extends BaseDao<Exercise>{
 		return success;
 	}
 	
-	public Exercise findOne(int id) {
+	public Exercise findById(Long id) {
 		EntityManager em = emf.createEntityManager();
 		return em.find(Exercise.class, id);
 	}
@@ -70,32 +72,8 @@ public class ExerciseDao extends BaseDao<Exercise>{
 		}
 		return success;
 	}
-
-	public boolean delete(Exercise e) {
-		boolean success = false;
-
-		EntityManager em = emf.createEntityManager();
-		EntityTransaction tx = null;
-		try {
-			tx = em.getTransaction();
-			tx.begin();
-			
-			// se u è già persistente viene tolta, altrimenti viene prima salvata e poi tolta
-			em.remove(em.contains(e) ? e : em.merge(e)); 
-			success = true;
-
-			tx.commit();
-		} catch (Exception ex) {
-			if (tx != null && tx.isActive()) {
-				tx.rollback();
-			}
-		} finally {
-			em.close();
-		}
-		return success;
-	}
 	
-	public boolean deleteById(int id) {
+	public boolean deleteById(Long id) {
 		boolean success = false;
 
 		EntityManager em = emf.createEntityManager();
@@ -104,7 +82,7 @@ public class ExerciseDao extends BaseDao<Exercise>{
 			tx = em.getTransaction();
 			tx.begin();
 
-			Exercise exercise = findOne(id);
+			Exercise exercise = findById(id);
 			em.remove(em.contains(exercise) ? exercise : em.merge(exercise));
 			success = true;
 

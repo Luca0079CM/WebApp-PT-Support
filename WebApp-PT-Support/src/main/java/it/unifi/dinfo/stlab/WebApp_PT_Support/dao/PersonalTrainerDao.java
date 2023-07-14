@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 
+import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.Customer;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.PersonalTrainer;
 
 public class PersonalTrainerDao extends BaseDao<PersonalTrainer>{
@@ -22,7 +23,7 @@ public class PersonalTrainerDao extends BaseDao<PersonalTrainer>{
 		try {
 			tx = em.getTransaction();
 			tx.begin();
-			em.merge(pt);
+			em.persist(pt);
 			success = true;
 			tx.commit();
 		} catch (Exception e) {
@@ -35,7 +36,7 @@ public class PersonalTrainerDao extends BaseDao<PersonalTrainer>{
 		return success;
 	}
 	
-	public PersonalTrainer findOne(int id) {
+	public PersonalTrainer findById(Long id) {
 		EntityManager em = emf.createEntityManager();
 		return em.find(PersonalTrainer.class, id);
 	}
@@ -70,32 +71,8 @@ public class PersonalTrainerDao extends BaseDao<PersonalTrainer>{
 		}
 		return success;
 	}
-
-	public boolean delete(PersonalTrainer pt) {
-		boolean success = false;
-
-		EntityManager em = emf.createEntityManager();
-		EntityTransaction tx = null;
-		try {
-			tx = em.getTransaction();
-			tx.begin();
-			
-			// se u è già persistente viene tolta, altrimenti viene prima salvata e poi tolta
-			em.remove(em.contains(pt) ? pt : em.merge(pt)); 
-			success = true;
-
-			tx.commit();
-		} catch (Exception e) {
-			if (tx != null && tx.isActive()) {
-				tx.rollback();
-			}
-		} finally {
-			em.close();
-		}
-		return success;
-	}
 	
-	public boolean deleteById(int id) {
+	public boolean deleteById(Long id) {
 		boolean success = false;
 
 		EntityManager em = emf.createEntityManager();
@@ -104,7 +81,7 @@ public class PersonalTrainerDao extends BaseDao<PersonalTrainer>{
 			tx = em.getTransaction();
 			tx.begin();
 
-			PersonalTrainer pt = findOne(id);
+			PersonalTrainer pt = findById(id);
 			em.remove(em.contains(pt) ? pt : em.merge(pt));
 			success = true;
 
@@ -118,4 +95,11 @@ public class PersonalTrainerDao extends BaseDao<PersonalTrainer>{
 		}
 		return success;
 	}
+	
+	public List<Customer> findCustomersById(Long ptId){
+		EntityManager em = emf.createEntityManager();
+		return em.createQuery("from Customer where personalTrainer_id = :myId", Customer.class)
+				 .setParameter("myId", ptId).getResultList();
+	}
+	
 }

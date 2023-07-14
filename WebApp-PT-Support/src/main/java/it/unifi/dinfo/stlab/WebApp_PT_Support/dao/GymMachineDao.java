@@ -22,12 +22,13 @@ public class GymMachineDao extends BaseDao<GymMachine>{
 		try {
 			tx = em.getTransaction();
 			tx.begin();
-			em.merge(m);
+			em.persist(m);
 			success = true;
 			tx.commit();
 		} catch (Exception e) {
 			if (tx != null && tx.isActive()) {
 				tx.rollback();
+				System.out.println(e.toString());
 			}
 		} finally {
 			em.close();
@@ -35,7 +36,7 @@ public class GymMachineDao extends BaseDao<GymMachine>{
 		return success;
 	}
 	
-	public GymMachine findOne(int id) {
+	public GymMachine findById(Long id) {
 		EntityManager em = emf.createEntityManager();
 		return em.find(GymMachine.class, id);
 	}
@@ -70,32 +71,8 @@ public class GymMachineDao extends BaseDao<GymMachine>{
 		}
 		return success;
 	}
-
-	public boolean delete(GymMachine m) {
-		boolean success = false;
-
-		EntityManager em = emf.createEntityManager();
-		EntityTransaction tx = null;
-		try {
-			tx = em.getTransaction();
-			tx.begin();
-			
-			// se u è già persistente viene tolta, altrimenti viene prima salvata e poi tolta
-			em.remove(em.contains(m) ? m : em.merge(m)); 
-			success = true;
-
-			tx.commit();
-		} catch (Exception e) {
-			if (tx != null && tx.isActive()) {
-				tx.rollback();
-			}
-		} finally {
-			em.close();
-		}
-		return success;
-	}
 	
-	public boolean deleteById(int id) {
+	public boolean deleteById(Long id) {
 		boolean success = false;
 
 		EntityManager em = emf.createEntityManager();
@@ -104,7 +81,7 @@ public class GymMachineDao extends BaseDao<GymMachine>{
 			tx = em.getTransaction();
 			tx.begin();
 
-			GymMachine m = findOne(id);
+			GymMachine m = findById(id);
 			em.remove(em.contains(m) ? m : em.merge(m));
 			success = true;
 
