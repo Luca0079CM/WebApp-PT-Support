@@ -11,12 +11,12 @@ import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.PersonalTrainer;
 
 public class PersonalTrainerDao extends BaseDao<PersonalTrainer>{
 	
-	public PersonalTrainerDao(EntityManagerFactory emf) {
-		super(emf);
-	}
+//	public PersonalTrainerDao(EntityManagerFactory emf) {
+//		super(emf);
+//	}
 	
 	public boolean save(PersonalTrainer pt) {
-		EntityManager em = emf.createEntityManager();
+//		EntityManager em = emf.createEntityManager();
 		boolean success = false;
 
 		EntityTransaction tx = null;
@@ -37,20 +37,20 @@ public class PersonalTrainerDao extends BaseDao<PersonalTrainer>{
 	}
 	
 	public PersonalTrainer findById(Long id) {
-		EntityManager em = emf.createEntityManager();
+//		EntityManager em = emf.createEntityManager();
 		return em.find(PersonalTrainer.class, id);
 	}
 
 	
 	public List<PersonalTrainer> findAll() {
-		EntityManager em = emf.createEntityManager();
+//		EntityManager em = emf.createEntityManager();
 		return em.createQuery("from PersonalTrainer " + " ORDER BY id DESC", PersonalTrainer.class).getResultList();
 	}
 	
 	public boolean update(PersonalTrainer pt) {
 		boolean success = false;
 
-		EntityManager em = emf.createEntityManager();
+//		EntityManager em = emf.createEntityManager();
 		EntityTransaction tx = null;
 		try {
 			tx = em.getTransaction();
@@ -75,7 +75,7 @@ public class PersonalTrainerDao extends BaseDao<PersonalTrainer>{
 	public boolean deleteById(Long id) {
 		boolean success = false;
 
-		EntityManager em = emf.createEntityManager();
+//		EntityManager em = emf.createEntityManager();
 		EntityTransaction tx = null;
 		try {
 			tx = em.getTransaction();
@@ -97,7 +97,7 @@ public class PersonalTrainerDao extends BaseDao<PersonalTrainer>{
 	}
 	
 	public List<Customer> findCustomersById(Long ptId){
-		EntityManager em = emf.createEntityManager();
+//		EntityManager em = emf.createEntityManager();
 		return em.createQuery("from Customer where personalTrainer_id = :myId", Customer.class)
 				 .setParameter("myId", ptId).getResultList();
 	}

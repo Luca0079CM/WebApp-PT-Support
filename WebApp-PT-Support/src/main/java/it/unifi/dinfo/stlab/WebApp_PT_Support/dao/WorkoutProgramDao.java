@@ -9,12 +9,12 @@ import javax.persistence.EntityTransaction;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.WorkoutProgram;
 
 public class WorkoutProgramDao extends BaseDao<WorkoutProgram>{
-	public WorkoutProgramDao(EntityManagerFactory emf) {
-		super(emf);
-	}
+//	public WorkoutProgramDao(EntityManagerFactory emf) {
+//		super(emf);
+//	}
 	
 	public boolean save(WorkoutProgram wp) {
-		EntityManager em = emf.createEntityManager();
+//		EntityManager em = emf.createEntityManager();
 		boolean success = false;
 
 		EntityTransaction tx = null;
@@ -37,20 +37,20 @@ public class WorkoutProgramDao extends BaseDao<WorkoutProgram>{
 	}
 	
 	public WorkoutProgram findById(Long id) {
-		EntityManager em = emf.createEntityManager();
+//		EntityManager em = emf.createEntityManager();
 		return em.find(WorkoutProgram.class, id);
 	}
 
 	
 	public List<WorkoutProgram> findAll() {
-		EntityManager em = emf.createEntityManager();
+//		EntityManager em = emf.createEntityManager();
 		return em.createQuery("from WorkoutProgram " + " ORDER BY id DESC", WorkoutProgram.class).getResultList();
 	}
 	
 	public boolean update(WorkoutProgram wp) {
 		boolean success = false;
 
-		EntityManager em = emf.createEntityManager();
+//		EntityManager em = emf.createEntityManager();
 		EntityTransaction tx = null;
 		try {
 			tx = em.getTransaction();
@@ -75,7 +75,7 @@ public class WorkoutProgramDao extends BaseDao<WorkoutProgram>{
 	public boolean deleteById(Long id) {
 		boolean success = false;
 
-		EntityManager em = emf.createEntityManager();
+//		EntityManager em = emf.createEntityManager();
 		EntityTransaction tx = null;
 		try {
 			tx = em.getTransaction();

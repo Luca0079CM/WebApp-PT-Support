@@ -6,8 +6,18 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.persistence.PersistenceContext;
+import javax.ejb.Stateless;
 
+//@Stateless
 public class CustomerDao extends BaseDao<Customer>{
+	
+//	@PersistenceContext(unitName="WebApp-PT-Support")
+	private EntityManager em;
+	
+	public CustomerDao() {
+		super();
+	}
 	
 	public CustomerDao(EntityManagerFactory emf) {
 		super(emf);
@@ -35,20 +45,20 @@ public class CustomerDao extends BaseDao<Customer>{
 	}
 	
 	public Customer findById(Long id) {
-		EntityManager em = emf.createEntityManager();
+//		EntityManager em = emf.createEntityManager();
 		return em.find(Customer.class, id);
 	}
 
 	
 	public List<Customer> findAll() {
-		EntityManager em = emf.createEntityManager();
+//		EntityManager em = emf.createEntityManager();
 		return em.createQuery("from Customer " + " ORDER BY id DESC", Customer.class).getResultList();
 	}
 	
 	public boolean update(Customer u) {
 		boolean success = false;
 
-		EntityManager em = emf.createEntityManager();
+//		EntityManager em = emf.createEntityManager();
 		EntityTransaction tx = null;
 		try {
 			tx = em.getTransaction();
@@ -73,7 +83,7 @@ public class CustomerDao extends BaseDao<Customer>{
 	public boolean deleteById(Long id) {
 		boolean success = false;
 
-		EntityManager em = emf.createEntityManager();
+//		EntityManager em = emf.createEntityManager();
 		EntityTransaction tx = null;
 		try {
 			tx = em.getTransaction();
