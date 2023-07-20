@@ -8,6 +8,7 @@ import java.io.Reader;
 import jakarta.annotation.PostConstruct;
 import jakarta.ejb.Singleton;
 import jakarta.ejb.Startup;
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.core.Response;
@@ -31,7 +32,7 @@ public class App {
 	EntityManagerFactory entityManagerFactory;
 
 //	@PersistenceContext(unitName="WebApp-PT-Support")
-//	EntityManager em;
+	EntityManager em;
 
 	private Long idTestCustomer;
 	private Long idTestPersonalTrainer;
@@ -42,7 +43,7 @@ public class App {
     @PostConstruct
     @Transactional
     public void init() throws FileNotFoundException, ParseException, IOException  {
-//    	entityManagerFactory = Persistence.createEntityManagerFactory("WebApp-PT-Support");
+    	entityManagerFactory = Persistence.createEntityManagerFactory("WebApp-PT-Support");
 
 //    	System.out.println("INIZIO LA POPOLAZIONE DELLE TABELLE");
 //    	populateGymMachine();
@@ -51,7 +52,7 @@ public class App {
 //    	populatePersonalTrainer();
 //    	populateCustomer();
 
-    	populateWorkoutSession();
+//    	populateWorkoutSession();
 
 //    	System.out.println("INIZIO I TEST DI RECUPERO DALLE TABELLE");
 //    	retrieveCustomer();
