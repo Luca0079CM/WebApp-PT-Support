@@ -1,82 +1,58 @@
 package it.unifi.dinfo.stlab.WebApp_PT_Support.app;
 
-import javax.annotation.PostConstruct;
-import javax.ejb.Singleton;
-import javax.ejb.Startup;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceUnit;
-import javax.transaction.Transactional;
-
-import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.Customer;
-import it.unifi.dinfo.stlab.WebApp_PT_Support.dao.CustomerDao;
-import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.PersonalTrainer;
-import it.unifi.dinfo.stlab.WebApp_PT_Support.dao.PersonalTrainerDao;
-import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.WorkoutProgram;
-import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.WorkoutProgramType;
-import it.unifi.dinfo.stlab.WebApp_PT_Support.dao.WorkoutProgramDao;
-import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.Exercise;
-import it.unifi.dinfo.stlab.WebApp_PT_Support.dao.ExerciseDao;
-import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.GymMachine;
-import it.unifi.dinfo.stlab.WebApp_PT_Support.dao.GymMachineDao;
-import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.WorkoutSession;
-import it.unifi.dinfo.stlab.WebApp_PT_Support.dao.WorkoutSessionDao;
-import it.unifi.dinfo.stlab.WebApp_PT_Support.rest.CustomerRestEndpoint;
-import java.util.Random;
-import java.util.List;
-import java.util.ArrayList;
-import org.json.simple.JSONObject;
-import org.json.simple.JSONArray;
-//import org.json.simple.parser.ParseException;
-import org.json.simple.parser.JSONParser;
-import java.io.Reader;
-import java.io.FileReader;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.Reader;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import jakarta.annotation.PostConstruct;
+import jakarta.ejb.Singleton;
+import jakarta.ejb.Startup;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.transaction.Transactional;
+import jakarta.ws.rs.core.Response;
+
+import jakarta.persistence.Persistence;
+
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import it.unifi.dinfo.stlab.WebApp_PT_Support.dao.CustomerDao;
+import it.unifi.dinfo.stlab.WebApp_PT_Support.dao.WorkoutSessionDao;
+import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.WorkoutSession;
+import it.unifi.dinfo.stlab.WebApp_PT_Support.rest.CustomerRestEndpoint;
 
 // classe principale per fare le prove
-//@Startup
-//@Singleton
+@Startup
+@Singleton
 public class App {
 //	@PersistenceUnit
 	EntityManagerFactory entityManagerFactory;
-	
+
 //	@PersistenceContext(unitName="WebApp-PT-Support")
 //	EntityManager em;
-	
+
 	private Long idTestCustomer;
 	private Long idTestPersonalTrainer;
 	private Long idTestWorkoutProgram;
 	private Long idTestExercise;
 	private Long idTestGymMachine;
 
-//    @PostConstruct
-//    @Transactional
-    public void init()  {
+    @PostConstruct
+    @Transactional
+    public void init() throws FileNotFoundException, ParseException, IOException  {
 //    	entityManagerFactory = Persistence.createEntityManagerFactory("WebApp-PT-Support");
-    	
+
 //    	System.out.println("INIZIO LA POPOLAZIONE DELLE TABELLE");
 //    	populateGymMachine();
 //    	populateExercise();
 //    	populateWorkoutProgram();
 //    	populatePersonalTrainer();
 //    	populateCustomer();
-    	
-//    	populateWorkoutSession();
-    	    	
+
+    	populateWorkoutSession();
+
 //    	System.out.println("INIZIO I TEST DI RECUPERO DALLE TABELLE");
 //    	retrieveCustomer();
 //    	retrievePersonalTrainer();
@@ -84,19 +60,19 @@ public class App {
 //    	retrieveExercise();
 //    	retrieveGymMachine();
 //    	retrieveCustomersFromPersonalTrainer();
-//    	
+//
 //    	testPing();
 //    	testGetById();
     }
-    
+
 //    private void populateCustomer() {
 //    	System.out.println("Provo a salvare un customer");
-//    	CustomerDao customerDao = new CustomerDao(entityManagerFactory);    	
+//    	CustomerDao customerDao = new CustomerDao(entityManagerFactory);
 //    	WorkoutProgramDao wpDao = new WorkoutProgramDao(entityManagerFactory);
 //    	PersonalTrainerDao ptDao = new PersonalTrainerDao(entityManagerFactory);
 //    	List<WorkoutProgram> wpList = wpDao.findAll();
 //    	List<PersonalTrainer> ptList = ptDao.findAll();
-//  
+//
 //    	idTestCustomer = Long.valueOf(30);
 //    	Long id;
 //    	for(int i = 0; i<4; i++) {
@@ -117,7 +93,7 @@ public class App {
 //    			System.out.println("Salvataggio fallito");
 //    	}
 //    }
-//    
+//
 //    private void retrieveCustomer() {
 //    	CustomerDao customerDao = new CustomerDao(entityManagerFactory);
 //    	System.out.println("Provo a prendere il primo Customer");
@@ -138,7 +114,7 @@ public class App {
 //    	PersonalTrainerDao personalTrainerDao = new PersonalTrainerDao(entityManagerFactory);
 //    	WorkoutProgramDao wpDao = new WorkoutProgramDao(entityManagerFactory);
 //    	List<WorkoutProgram> wpList = wpDao.findAll();
-//    	
+//
 //    	idTestPersonalTrainer = Long.valueOf(40);
 //    	Long id;
 //    	for(int i = 0; i<4; i++) {
@@ -159,7 +135,7 @@ public class App {
 //    			System.out.println("Salvataggio fallito");
 //    	}
 //    }
-//    
+//
 //    private void retrievePersonalTrainer() {
 //    	PersonalTrainerDao personalTrainerDao = new PersonalTrainerDao(entityManagerFactory);
 //    	System.out.println("Provo a prendere il primo PersonalTrainer");
@@ -177,10 +153,10 @@ public class App {
 //
 //    private void populateWorkoutProgram() {
 //    	System.out.println("Provo a salvare un workout program");
-//    	WorkoutProgramDao workoutProgramDao = new WorkoutProgramDao(entityManagerFactory);    	
+//    	WorkoutProgramDao workoutProgramDao = new WorkoutProgramDao(entityManagerFactory);
 //    	ExerciseDao exerciseDao = new ExerciseDao(entityManagerFactory);
 //    	List<Exercise> eList = exerciseDao.findAll();
-//    	
+//
 //    	idTestWorkoutProgram = Long.valueOf(0);
 //    	Long id;
 //    	for(int i = 0; i<3; i++) {
@@ -198,7 +174,7 @@ public class App {
 //    			System.out.println("Salvataggio fallito");
 //    	}
 //    }
-//    
+//
 //    private void retrieveWorkoutProgram() {
 //    	WorkoutProgramDao workoutProgramDao = new WorkoutProgramDao(entityManagerFactory);
 //    	System.out.println("Provo a prendere il primo WorkoutProgram");
@@ -213,14 +189,14 @@ public class App {
 //    		System.out.println("Workout Program: "+ wp.getId());
 //    	}
 //    }
-//    
+//
 //    private void populateExercise() {
 //    	System.out.println("Provo a salvare un esercizio");
 //    	ExerciseDao exerciseDao = new ExerciseDao(entityManagerFactory);
 ////    	GymMachineDao gymMachineDao = new GymMachineDao(entityManagerFactory);
 //    	List<GymMachine> gymMachines = gymMachineDao.findAll();
 //    	GymMachine testMachine = gymMachines.get(0);
-//		
+//
 //    	idTestExercise = Long.valueOf(10);
 //    	Long id;
 //    	for(int i = 0; i<4; i++) {
@@ -239,7 +215,7 @@ public class App {
 ////    		System.out.println("ID EXERCISE: " + e.getId());
 //    	}
 //    }
-//    
+//
 //    private void retrieveExercise() {
 //    	ExerciseDao exerciseDao = new ExerciseDao(entityManagerFactory);
 //    	System.out.println("Provo a prendere il primo Exercise");
@@ -254,28 +230,28 @@ public class App {
 //    		System.out.println("Esercizio: "+ e.getId());
 //    	}
 //    }
-    
-    private void populateGymMachine() {
-    	System.out.println("Provo a salvare una macchina");
-//    	em = entityManagerFactory.createEntityManager();
-    	GymMachineDao gymMachineDao = new GymMachineDao();
-    	
-    	idTestGymMachine = Long.valueOf(20);
-    	Long id;
-    	for(int i = 0; i<4; i++) {
-    		id = Long.valueOf(i+20);
-    		GymMachine m = new GymMachine();
-    		m.setId(id);
-    		m.setName("Macchinario n°"+id);
-    		m.setDescription("Serve per allenarsi");
-    		boolean success = gymMachineDao.save(m);
-    		if(success)
-    			System.out.println("Salvataggio riuscito");
-    		else
-    			System.out.println("Salvataggio fallito");
-    	}
-    }
-    
+
+//    private void populateGymMachine() {
+//    	System.out.println("Provo a salvare una macchina");
+////    	em = entityManagerFactory.createEntityManager();
+//    	GymMachineDao gymMachineDao = new GymMachineDao();
+//
+//    	idTestGymMachine = Long.valueOf(20);
+//    	Long id;
+//    	for(int i = 0; i<4; i++) {
+//    		id = Long.valueOf(i+20);
+//    		GymMachine m = new GymMachine();
+//    		m.setId(id);
+//    		m.setName("Macchinario n°"+id);
+//    		m.setDescription("Serve per allenarsi");
+//    		boolean success = gymMachineDao.save(m);
+//    		if(success)
+//    			System.out.println("Salvataggio riuscito");
+//    		else
+//    			System.out.println("Salvataggio fallito");
+//    	}
+//    }
+
 //    private void retrieveGymMachine() {
 //    	GymMachineDao gymMachineDao = new GymMachineDao(entityManagerFactory);
 //    	System.out.println("Provo a prendere la prima Gym Machine");
@@ -290,7 +266,7 @@ public class App {
 //    		System.out.println("Macchinario: "+ m.getId());
 //    	}
 //    }
-//    
+//
 //    private void retrieveCustomersFromPersonalTrainer() {
 //    	PersonalTrainerDao personalTrainerDao = new PersonalTrainerDao(entityManagerFactory);
 //    	List<PersonalTrainer> ptList = personalTrainerDao.findAll();
@@ -300,39 +276,39 @@ public class App {
 //    	for(Customer c : customersOfPersonalTrainer)
 //    		System.out.println("Customer: " + c.getId());
 //    }
-    
-//    private void populateWorkoutSession() throws ParseException, FileNotFoundException, IOException {
-//    	System.out.println("Popolo una workout session su InfluxDB");
-//    	WorkoutSessionDao wsDao = new WorkoutSessionDao();
-//    	WorkoutSession ws = new WorkoutSession();
-//    	ws.setId(Long.valueOf(100));
-//    	ws.setDuration(60);
-//    	
-//    	JSONParser parser = new JSONParser();
-//		Reader reader = new FileReader("src/main/java/it/unifi/dinfo/stlab/WebApp_PT_Support/app/testWorkoutSession.json");
-//		JSONObject jsonObj = (JSONObject)parser.parse(reader);
-//		ws.setSessionData(jsonObj);
-//		
-//		wsDao.buildConnection("gVYfigM83pD3n2evLZx3NI8Iv_df5S00R4kFw03oTrHoazIw1MWfEBnE-lMlOe-iULDND8w8Qrrf2_kp07rW9w==", "mainbucket", "PT-Support");
-//		System.out.println("Connessione stabilita");
-//		wsDao.save(ws);
-//		System.out.println("Salvataggio finito");
-//    }
-    
-    private void testPing() {
-    	CustomerRestEndpoint ep = new CustomerRestEndpoint();
-    	Response response = ep.ping();
-    	System.out.println("RESPONSE STATUS: " + response.getEntity());
-    }
-    
-    private void testGetById() {
-    	Long id = Long.valueOf(30);
-    	CustomerRestEndpoint ep = new CustomerRestEndpoint();
-		CustomerDao customerDao = new CustomerDao(entityManagerFactory);
-    	Response response = ep.getCustomerById(id);
-    	System.out.println("RESPONSE STATUS: " + response.getEntity());
-    }
-    
 
-    
+    private void populateWorkoutSession() throws ParseException, FileNotFoundException, IOException {
+    	System.out.println("Popolo una workout session su InfluxDB");
+    	WorkoutSessionDao wsDao = new WorkoutSessionDao();
+    	WorkoutSession ws = new WorkoutSession();
+    	ws.setId(Long.valueOf(100));
+    	ws.setDuration(60);
+
+    	JSONParser parser = new JSONParser();
+		Reader reader = new FileReader("C:\\Users\\carlo\\Desktop\\Github_repos\\WebApp-PT-Support\\WebApp-PT-Support\\src\\main\\java\\it\\unifi\\dinfo\\stlab\\WebApp_PT_Support\\app\\testWorkoutSession.json");
+		JSONObject jsonObj = (JSONObject)parser.parse(reader);
+		ws.setSessionData(jsonObj);
+
+		wsDao.buildConnection("gVYfigM83pD3n2evLZx3NI8Iv_df5S00R4kFw03oTrHoazIw1MWfEBnE-lMlOe-iULDND8w8Qrrf2_kp07rW9w==", "mainbucket", "PT-Support");
+		System.out.println("Connessione stabilita");
+		wsDao.save(ws);
+		System.out.println("Salvataggio finito");
+    }
+
+//    private void testPing() {
+//    	CustomerRestEndpoint ep = new CustomerRestEndpoint();
+//    	Response response = ep.ping();
+//    	System.out.println("RESPONSE STATUS: " + response.getEntity());
+//    }
+//
+//    private void testGetById() {
+//    	Long id = Long.valueOf(30);
+//    	CustomerRestEndpoint ep = new CustomerRestEndpoint();
+//		CustomerDao customerDao = new CustomerDao(entityManagerFactory);
+//    	Response response = ep.getCustomerById(id);
+//    	System.out.println("RESPONSE STATUS: " + response.getEntity());
+//    }
+
+
+
 }

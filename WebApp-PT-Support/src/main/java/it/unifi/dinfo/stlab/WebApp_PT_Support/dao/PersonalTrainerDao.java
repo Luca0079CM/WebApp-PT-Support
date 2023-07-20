@@ -2,19 +2,21 @@ package it.unifi.dinfo.stlab.WebApp_PT_Support.dao;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
 
 import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.Customer;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.PersonalTrainer;
 
-public class PersonalTrainerDao extends BaseDao<PersonalTrainer>{
-	
+public class PersonalTrainerDao {
+//	@PersistenceContext(unitName="WebApp-PT-Support")
+	private EntityManager em;
+
 //	public PersonalTrainerDao(EntityManagerFactory emf) {
 //		super(emf);
 //	}
-	
+
+//	@Override
 	public boolean save(PersonalTrainer pt) {
 //		EntityManager em = emf.createEntityManager();
 		boolean success = false;
@@ -35,18 +37,21 @@ public class PersonalTrainerDao extends BaseDao<PersonalTrainer>{
 		}
 		return success;
 	}
-	
+
+//	@Override
 	public PersonalTrainer findById(Long id) {
 //		EntityManager em = emf.createEntityManager();
 		return em.find(PersonalTrainer.class, id);
 	}
 
-	
+
+//	@Override
 	public List<PersonalTrainer> findAll() {
 //		EntityManager em = emf.createEntityManager();
 		return em.createQuery("from PersonalTrainer " + " ORDER BY id DESC", PersonalTrainer.class).getResultList();
 	}
-	
+
+//	@Override
 	public boolean update(PersonalTrainer pt) {
 		boolean success = false;
 
@@ -55,7 +60,7 @@ public class PersonalTrainerDao extends BaseDao<PersonalTrainer>{
 		try {
 			tx = em.getTransaction();
 			tx.begin();
-			
+
 			// persist se l'oggetto è già presente genera un eccezione; merge invece restituisce l'oggetto se esso è
 			// già presente nel db
 			em.merge(pt);
@@ -71,7 +76,8 @@ public class PersonalTrainerDao extends BaseDao<PersonalTrainer>{
 		}
 		return success;
 	}
-	
+
+//	@Override
 	public boolean deleteById(Long id) {
 		boolean success = false;
 
@@ -95,11 +101,11 @@ public class PersonalTrainerDao extends BaseDao<PersonalTrainer>{
 		}
 		return success;
 	}
-	
+
 	public List<Customer> findCustomersById(Long ptId){
 //		EntityManager em = emf.createEntityManager();
 		return em.createQuery("from Customer where personalTrainer_id = :myId", Customer.class)
 				 .setParameter("myId", ptId).getResultList();
 	}
-	
+
 }

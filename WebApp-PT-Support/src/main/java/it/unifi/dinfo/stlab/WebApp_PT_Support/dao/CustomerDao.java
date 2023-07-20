@@ -1,30 +1,30 @@
 package it.unifi.dinfo.stlab.WebApp_PT_Support.dao;
 
-import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.Customer;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.PersistenceContext;
-import javax.ejb.Stateless;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityTransaction;
+
+import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.Customer;
 
 //@Stateless
-public class CustomerDao extends BaseDao<Customer>{
-	
+public class CustomerDao {
+
 //	@PersistenceContext(unitName="WebApp-PT-Support")
 	private EntityManager em;
-	
-	public CustomerDao() {
-		super();
-	}
-	
-	public CustomerDao(EntityManagerFactory emf) {
-		super(emf);
-	}
-	
+
+//	public CustomerDao() {
+//		super();
+//	}
+//
+//	public CustomerDao(EntityManagerFactory emf) {
+//		super(emf);
+//	}
+
+//	@Override
 	public boolean save(Customer u) {
-		EntityManager em = emf.createEntityManager();
+//		EntityManager em = emf.createEntityManager();
 		boolean success = false;
 
 		EntityTransaction tx = null;
@@ -43,18 +43,21 @@ public class CustomerDao extends BaseDao<Customer>{
 		}
 		return success;
 	}
-	
+
+//	@Override
 	public Customer findById(Long id) {
 //		EntityManager em = emf.createEntityManager();
 		return em.find(Customer.class, id);
 	}
 
-	
+
+//	@Override
 	public List<Customer> findAll() {
 //		EntityManager em = emf.createEntityManager();
 		return em.createQuery("from Customer " + " ORDER BY id DESC", Customer.class).getResultList();
 	}
-	
+
+//	@Override
 	public boolean update(Customer u) {
 		boolean success = false;
 
@@ -63,7 +66,7 @@ public class CustomerDao extends BaseDao<Customer>{
 		try {
 			tx = em.getTransaction();
 			tx.begin();
-			
+
 			// persist se l'oggetto è già presente genera un eccezione; merge invece restituisce l'oggetto se esso è
 			// già presente nel db
 			em.merge(u);
@@ -79,7 +82,8 @@ public class CustomerDao extends BaseDao<Customer>{
 		}
 		return success;
 	}
-	
+
+//	@Override
 	public boolean deleteById(Long id) {
 		boolean success = false;
 

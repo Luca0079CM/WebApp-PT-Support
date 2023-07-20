@@ -2,55 +2,54 @@ package it.unifi.dinfo.stlab.WebApp_PT_Support.dao;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceUnit;
-import javax.transaction.Transactional;
-import javax.enterprise.context.RequestScoped;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 
 import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.GymMachine;
-
-import javax.ejb.Stateless;
 
 //@Stateless
 @RequestScoped
 public class GymMachineDao extends BaseDao<GymMachine> {
-	
+
 	@PersistenceContext
 	private EntityManager em;
-	
+
 //	@PersistenceUnit
 //	EntityManagerFactory entityManagerFactory;
 
 //	public GymMachineDao(EntityManagerFactory emf) {
 //		super(emf);
 //	}
-	
+
+	@Override
 	@Transactional
 	public void save(GymMachine m) {
-		System.out.println("AAAA: ");
 		em.persist(m);
 	}
-	
+
+	@Override
 	@Transactional
 	public GymMachine findById(Long id) {
 //		EntityManager em = emf.createEntityManager();
 		return em.find(GymMachine.class, id);
 	}
 
-	@Transactional
+	@Override
+//	@Transactional
 	public List<GymMachine> findAll() {
 //		EntityManager em = emf.createEntityManager();
 		return em.createQuery("from GymMachine ORDER BY id DESC", GymMachine.class).getResultList();
 	}
-	
+
+	@Override
 	@Transactional
 	public void update(GymMachine m) {
 		em.merge(m);
 	}
-	
+
+	@Override
 	@Transactional
 	public void deleteById(Long id) {
 		GymMachine m = findById(id);
