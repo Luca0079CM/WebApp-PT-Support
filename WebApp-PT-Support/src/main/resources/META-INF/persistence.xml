@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<persistence version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
+<persistence version="3.0" xmlns="https://jakarta.ee/xml/ns/persistence"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd">
 	<persistence-unit name="WebApp-PT-Support" transaction-type="JTA">
 	<jta-data-source>generalDS</jta-data-source>
+	
 	
 	<class>it.unifi.dinfo.stlab.WebApp_PT_Support.domain.Customer</class>
 	<class>it.unifi.dinfo.stlab.WebApp_PT_Support.domain.PersonalTrainer</class>
@@ -15,15 +18,14 @@
 	<properties>
 		<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect" />
         <property name="hibernate.hbm2ddl.auto" value="create"/>
-        
 		<property name="hibernate.show_sql" value="true"/>
 		<property name="hibernate.format_sql" value="true" />
 		<property name="hibernate.use_sql_comments" value="true" />
 		<property name="hibernate.default_batch_fetch_size" value="16" />
-		<property name="hibernate.jdbc.batch_ size" value="100" />
+		<property name="hibernate.jdbc.batch_size" value="100" />
 		<property name="hibernate.order_inserts" value="true" />
-		<property name="hibernate.order_ updates" value="true" />
-		<property name="hibernate.id.new_ generator _mappings" value="true"/>
+		<property name="hibernate.order_updates" value="true" />
+		<property name="hibernate.id.new_generator_mappings" value="true"/>
 	</properties>
 	</persistence-unit>
 </persistence>

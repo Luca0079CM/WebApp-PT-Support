@@ -2,98 +2,58 @@ package it.unifi.dinfo.stlab.WebApp_PT_Support.dao;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 
 import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.Exercise;
+import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.GymMachine;
 
-public class ExerciseDao extends BaseDao<Exercise>{
-	
-	public ExerciseDao(EntityManagerFactory emf) {
-		super(emf);
-	}
-	
-	public boolean save(Exercise e) {
-		EntityManager em = emf.createEntityManager();
-		boolean success = false;
+@RequestScoped
+public class ExerciseDao extends BaseDao<Exercise> {
 
-		EntityTransaction tx = null;
-		try {
-			tx = em.getTransaction();
-			tx.begin();
-			em.persist(e);
-			em.flush();
-			success = true;
-			tx.commit();
-		} catch (Exception ex) {
-			if (tx != null && tx.isActive()) {
-				tx.rollback();
-				System.out.println(e.toString());
-			}
-		} finally {
-			em.close();
-		}
-		return success;
+	@PersistenceContext
+	private EntityManager em;
+
+//	public ExerciseDao(EntityManagerFactory emf) {
+//		super(emf);
+//	}
+
+	@Override
+	@Transactional
+	public void save(Exercise e) {
+		em.persist(e);
 	}
-	
+
+	@Override
+	@Transactional
 	public Exercise findById(Long id) {
-		EntityManager em = emf.createEntityManager();
+//		EntityManager em = emf.createEntityManager();
 		return em.find(Exercise.class, id);
 	}
 
-	
+
+	@Override
 	public List<Exercise> findAll() {
-		EntityManager em = emf.createEntityManager();
+//		EntityManager em = emf.createEntityManager();
 		return em.createQuery("from Exercise " + " ORDER BY id DESC", Exercise.class).getResultList();
 	}
-	
-	public boolean update(Exercise e) {
-		boolean success = false;
 
-		EntityManager em = emf.createEntityManager();
-		EntityTransaction tx = null;
-		try {
-			tx = em.getTransaction();
-			tx.begin();
-			
-			// persist se l'oggetto è già presente genera un eccezione; merge invece restituisce l'oggetto se esso è
-			// già presente nel db
-			em.merge(e);
-			success = true;
+	@Override
+	@Transactional
+	public void update(Exercise e) {
+		em.merge(e);
+	}
 
-			tx.commit();
-		} catch (Exception ex) {
-			if (tx != null && tx.isActive()) {
-				tx.rollback();
-			}
-		} finally {
-			em.close();
-		}
-		return success;
+	@Override
+	@Transactional
+	public void deleteById(Long id) {
+		Exercise exercise = findById(id);
+		em.remove(em.contains(exercise) ? exercise : em.merge(exercise));
 	}
 	
-	public boolean deleteById(Long id) {
-		boolean success = false;
-
-		EntityManager em = emf.createEntityManager();
-		EntityTransaction tx = null;
-		try {
-			tx = em.getTransaction();
-			tx.begin();
-
-			Exercise exercise = findById(id);
-			em.remove(em.contains(exercise) ? exercise : em.merge(exercise));
-			success = true;
-
-			tx.commit();
-		} catch (Exception ex) {
-			if (tx != null && tx.isActive()) {
-				tx.rollback();
-			}
-		} finally {
-			em.close();
-		}
-		return success;
-	}
+//	public GymMachine getAssociatedGymMachine(Long id) {
+//			
+//	}
 }
