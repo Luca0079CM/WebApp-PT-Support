@@ -20,9 +20,9 @@ public class WorkoutSessionDao {
 	private String org;
 
 	public void buildConnection(String token, String bucket, String org) {
-		setToken(token);
-		setBucket(bucket);
-		setOrg(org);
+		this.setToken(token);
+		this.setBucket(bucket);
+		this.setOrg(org);
 		this.influxClient = InfluxDBClientFactory.create(getUrl(), getToken().toCharArray(), getBucket(), getOrg());
 	}
 
@@ -32,12 +32,13 @@ public class WorkoutSessionDao {
 		String data;
 		JSONObject sessionData = ws.getSessionData();
 		JSONArray array = (JSONArray)sessionData.get("data");
+		@SuppressWarnings("unchecked")
 		Iterator<JSONObject> itr = array.iterator();
 		while(itr.hasNext()) {
 			JSONObject i = itr.next();
-			data = "machine-data-point,machine-id=" + i.get("machineId");
+			data = "machinedatapoint,gym=palestra machineid=" + i.get("machineId").toString();
 			writeApi.writeRecord(this.bucket, this.org, WritePrecision.NS, data);
-			data = "";
+//			data = "";
 		}
 		success = true;
 		return success;

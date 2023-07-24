@@ -4,16 +4,23 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.runners.model.InitializationError;
 
+import com.influxdb.client.InfluxDBClient;
+
 public abstract class JPATest {
 
 	private static EntityManagerFactory emf;
     protected EntityManager em;
+    protected InfluxDBClient influxClient;
 
     @BeforeAll
     public static void setupEM() {
@@ -22,7 +29,7 @@ public abstract class JPATest {
     }
 
     @BeforeEach
-    public void setup() throws InitializationError {
+    public void setup() throws InitializationError, IOException, ParseException {
         System.out.println("Creazione EntityManager");
         em = emf.createEntityManager();
 //        em.getTransaction().begin();
@@ -52,6 +59,6 @@ public abstract class JPATest {
         emf.close();
     }
 
-    protected abstract void init() throws InitializationError;
+    protected abstract void init() throws InitializationError, FileNotFoundException, IOException, ParseException;
 
 }

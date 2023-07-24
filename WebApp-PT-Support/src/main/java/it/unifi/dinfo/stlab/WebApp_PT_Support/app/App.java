@@ -43,7 +43,7 @@ public class App {
     @PostConstruct
     @Transactional
     public void init() throws FileNotFoundException, ParseException, IOException  {
-    	entityManagerFactory = Persistence.createEntityManagerFactory("WebApp-PT-Support");
+//    	entityManagerFactory = Persistence.createEntityManagerFactory("WebApp-PT-Support");
 
 //    	System.out.println("INIZIO LA POPOLAZIONE DELLE TABELLE");
 //    	populateGymMachine();
