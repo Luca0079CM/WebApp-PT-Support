@@ -13,6 +13,7 @@ import jakarta.persistence.Table;
 public class Exercise{
 
 	private Long id;
+	private String name;
 	private int difficultyLevel;
 	private String description;
 
@@ -26,6 +27,14 @@ public class Exercise{
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public int getDifficultyLevel() {

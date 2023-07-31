@@ -11,7 +11,6 @@
 	<class>it.unifi.dinfo.stlab.WebApp_PT_Support.domain.GymMachine</class>
 	<class>it.unifi.dinfo.stlab.WebApp_PT_Support.domain.Exercise</class>
 	
-
 	<exclude-unlisted-classes>true</exclude-unlisted-classes>
 
 	<properties>
@@ -27,7 +26,7 @@
 		<property name="hibernate.order_updates" value="true" />
 		<property name="hibernate.id.new_generator_mappings" value="true"/>
 		<property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/test_schema" /> 
-        <property name="hibernate.connection.username" value="java-client" /> 
+        <property name="hibernate.connection.username" value="luca0079" /> 
  	   	<property name="hibernate.connection.password" value="password" /> 
 	</properties>
 	</persistence-unit>

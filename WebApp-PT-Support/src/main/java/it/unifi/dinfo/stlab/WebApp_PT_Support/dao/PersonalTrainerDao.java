@@ -50,10 +50,4 @@ public class PersonalTrainerDao extends BaseDao<PersonalTrainer >{
 		em.remove(em.contains(pt) ? pt : em.merge(pt));
 	}
 
-	public List<Customer> findCustomersById(Long ptId){
-//		EntityManager em = emf.createEntityManager();
-		return em.createQuery("from Customer where personalTrainer_id = :myId", Customer.class)
-				 .setParameter("myId", ptId).getResultList();
-	}
-
 }

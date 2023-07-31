@@ -59,6 +59,7 @@ public abstract class JPATest {
         emf.close();
     }
 
+    
     protected abstract void init() throws InitializationError, FileNotFoundException, IOException, ParseException;
 
 }

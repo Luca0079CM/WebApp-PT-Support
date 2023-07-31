@@ -88,7 +88,7 @@ public class PersonalTrainer {
 		return customersList;
 	}
 
-	public void setCustomersList(List<Customer> usersList) {
+	public void setCustomersList(List<Customer> customersList) {
 		this.customersList = customersList;
 	}
 

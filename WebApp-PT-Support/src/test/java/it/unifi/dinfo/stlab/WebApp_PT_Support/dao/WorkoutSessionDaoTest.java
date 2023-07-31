@@ -13,7 +13,6 @@ import org.json.simple.parser.ParseException;
 import org.junit.runners.model.InitializationError;
 
 import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.WorkoutSession;
-import it.unifi.dinfo.stlab.WebApp_PT_Support.dao.WorkoutSessionDao;
 
 public class WorkoutSessionDaoTest extends JPATest {
 	
@@ -28,7 +27,7 @@ public class WorkoutSessionDaoTest extends JPATest {
 		workoutSession.setDuration(60);
 
     	JSONParser parser = new JSONParser();
-		Reader reader = new FileReader("C:\\Users\\carlo\\Desktop\\Github_repos\\WebApp-PT-Support\\WebApp-PT-Support\\src\\main\\java\\it\\unifi\\dinfo\\stlab\\WebApp_PT_Support\\app\\testWorkoutSession.json");
+		Reader reader = new FileReader("/home/luca/git/repository/WebApp-PT-Support/src/main/java/it/unifi/dinfo/stlab/WebApp_PT_Support/app/testWorkoutSession.json");
 		JSONObject jsonObj = (JSONObject)parser.parse(reader);
 		workoutSession.setSessionData(jsonObj);
 		
@@ -40,12 +39,13 @@ public class WorkoutSessionDaoTest extends JPATest {
 //			throw new InitializationError(e);
 //		}
 
-		workoutSessionDao.buildConnection("gVYfigM83pD3n2evLZx3NI8Iv_df5S00R4kFw03oTrHoazIw1MWfEBnE-lMlOe-iULDND8w8Qrrf2_kp07rW9w==", "mainbucket", "PT-Support");
+		workoutSessionDao.buildConnection("DyZgvNUz2YGZmv3Dv_noqJGkUz1glxRcEmoI5RtCN09QK5eQ_iMDY_wNc4H8aF_WSqjVUIvGfoCfnYqB4MgMPg==DyZgvNUz2YGZmv3Dv_noqJGkUz1glxRcEmoI5RtCN09QK5eQ_iMDY_wNc4H8aF_WSqjVUIvGfoCfnYqB4MgMPg==", "mainbucket", "PT-Support");
 		System.out.println("Connessione stabilita");
 	}
 	
 	@Test
 	public void testSave() {
+		System.out.println("Provo a salvare");
 		workoutSessionDao.save(workoutSession);
 		System.out.println("Salvataggio riuscito");
 	}

@@ -1,36 +1,36 @@
 package it.unifi.dinfo.stlab.WebApp_PT_Support.controllers;
 
-import javax.persistence.EntityManagerFactory;
+import jakarta.inject.Inject;
 
 import it.unifi.dinfo.stlab.WebApp_PT_Support.dao.CustomerDao;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.Customer;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.WorkoutProgram;
+import it.unifi.dinfo.stlab.WebApp_PT_Support.dto.WorkoutProgramDTO;
+import it.unifi.dinfo.stlab.WebApp_PT_Support.mappers.WorkoutProgramMapper;
 
 public class CustomerController {
-	// Qui servirebbe @Inject
+	
+	@Inject
 	CustomerDao cDao;
 	
-	public CustomerController(EntityManagerFactory emf) {
-		cDao = new CustomerDao(emf);
-	}
-	
-	public void detatchWorkoutProgram(Long userId, Long wpId) {
+	public WorkoutProgramDTO detachWorkoutProgram(Long userId, Long wpId) {
 		Customer customer = cDao.findById(userId);
-		
-		boolean found = false;
+		WorkoutProgramDTO wpFound = null;
 		for(WorkoutProgram wp : customer.getWorkoutProgramList()) {
 			if(wp.getId() == wpId) {
-				found = true;
+				WorkoutProgramMapper wpMapper = new WorkoutProgramMapper();
+				wpFound = wpMapper.generateWorkoutProgramTO(wp);
 				customer.getWorkoutProgramList().remove(wp);
 				cDao.update(customer);
 				break;
 			}
 		}
 		
-		if (found)
+		if (wpFound != null) 
 			System.out.println("Workout Program eliminato con successo");
 		else
 			System.out.println("Il Workout Program non è presente nella lista dell'utente selezionato");
+		return wpFound;
 	}
 	
 }

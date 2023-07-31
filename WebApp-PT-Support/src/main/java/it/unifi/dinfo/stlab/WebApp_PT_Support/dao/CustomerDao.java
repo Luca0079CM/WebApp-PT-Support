@@ -2,109 +2,45 @@ package it.unifi.dinfo.stlab.WebApp_PT_Support.dao;
 
 import java.util.List;
 
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
-
+import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.Customer;
 
-//@Stateless
-public class CustomerDao {
+@RequestScoped
+public class CustomerDao extends BaseDao<Customer>{
 
-//	@PersistenceContext(unitName="WebApp-PT-Support")
+	@PersistenceContext
 	private EntityManager em;
 
-//	public CustomerDao() {
-//		super();
-//	}
-//
-//	public CustomerDao(EntityManagerFactory emf) {
-//		super(emf);
-//	}
-
-//	@Override
-	public boolean save(Customer u) {
-//		EntityManager em = emf.createEntityManager();
-		boolean success = false;
-
-		EntityTransaction tx = null;
-		try {
-			tx = em.getTransaction();
-			tx.begin();
-			em.persist(u);
-			success = true;
-			tx.commit();
-		} catch (Exception e) {
-			if (tx != null && tx.isActive()) {
-				tx.rollback();
-			}
-		} finally {
-			em.close();
-		}
-		return success;
+	@Override
+	@Transactional
+	public void save(Customer u) {
+		em.persist(u);
 	}
 
-//	@Override
+	@Override
 	public Customer findById(Long id) {
-//		EntityManager em = emf.createEntityManager();
 		return em.find(Customer.class, id);
 	}
 
-
-//	@Override
+	@Override
 	public List<Customer> findAll() {
-//		EntityManager em = emf.createEntityManager();
 		return em.createQuery("from Customer " + " ORDER BY id DESC", Customer.class).getResultList();
 	}
 
-//	@Override
-	public boolean update(Customer u) {
-		boolean success = false;
-
-//		EntityManager em = emf.createEntityManager();
-		EntityTransaction tx = null;
-		try {
-			tx = em.getTransaction();
-			tx.begin();
-
-			// persist se l'oggetto è già presente genera un eccezione; merge invece restituisce l'oggetto se esso è
-			// già presente nel db
-			em.merge(u);
-			success = true;
-
-			tx.commit();
-		} catch (Exception e) {
-			if (tx != null && tx.isActive()) {
-				tx.rollback();
-			}
-		} finally {
-			em.close();
-		}
-		return success;
+	@Override
+	@Transactional
+	public void update(Customer u) {
+		em.merge(u);
 	}
 
-//	@Override
-	public boolean deleteById(Long id) {
-		boolean success = false;
-
-//		EntityManager em = emf.createEntityManager();
-		EntityTransaction tx = null;
-		try {
-			tx = em.getTransaction();
-			tx.begin();
-
-			Customer user = findById(id);
-			em.remove(em.contains(user) ? user : em.merge(user));
-			success = true;
-
-			tx.commit();
-		} catch (Exception e) {
-			if (tx != null && tx.isActive()) {
-				tx.rollback();
-			}
-		} finally {
-			em.close();
-		}
-		return success;
+	@Override
+	@Transactional
+	public void deleteById(Long id) {
+		Customer user = findById(id);
+		em.remove(em.contains(user) ? user : em.merge(user));
 	}
 }

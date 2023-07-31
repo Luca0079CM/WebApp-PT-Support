@@ -15,4 +15,17 @@ public class PersonalTrainerMapper {
 		return ptDTO;
 	}
 	
+	
+	public PersonalTrainer generatePersonalTrainerFromTO(PersonalTrainerDTO ptDTO) {
+		PersonalTrainer pt = new PersonalTrainer();
+		pt.setId(ptDTO.getId());
+		pt.setName(ptDTO.getName());
+		pt.setSurname(pt.getSurname());
+		pt.setEmail(ptDTO.getEmail());
+		pt.setPassword("password");
+		pt.setDateOfBirth(ptDTO.getDateOfBirth());
+		pt.setCustomersList(null);
+		pt.setWorkoutProgramList(null);
+		return pt;
+	}
 }

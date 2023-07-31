@@ -28,18 +28,24 @@ public class WorkoutSessionDao {
 
 	public boolean save(WorkoutSession ws) {
 		WriteApiBlocking writeApi = influxClient.getWriteApiBlocking();
+		System.out.println("1");
 		boolean success = false;
 		String data;
 		JSONObject sessionData = ws.getSessionData();
+		System.out.println("2");
 		JSONArray array = (JSONArray)sessionData.get("data");
+		System.out.println("3");
 		@SuppressWarnings("unchecked")
 		Iterator<JSONObject> itr = array.iterator();
+		System.out.println("4");
 		while(itr.hasNext()) {
 			JSONObject i = itr.next();
 			data = "machinedatapoint,gym=palestra machineid=" + i.get("machineId").toString();
 			writeApi.writeRecord(this.bucket, this.org, WritePrecision.NS, data);
+			System.out.println("4.5");
 //			data = "";
 		}
+		System.out.println("5");
 		success = true;
 		return success;
 	}

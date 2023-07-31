@@ -43,7 +43,7 @@ public class WorkoutProgram {
 	}
 
 	public void setEstimatedDuration(int estimatedDuration) {
-		estimatedDuration = estimatedDuration;
+		this.estimatedDuration = estimatedDuration;
 	}
 
 	public WorkoutProgramType getWorkoutProgramType() {

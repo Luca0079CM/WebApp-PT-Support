@@ -13,7 +13,6 @@ import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.PersonalTrainer;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.Customer;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.WorkoutProgram;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.WorkoutProgramType;
-import it.unifi.dinfo.stlab.WebApp_PT_Support.dao.PersonalTrainerDao;
 
 public class PersonalTrainerDaoTest extends JPATest {
 	
@@ -117,15 +116,6 @@ public class PersonalTrainerDaoTest extends JPATest {
 		personalTrainerDao.update(personalTrainer);
 		PersonalTrainer result = em.createQuery("from PersonalTrainer where id=:id", PersonalTrainer.class).setParameter("id", personalTrainer.getId()).getSingleResult();
 		Assertions.assertEquals(personalTrainer.getPassword(), result.getPassword());
-	}
-	
-	@Test
-	public void testFindCustomersById() {
-		List<Customer> retrievedList = personalTrainer.getCustomersList();
-		List<Customer> resultList = personalTrainerDao.findCustomersById(personalTrainer.getId());
-		
-		Assertions.assertEquals(retrievedList.size(), resultList.size());
-		Assertions.assertTrue(retrievedList.containsAll(resultList));
 	}
 
 }

@@ -12,4 +12,12 @@ public class GymMachineMapper {
 		return machineDTO;
 	}
 	
+	public GymMachine generateGymMachineFromTO(GymMachineDTO mDTO) {
+		GymMachine m = new GymMachine();
+		m.setId(mDTO.getId());
+		m.setName(mDTO.getName());
+		m.setDescription("EMPTY");
+		return m;
+	}
+	
 }
