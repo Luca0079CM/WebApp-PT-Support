@@ -9,6 +9,7 @@ import it.unifi.dinfo.stlab.WebApp_PT_Support.dao.ExerciseDao;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.WorkoutProgram;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.dao.WorkoutProgramDao;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.WorkoutProgramType;
+import it.unifi.dinfo.stlab.WebApp_PT_Support.dao.GymMachineDao;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.mappers.*;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.dto.*;
 
@@ -29,20 +30,22 @@ public class PersonalTrainerController {
 	@Inject
 	WorkoutProgramDao wpDao;
 	@Inject
+	GymMachineDao machineDao;
+	@Inject
 	CustomerMapper cMapper;
 	@Inject
 	ExerciseMapper exMapper;
 	@Inject
 	WorkoutProgramMapper wpMapper;
 	
-	public CustomerDTO createCustomer(Long ptId, Long customerId, String name, String surname, String email, String password, LocalDate dateOfBirth) {
+	public CustomerDTO createCustomer(Long ptId, Long customerId, CustomerDTO cDTO) {
 		Customer customer = new Customer();
 		customer.setId(customerId);
-		customer.setName(name);
-		customer.setSurname(surname);
-		customer.setEmail(email);
-		customer.setDateOfBirth(dateOfBirth);
-		customer.setPassword(password);
+		customer.setName(cDTO.getName());
+		customer.setSurname(cDTO.getSurname());
+		customer.setEmail(cDTO.getEmail());
+		customer.setDateOfBirth(cDTO.getDateOfBirth());
+		customer.setPassword(cDTO.getPassword());
 		customer.setPersonalTrainer(ptDao.findById(ptId));
 		customer.setWorkoutProgramList(null);
 		cDao.save(customer);
@@ -57,26 +60,41 @@ public class PersonalTrainerController {
 		return cMapper.generateCustomerTO(customer);
 	}
 	
-	public ExerciseDTO createExercise(Long id, String name, int difficultyLevel, String description) {
-		Exercise ex = new Exercise();
-		ex.setId(id);
-		ex.setName(name);
-		ex.setDifficultyLevel(difficultyLevel);
-		ex.setDescription(description);
-		exDao.save(ex);
-		return exMapper.generateExerciseTO(ex);
-	}
-	
-	public ExerciseDTO searchExercise(Long exId) {
-		return exMapper.generateExerciseTO(exDao.findById(exId));
-	}
-	
 	public List<CustomerDTO> findCustomersByPTId(Long ptId) {
 		PersonalTrainer pt = ptDao.findById(ptId);
 		ArrayList<CustomerDTO> customerDTOList = new ArrayList<CustomerDTO>();
 		for (Customer c : pt.getCustomersList())
 			customerDTOList.add(cMapper.generateCustomerTO(c));
 		return customerDTOList;
+	}
+	
+	public ExerciseDTO createExercise(Long machineId, Long exId, ExerciseDTO exDTO) {
+		Exercise ex = new Exercise();
+		ex.setId(exId);
+		ex.setName(exDTO.getName());
+		ex.setDifficultyLevel(exDTO.getDifficultyLevel());
+		ex.setDescription(exDTO.getDescription());
+		if(machineId != null)
+			ex.setMachine(machineDao.findById(machineId));
+		else
+			ex.setMachine(null);
+		exDao.save(ex);
+		return exMapper.generateExerciseTO(ex);
+	}
+	
+	public WorkoutProgramDTO createWorkoutProgram(Long id, WorkoutProgramDTO wpDTO) {
+		WorkoutProgram wp = new WorkoutProgram();
+		wp.setId(id);
+		wp.setDifficultyLevel(wpDTO.getDifficultyLevel());
+		wp.setEstimatedDuration(wpDTO.getEstimatedDuration());
+		wp.setWorkoutProgramType(wpDTO.getWorkoutProgramType());
+		wp.setExerciseList(null);
+		wpDao.save(wp);
+		return wpMapper.generateWorkoutProgramTO(wp);
+	}
+	
+	public ExerciseDTO searchExercise(Long exId) {
+		return exMapper.generateExerciseTO(exDao.findById(exId));
 	}
 	
 	public WorkoutProgramDTO searchWorkoutProgram(Long wpId) {
@@ -102,16 +120,4 @@ public class PersonalTrainerController {
 		wpDao.update(wp);
 		return wpMapper.generateWorkoutProgramTO(wp);
 	}
-	
-	public WorkoutProgramDTO createWorkoutProgram(Long id, int difficultyLevel, int estimatedDuration, WorkoutProgramType wpType) {
-		WorkoutProgram wp = new WorkoutProgram();
-		wp.setId(id);
-		wp.setDifficultyLevel(difficultyLevel);
-		wp.setEstimatedDuration(estimatedDuration);
-		wp.setWorkoutProgramType(wpType);
-		wp.setExerciseList(null);
-		wpDao.save(wp);
-		return wpMapper.generateWorkoutProgramTO(wp);
-	}
-	
 }

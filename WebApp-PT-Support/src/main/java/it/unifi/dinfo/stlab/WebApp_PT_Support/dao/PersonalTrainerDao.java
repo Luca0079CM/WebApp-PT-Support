@@ -11,12 +11,8 @@ import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.PersonalTrainer;
 
 public class PersonalTrainerDao extends BaseDao<PersonalTrainer >{
 	
-	@PersistenceContext
-	private EntityManager em;
-
-//	public PersonalTrainerDao(EntityManagerFactory emf) {
-//		super(emf);
-//	}
+//	@PersistenceContext
+//	private EntityManager em;
 
 	@Override
 	@Transactional
@@ -27,14 +23,12 @@ public class PersonalTrainerDao extends BaseDao<PersonalTrainer >{
 	@Override
 	@Transactional
 	public PersonalTrainer findById(Long id) {
-//		EntityManager em = emf.createEntityManager();
 		return em.find(PersonalTrainer.class, id);
 	}
 
 
 	@Override
 	public List<PersonalTrainer> findAll() {
-//		EntityManager em = emf.createEntityManager();
 		return em.createQuery("from PersonalTrainer " + " ORDER BY id DESC", PersonalTrainer.class).getResultList();
 	}
 

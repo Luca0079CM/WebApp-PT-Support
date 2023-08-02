@@ -13,15 +13,8 @@ import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.GymMachine;
 @RequestScoped
 public class GymMachineDao extends BaseDao<GymMachine> {
 
-	@PersistenceContext
-	private EntityManager em;
-
-//	@PersistenceUnit
-//	EntityManagerFactory entityManagerFactory;
-
-//	public GymMachineDao(EntityManagerFactory emf) {
-//		super(emf);
-//	}
+//	@PersistenceContext
+//	private EntityManager em;
 
 	@Override
 	@Transactional
@@ -32,14 +25,12 @@ public class GymMachineDao extends BaseDao<GymMachine> {
 	@Override
 	@Transactional
 	public GymMachine findById(Long id) {
-//		EntityManager em = emf.createEntityManager();
 		return em.find(GymMachine.class, id);
 	}
 
 	@Override
 //	@Transactional
 	public List<GymMachine> findAll() {
-//		EntityManager em = emf.createEntityManager();
 		return em.createQuery("from GymMachine ORDER BY id DESC", GymMachine.class).getResultList();
 	}
 

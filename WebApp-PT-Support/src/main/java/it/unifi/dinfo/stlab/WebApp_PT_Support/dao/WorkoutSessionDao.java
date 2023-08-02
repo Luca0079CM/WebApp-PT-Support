@@ -1,6 +1,9 @@
 package it.unifi.dinfo.stlab.WebApp_PT_Support.dao;
 
 import java.util.Iterator;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -8,7 +11,11 @@ import org.json.simple.JSONObject;
 import com.influxdb.client.InfluxDBClient;
 import com.influxdb.client.InfluxDBClientFactory;
 import com.influxdb.client.WriteApiBlocking;
+import com.influxdb.client.QueryApi;
 import com.influxdb.client.domain.WritePrecision;
+import com.influxdb.client.write.Point;
+import com.influxdb.query.FluxRecord;
+import com.influxdb.query.FluxTable;
 
 import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.WorkoutSession;
 
@@ -26,29 +33,53 @@ public class WorkoutSessionDao {
 		this.influxClient = InfluxDBClientFactory.create(getUrl(), getToken().toCharArray(), getBucket(), getOrg());
 	}
 
-	public boolean save(WorkoutSession ws) {
+	public void save(WorkoutSession ws) {
 		WriteApiBlocking writeApi = influxClient.getWriteApiBlocking();
-		System.out.println("1");
-		boolean success = false;
-		String data;
 		JSONObject sessionData = ws.getSessionData();
 		System.out.println("2");
 		JSONArray array = (JSONArray)sessionData.get("data");
-		System.out.println("3");
 		@SuppressWarnings("unchecked")
 		Iterator<JSONObject> itr = array.iterator();
-		System.out.println("4");
 		while(itr.hasNext()) {
 			JSONObject i = itr.next();
-			data = "machinedatapoint,gym=palestra machineid=" + i.get("machineId").toString();
-			writeApi.writeRecord(this.bucket, this.org, WritePrecision.NS, data);
-			System.out.println("4.5");
-//			data = "";
+			Point point = Point
+					  .measurement("machinedata")
+					  .addTag("gym", "virgin")
+					  .addTag("sessionid", ws.getId().toString())
+					  .addField("machineid", i.get("machineId").toString())
+					  .time(Instant.now(), WritePrecision.NS);
+			writeApi.writePoint(this.bucket, this.org, point);
 		}
-		System.out.println("5");
-		success = true;
-		return success;
 	}
+	
+	public List<FluxRecord> findAll(){
+		List<FluxRecord> result = new ArrayList<FluxRecord>();
+		String fluxQuery = "from(bucket: \"workoutsessions\") |> range(start: -1h) |> filter(fn: (r) => r[\"_measurement\"] == \"machinedata\") |> filter(fn: (r) => r[\"_field\"] == \"machineid\")";
+		QueryApi queryApi = influxClient.getQueryApi();
+		List<FluxTable> tables = queryApi.query(fluxQuery, "PT-Support");
+		for(FluxTable table : tables) {
+			for(FluxRecord record : table.getRecords()) {
+				result.add(record);
+			}
+		}
+		return result;
+	}
+	
+	public List<FluxRecord> findByGymName(String gymName){
+		List<FluxRecord> result = new ArrayList<FluxRecord>();
+		String fluxQuery = "from(bucket: \"workoutsessions\") |> range(start: -1h) |> filter(fn: (r) => r[\"_measurement\"] == \"machinedata\") |> filter(fn: (r) => r[\"_field\"] == \"machineid\")";
+		QueryApi queryApi = influxClient.getQueryApi();
+		List<FluxTable> tables = queryApi.query(fluxQuery, "PT-Support");
+		for(FluxTable table : tables) {
+			for(FluxRecord record : table.getRecords()) {
+				if(record.getValueByKey("gym") != null && record.getValueByKey("gym").toString().equals(gymName)) {
+					result.add(record);
+				}
+			}
+		}
+		return result;
+	}
+
 
 	public String getToken() {
 		return token;

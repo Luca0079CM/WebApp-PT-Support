@@ -2,11 +2,14 @@ package it.unifi.dinfo.stlab.WebApp_PT_Support.dao;
 
 import java.util.List;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+
 //@Stateless
 public abstract class BaseDao<T> {
 
-//	@PersistenceContext
-//	public EntityManager em;
+	@PersistenceContext
+	protected EntityManager em;
 
 //	public EntityManagerFactory emf;
 

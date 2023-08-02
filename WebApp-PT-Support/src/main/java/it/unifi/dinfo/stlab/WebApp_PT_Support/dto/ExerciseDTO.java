@@ -5,6 +5,7 @@ public class ExerciseDTO {
 	private String name;
 	private int difficultyLevel;
 	private String machine;
+	private String description;
 	
 	public Long getId() {
 		return id;
@@ -36,6 +37,14 @@ public class ExerciseDTO {
 	
 	public void setMachine(String machine) {
 		this.machine = machine;
+	}
+	
+	public String getDescription() {
+		return description;
+	}
+	
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	
 }

@@ -12,8 +12,8 @@ import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.Customer;
 @RequestScoped
 public class CustomerDao extends BaseDao<Customer>{
 
-	@PersistenceContext
-	private EntityManager em;
+//	@PersistenceContext
+//	private EntityManager em;
 
 	@Override
 	@Transactional

@@ -26,6 +26,7 @@
 		<property name="hibernate.order_inserts" value="true" />
 		<property name="hibernate.order_updates" value="true" />
 		<property name="hibernate.id.new_generator_mappings" value="true"/>
+		<property name="hibernate.enable_lazy_load_no_trans" value="true"/>
 	</properties>
 	</persistence-unit>
 </persistence>
