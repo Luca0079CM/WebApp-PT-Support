@@ -45,6 +45,7 @@ public class PersonalTrainerDaoTest extends JPATest {
 		customer1.setEmail("example@cust.com");
 		customer1.setDateOfBirth(1992, 10, 13);
 		customer1.setPassword("pw");
+		customer1.setPersonalTrainer(personalTrainer);
 		em.persist(customer1);
 		Customer customer2 = new Customer();
 		customer2.setId(new Random().nextLong());
@@ -53,6 +54,7 @@ public class PersonalTrainerDaoTest extends JPATest {
 		customer2.setEmail("example@cust.com");
 		customer2.setDateOfBirth(1990, 10, 13);
 		customer2.setPassword("pw");
+		customer2.setPersonalTrainer(personalTrainer);
 		em.persist(customer2);
 		List<Customer> customerList = new ArrayList<Customer>();
 		customerList.add(customer1);

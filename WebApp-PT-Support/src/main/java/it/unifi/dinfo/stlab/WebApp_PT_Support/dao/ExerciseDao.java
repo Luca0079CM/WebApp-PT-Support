@@ -13,12 +13,8 @@ import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.GymMachine;
 @RequestScoped
 public class ExerciseDao extends BaseDao<Exercise> {
 
-	@PersistenceContext
-	private EntityManager em;
-
-//	public ExerciseDao(EntityManagerFactory emf) {
-//		super(emf);
-//	}
+//	@PersistenceContext
+//	private EntityManager em;
 
 	@Override
 	@Transactional

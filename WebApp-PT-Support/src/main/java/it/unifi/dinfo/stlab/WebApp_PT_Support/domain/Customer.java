@@ -89,7 +89,7 @@ public class Customer {
 
 	public void setPersonalTrainer(PersonalTrainer personalTrainer) {
 		this.personalTrainer = personalTrainer;
-		personalTrainer.addCustomer(this);
+//		personalTrainer.addCustomer(this);
 	}
 
 	@ManyToMany(fetch=FetchType.LAZY)

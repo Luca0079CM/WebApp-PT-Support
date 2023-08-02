@@ -10,12 +10,8 @@ import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.WorkoutProgram;
 
 public class WorkoutProgramDao extends BaseDao<WorkoutProgram> {
 	
-	@PersistenceContext
-	private EntityManager em;
-	
-//	public WorkoutProgramDao(EntityManagerFactory emf) {
-//		super(emf);
-//	}
+//	@PersistenceContext
+//	private EntityManager em;
 
 	@Override
 	@Transactional
@@ -26,14 +22,12 @@ public class WorkoutProgramDao extends BaseDao<WorkoutProgram> {
 	@Override
 	@Transactional
 	public WorkoutProgram findById(Long id) {
-//		EntityManager em = emf.createEntityManager();
 		return em.find(WorkoutProgram.class, id);
 	}
 
 
 	@Override
 	public List<WorkoutProgram> findAll() {
-//		EntityManager em = emf.createEntityManager();
 		return em.createQuery("from WorkoutProgram " + " ORDER BY id DESC", WorkoutProgram.class).getResultList();
 	}
 

@@ -26,7 +26,7 @@ public class CustomerController {
 			}
 		}
 		
-		if (wpFound != null) 
+		if (wpFound != null)
 			System.out.println("Workout Program eliminato con successo");
 		else
 			System.out.println("Il Workout Program non è presente nella lista dell'utente selezionato");
