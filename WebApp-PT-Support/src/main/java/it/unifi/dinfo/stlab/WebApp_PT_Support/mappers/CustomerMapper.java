@@ -8,7 +8,8 @@ import java.util.List;
 
 public class CustomerMapper {
 	
-	public CustomerDTO generateCustomerTO(Customer customer) {
+	//da rinominare in tutte le classi mapper (toDTO e toEntity?)
+	public CustomerDTO toDTO(Customer customer) {
 		CustomerDTO customerDTO = new CustomerDTO();
 		customerDTO.setId(customer.getId());
 		customerDTO.setName(customer.getName());
@@ -20,7 +21,7 @@ public class CustomerMapper {
 		return customerDTO;
 	}
 	
-	public Customer generateCustomerFromTO(CustomerDTO customerDTO) {
+	public Customer toEntity(CustomerDTO customerDTO) {
 		Customer c = new Customer();
 		PersonalTrainerDao ptDao = new PersonalTrainerDao();
 		

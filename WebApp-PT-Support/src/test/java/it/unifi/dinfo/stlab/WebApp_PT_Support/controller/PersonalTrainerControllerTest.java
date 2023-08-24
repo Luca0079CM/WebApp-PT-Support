@@ -82,7 +82,7 @@ public class PersonalTrainerControllerTest extends JPATest{
 		// DEVE ESSERE INDIPENDENTE DAI DAO
 		CustomerMapper cMapper = new CustomerMapper();
 		LocalDate dateOfBirth = LocalDate.of(1997, 3, 8);
-		Customer c1 = cMapper.generateCustomerFromTO(
+		Customer c1 = cMapper.toEntity(
 				ptController.createCustomer(123L, 79L, "Luca", "Leuter", "luca0079@hotmail.it", "password", dateOfBirth));
 ////		List<Customer> cList = customerDao.findAll();
 ////		for(Customer c: cList)

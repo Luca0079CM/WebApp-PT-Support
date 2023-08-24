@@ -10,7 +10,7 @@ import it.unifi.dinfo.stlab.WebApp_PT_Support.dao.ExerciseDao;
 
 public class WorkoutProgramMapper {
 	
-	public WorkoutProgramDTO generateWorkoutProgramTO(WorkoutProgram wp) {
+	public WorkoutProgramDTO toDTO(WorkoutProgram wp) {
 		WorkoutProgramDTO wpDTO = new WorkoutProgramDTO();
 		wpDTO.setId(wp.getId());
 		wpDTO.setDifficultyLevel(wp.getDifficultyLevel());
@@ -24,7 +24,7 @@ public class WorkoutProgramMapper {
 		return wpDTO;
 	}
 	
-	public WorkoutProgram generateWorkoutProgramFromTO(WorkoutProgramDTO wpDTO) {
+	public WorkoutProgram toEntity(WorkoutProgramDTO wpDTO) {
 		WorkoutProgram wp = new WorkoutProgram();
 		ExerciseDao exDao = new ExerciseDao();
 		

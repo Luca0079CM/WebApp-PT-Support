@@ -5,7 +5,7 @@ import it.unifi.dinfo.stlab.WebApp_PT_Support.dto.PersonalTrainerDTO;
 
 public class PersonalTrainerMapper {
 	
-	public PersonalTrainerDTO generatePersonalTrainerTO(PersonalTrainer pt) {
+	public PersonalTrainerDTO toDTO(PersonalTrainer pt) {
 		PersonalTrainerDTO ptDTO = new PersonalTrainerDTO();
 		ptDTO.setId(pt.getId());
 		ptDTO.setName(pt.getName());
@@ -16,7 +16,7 @@ public class PersonalTrainerMapper {
 	}
 	
 	
-	public PersonalTrainer generatePersonalTrainerFromTO(PersonalTrainerDTO ptDTO) {
+	public PersonalTrainer toEntity(PersonalTrainerDTO ptDTO) {
 		PersonalTrainer pt = new PersonalTrainer();
 		pt.setId(ptDTO.getId());
 		pt.setName(ptDTO.getName());

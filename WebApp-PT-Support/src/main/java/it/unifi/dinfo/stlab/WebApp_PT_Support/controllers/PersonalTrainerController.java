@@ -49,7 +49,7 @@ public class PersonalTrainerController {
 		customer.setPersonalTrainer(ptDao.findById(ptId));
 		customer.setWorkoutProgramList(null);
 		cDao.save(customer);
-		return cMapper.generateCustomerTO(customer);
+		return cMapper.toDTO(customer);
 	}
 	
 	public CustomerDTO disableCustomer(Long customerId) {
@@ -57,14 +57,14 @@ public class PersonalTrainerController {
 		customer.setPersonalTrainer(null);
 		customer.setWorkoutProgramList(null);
 		cDao.update(customer);
-		return cMapper.generateCustomerTO(customer);
+		return cMapper.toDTO(customer);
 	}
 	
 	public List<CustomerDTO> findCustomersByPTId(Long ptId) {
 		PersonalTrainer pt = ptDao.findById(ptId);
 		ArrayList<CustomerDTO> customerDTOList = new ArrayList<CustomerDTO>();
 		for (Customer c : pt.getCustomersList())
-			customerDTOList.add(cMapper.generateCustomerTO(c));
+			customerDTOList.add(cMapper.toDTO(c));
 		return customerDTOList;
 	}
 	
@@ -79,7 +79,7 @@ public class PersonalTrainerController {
 		else
 			ex.setMachine(null);
 		exDao.save(ex);
-		return exMapper.generateExerciseTO(ex);
+		return exMapper.toDTO(ex);
 	}
 	
 	public WorkoutProgramDTO createWorkoutProgram(Long id, WorkoutProgramDTO wpDTO) {
@@ -90,15 +90,15 @@ public class PersonalTrainerController {
 		wp.setWorkoutProgramType(wpDTO.getWorkoutProgramType());
 		wp.setExerciseList(null);
 		wpDao.save(wp);
-		return wpMapper.generateWorkoutProgramTO(wp);
+		return wpMapper.toDTO(wp);
 	}
 	
 	public ExerciseDTO searchExercise(Long exId) {
-		return exMapper.generateExerciseTO(exDao.findById(exId));
+		return exMapper.toDTO(exDao.findById(exId));
 	}
 	
 	public WorkoutProgramDTO searchWorkoutProgram(Long wpId) {
-		return wpMapper.generateWorkoutProgramTO(wpDao.findById(wpId));
+		return wpMapper.toDTO(wpDao.findById(wpId));
 	}
 	
 	public CustomerDTO assignWorkoutProgramToCustomer(Long wpId, Long cId) {
@@ -108,7 +108,7 @@ public class PersonalTrainerController {
 		wpList.add(wp);
 		c.setWorkoutProgramList(wpList);
 		cDao.update(c);
-		return cMapper.generateCustomerTO(c);
+		return cMapper.toDTO(c);
 	}
 	
 	public WorkoutProgramDTO addExerciseToWorkoutProgram(Long exId, Long wpId) {
@@ -118,6 +118,6 @@ public class PersonalTrainerController {
 		exList.add(ex);
 		wp.setExerciseList(exList);
 		wpDao.update(wp);
-		return wpMapper.generateWorkoutProgramTO(wp);
+		return wpMapper.toDTO(wp);
 	}
 }

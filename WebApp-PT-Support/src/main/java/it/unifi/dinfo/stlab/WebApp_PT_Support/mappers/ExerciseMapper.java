@@ -8,7 +8,7 @@ import java.util.List;
 
 public class ExerciseMapper {
 	
-	public ExerciseDTO generateExerciseTO(Exercise ex) {
+	public ExerciseDTO toDTO(Exercise ex) {
 		ExerciseDTO exDTO = new ExerciseDTO();
 		exDTO.setId(ex.getId());
 		exDTO.setName(ex.getName());
@@ -20,7 +20,7 @@ public class ExerciseMapper {
 		return exDTO;
 	}
 	
-	public Exercise generateExerciseFromTO(ExerciseDTO eDTO) {
+	public Exercise toEntity(ExerciseDTO eDTO) {
 		Exercise e = new Exercise();
 		GymMachineDao mDao = new GymMachineDao();
 		

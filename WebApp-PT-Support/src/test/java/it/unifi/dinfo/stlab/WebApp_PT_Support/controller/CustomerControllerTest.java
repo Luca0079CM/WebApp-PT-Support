@@ -100,7 +100,7 @@ public class CustomerControllerTest extends JPATest{
 		when(customerDao.findById(customer.getId())).thenReturn(customer);
 		WorkoutProgramMapper wpMapper = new WorkoutProgramMapper();
 		WorkoutProgramDTO detachedWorkoutProgram = customerController.detachWorkoutProgram(customer.getId(), 2L);
-		WorkoutProgramDTO retrievedWorkoutProgram = wpMapper.generateWorkoutProgramTO(workoutProgramDao.findById(2L));
+		WorkoutProgramDTO retrievedWorkoutProgram = wpMapper.toDTO(workoutProgramDao.findById(2L));
 		
 		Assertions.assertEquals(detachedWorkoutProgram.getId(), retrievedWorkoutProgram.getId());
 		Assertions.assertEquals(1, customer.getWorkoutProgramList().size());

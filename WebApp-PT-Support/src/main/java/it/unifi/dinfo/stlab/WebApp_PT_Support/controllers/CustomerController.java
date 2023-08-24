@@ -19,7 +19,7 @@ public class CustomerController {
 		for(WorkoutProgram wp : customer.getWorkoutProgramList()) {
 			if(wp.getId() == wpId) {
 				WorkoutProgramMapper wpMapper = new WorkoutProgramMapper();
-				wpFound = wpMapper.generateWorkoutProgramTO(wp);
+				wpFound = wpMapper.toDTO(wp);
 				customer.getWorkoutProgramList().remove(wp);
 				cDao.update(customer);
 				break;
