@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.List;
+import java.util.ArrayList;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.ejb.Singleton;
@@ -70,7 +71,7 @@ public class App {
 //    	retrieveGymMachine();
 //    	retrieveCustomersFromPersonalTrainer();
     	
-    	testPersistCustomersAndPersonalTrainer();
+    	testPopulateTablesForRestTest();
     }
 
 //    private void populateCustomer() {
@@ -283,29 +284,59 @@ public class App {
 //    }
     
     @Transactional
-    private void testPersistCustomersAndPersonalTrainer() {
-    	Long id = Long.valueOf(40);
+    private void testPopulateTablesForRestTest() {
+    	Long gmId = Long.valueOf(10);
+    	GymMachine gm1 = new GymMachine();
+    	gm1.setId(gmId);
+    	gm1.setName("Name-"+gmId);
+    	gm1.setDescription("Serve per allenarsi");
+		em.persist(gm1);
+		
+		Long exId = Long.valueOf(20);
+		Exercise ex1 = new Exercise();
+		ex1.setId(exId);
+    	ex1.setName("Name-"+exId);
+    	ex1.setDifficultyLevel(5);
+    	ex1.setDescription("Allena le spalle");
+    	ex1.setMachine(gm1);
+		em.persist(ex1);
+		List<Exercise> exList = new ArrayList<Exercise>();
+		exList.add(ex1);
+		
+		
+		Long wpId = Long.valueOf(30);
+		WorkoutProgram wp1 = new WorkoutProgram();
+		wp1.setId(wpId);
+		wp1.setDifficultyLevel(8);
+		wp1.setEstimatedDuration(60);
+		wp1.setWorkoutProgramType(WorkoutProgramType.CARDIO);
+		wp1.setExerciseList(exList);
+		em.persist(wp1);
+		List<WorkoutProgram> wpList = new ArrayList<WorkoutProgram>();
+		wpList.add(wp1);
+    	
+    	Long ptId = Long.valueOf(40);
 		PersonalTrainer pt1 = new PersonalTrainer();
-		pt1.setId(id);
-		pt1.setName("Name-"+id);
-		pt1.setSurname("Surname-"+id);
+		pt1.setId(ptId);
+		pt1.setName("Name-"+ptId);
+		pt1.setSurname("Surname-"+ptId);
 		pt1.setPassword("password");
-		pt1.setEmail("user"+id+"@gmail.com");
+		pt1.setEmail("user"+ptId+"@gmail.com");
 		pt1.setDateOfBirth(1997, 10, 10);
-    	pt1.setWorkoutProgramList(null);
+    	pt1.setWorkoutProgramList(wpList);
 		em.persist(pt1);
 		
     	for(int i = 0; i<2; i++) {
-    		id = Long.valueOf(i+30);
+    		Long cId = Long.valueOf(i+50);
     		Customer c1 = new Customer();
-    		c1.setId(id);
-    		c1.setName("Name-"+id);
-    		c1.setSurname("Surname-"+id);
+    		c1.setId(cId);
+    		c1.setName("Name-"+cId);
+    		c1.setSurname("Surname-"+cId);
     		c1.setPassword("password");
-    		c1.setEmail("user"+id+"@gmail.com");
+    		c1.setEmail("user"+cId+"@gmail.com");
     		c1.setDateOfBirth(1997, i%12+1, i%30+1);
     		c1.setPersonalTrainer(pt1);
-        	c1.setWorkoutProgramList(null);
+        	c1.setWorkoutProgramList(wpList);
     		em.persist(c1);	
     	}
     }

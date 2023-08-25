@@ -3,12 +3,14 @@ package it.unifi.dinfo.stlab.WebApp_PT_Support.dao;
 import java.util.List;
 
 import jakarta.persistence.PersistenceContext;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
 import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.Customer;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.PersonalTrainer;
 
+@RequestScoped
 public class PersonalTrainerDao extends BaseDao<PersonalTrainer >{
 	
 //	@PersistenceContext

@@ -22,6 +22,7 @@ public class CustomerDao extends BaseDao<Customer>{
 	}
 
 	@Override
+	@Transactional
 	public Customer findById(Long id) {
 		return em.find(Customer.class, id);
 	}
