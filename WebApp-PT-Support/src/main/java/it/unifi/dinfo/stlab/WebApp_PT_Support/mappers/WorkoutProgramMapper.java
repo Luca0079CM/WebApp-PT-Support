@@ -17,10 +17,12 @@ public class WorkoutProgramMapper {
 		wpDTO.setEstimatedDuration(wp.getEstimatedDuration());
 		wpDTO.setWorkoutProgramType(wp.getWorkoutProgramType());
 		List<Exercise> exList = wp.getExerciseList();
-		String[] exerciseListTO = new String[wp.getExerciseList().size()];
-		for(int i = 0; i < exerciseListTO.length; i++)
-			exerciseListTO[i] = exList.get(i).getName();
-		wpDTO.setExerciseList(exerciseListTO);
+		if(exList != null) {
+			String[] exerciseListTO = new String[wp.getExerciseList().size()];
+			for(int i = 0; i < exerciseListTO.length; i++)
+				exerciseListTO[i] = exList.get(i).getName();
+			wpDTO.setExerciseList(exerciseListTO);
+		}
 		return wpDTO;
 	}
 	

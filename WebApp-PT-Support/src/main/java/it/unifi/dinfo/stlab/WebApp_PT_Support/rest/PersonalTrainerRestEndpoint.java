@@ -27,16 +27,16 @@ public class PersonalTrainerRestEndpoint {
 	private PersonalTrainerController ptController;
 	
 	@POST
-	@Path("customers/create/{custId}")
+	@Path("/customers/create")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response createCustomer(@PathParam("custId") Long custId, Long ptId, CustomerDTO cDTO) {
-		CustomerDTO responseDTO = ptController.createCustomer(ptId, custId, cDTO);
+	public Response createCustomer(CustomerDTO cDTO) {
+		CustomerDTO responseDTO = ptController.createCustomer(cDTO);
 		return Response.status(Response.Status.OK).entity(responseDTO).build();
 	}
 	
 	@PUT
-	@Path("customers/disable/{custId}")
+	@Path("/customers/disable/{custId}")
 	@Produces(MediaType.APPLICATION_JSON)
 //	@Consumes(MediaType.APPLICATION_JSON)
 	public Response disableCustomer(@PathParam("custId") Long custId) {
@@ -53,16 +53,16 @@ public class PersonalTrainerRestEndpoint {
 	}
 	
 	@POST
-	@Path("exercises/create/{exId}")
+	@Path("/exercises/create")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response createExercise(@PathParam("exId") Long exId, Long machineId, ExerciseDTO exDTO) {
-		ExerciseDTO responseDTO = ptController.createExercise(machineId, exId, exDTO);
+	public Response createExercise(ExerciseDTO exDTO) {
+		ExerciseDTO responseDTO = ptController.createExercise(exDTO);
 		return Response.status(Response.Status.OK).entity(responseDTO).build();
 	}
 	
 	@GET
-	@Path("exercises/search/{exId}")
+	@Path("/exercises/search/{exId}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response searchExercise(@PathParam("exId") Long exId) {
 		ExerciseDTO exDTO = ptController.searchExercise(exId);
@@ -70,16 +70,16 @@ public class PersonalTrainerRestEndpoint {
 	}
 	
 	@POST
-	@Path("wprograms/create/{wpId}")
+	@Path("/wprograms/create")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response createWorkoutProgram(@PathParam("wpId") Long wpId, WorkoutProgramDTO wpDTO) {
-		WorkoutProgramDTO responseDTO = ptController.createWorkoutProgram(wpId, wpDTO);
+	public Response createWorkoutProgram(WorkoutProgramDTO wpDTO) {
+		WorkoutProgramDTO responseDTO = ptController.createWorkoutProgram(wpDTO);
 		return Response.status(Response.Status.OK).entity(responseDTO).build();
 	}
 	
 	@GET
-	@Path("wprograms/search/{wpId}")
+	@Path("/wprograms/search/{wpId}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response searchWorkoutProgram(@PathParam("wpId") Long wpId) {
 		WorkoutProgramDTO wpDTO = ptController.searchWorkoutProgram(wpId);

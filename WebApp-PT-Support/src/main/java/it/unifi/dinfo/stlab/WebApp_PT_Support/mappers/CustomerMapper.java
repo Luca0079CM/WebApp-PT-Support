@@ -4,6 +4,8 @@ import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.Customer;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.dto.CustomerDTO;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.dao.PersonalTrainerDao;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.PersonalTrainer;
+
+import java.time.LocalDate;
 import java.util.List;
 
 public class CustomerMapper {
@@ -15,9 +17,11 @@ public class CustomerMapper {
 		customerDTO.setName(customer.getName());
 		customerDTO.setSurname(customer.getSurname());
 		customerDTO.setEmail(customer.getEmail());
-		customerDTO.setDateOfBirth(customer.getDateOfBirth());
-		customerDTO.setPersonalTrainer(customer.getPersonalTrainer().getName() + " "
-				+ customer.getPersonalTrainer().getSurname());
+		customerDTO.setDateOfBirth(customer.getDateOfBirth().toString());
+		if(customer.getPersonalTrainer() != null) {
+			customerDTO.setPersonalTrainerId(customer.getPersonalTrainer().getId());
+			customerDTO.setPersonalTrainer(customer.getPersonalTrainer().getName() + " " + customer.getPersonalTrainer().getSurname());
+		}
 		return customerDTO;
 	}
 	
@@ -29,7 +33,7 @@ public class CustomerMapper {
 		c.setName(customerDTO.getName());
 		c.setSurname(customerDTO.getSurname());
 		c.setEmail(customerDTO.getEmail());
-		c.setDateOfBirth(customerDTO.getDateOfBirth());
+		c.setDateOfBirth(LocalDate.parse(customerDTO.getDateOfBirth()));
 		c.setPassword("password");
 		List<PersonalTrainer> ptList = ptDao.findAll();
 		String ptString = customerDTO.getPersonalTrainer();

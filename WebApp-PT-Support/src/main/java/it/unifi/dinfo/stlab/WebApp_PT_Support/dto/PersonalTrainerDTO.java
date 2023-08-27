@@ -7,7 +7,7 @@ public class PersonalTrainerDTO {
 	private String name;
 	private String surname;
 	private String email;
-	private LocalDate dateOfBirth;
+	private String dateOfBirth;
 	
 	public Long getId() {
 		return id;
@@ -41,11 +41,11 @@ public class PersonalTrainerDTO {
 		this.email = email;
 	}
 	
-	public LocalDate getDateOfBirth() {
+	public String getDateOfBirth() {
 		return dateOfBirth;
 	}
 	
-	public void setDateOfBirth(LocalDate dateOfBirth) {
+	public void setDateOfBirth(String dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
 	

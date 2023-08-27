@@ -5,12 +5,14 @@ import java.time.LocalDate;
 
 public class CustomerDTO implements Serializable {
 	private Long id;
+	private Long personalTrainerId;
 	private String name;
 	private String surname;
 	private String email;
+	private String dateOfBirth;
 	private String password;
-	private LocalDate dateOfBirth;
 	private String personalTrainer;
+	private String[] workoutProgramList;
 	
 	public Long getId() {
 		return id;
@@ -18,6 +20,14 @@ public class CustomerDTO implements Serializable {
 	
 	public void setId(Long id) {
 		this.id = id;
+	}
+	
+	public Long getPersonalTrainerId() {
+		return personalTrainerId;
+	}
+	
+	public void setPersonalTrainerId(Long personalTrainerId) {
+		this.personalTrainerId = personalTrainerId;
 	}
 	
 	public String getName() {
@@ -44,6 +54,14 @@ public class CustomerDTO implements Serializable {
 		this.email = email;
 	}
 	
+	public String getDateOfBirth() {
+		return dateOfBirth;
+	}
+	
+	public void setDateOfBirth(String dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
+	
 	public String getPassword() {
 		return password;
 	}
@@ -52,20 +70,20 @@ public class CustomerDTO implements Serializable {
 		this.password = password;
 	}
 	
-	public LocalDate getDateOfBirth() {
-		return dateOfBirth;
-	}
-	
-	public void setDateOfBirth(LocalDate dateOfBirth) {
-		this.dateOfBirth = dateOfBirth;
-	}
-	
 	public String getPersonalTrainer() {
 		return personalTrainer;
 	}
 	
 	public void setPersonalTrainer(String personalTrainer) {
 		this.personalTrainer = personalTrainer;
+	}
+	
+	public String[] getWorkoutProgramList() {
+		return workoutProgramList;
+	}
+	
+	public void setWorkoutProgramList(String[] workoutProgramList) {
+		this.workoutProgramList = workoutProgramList;
 	}
 	
 }

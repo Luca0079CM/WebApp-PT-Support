@@ -16,6 +16,7 @@ import it.unifi.dinfo.stlab.WebApp_PT_Support.dto.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.ArrayList;
+import com.google.gson.Gson;
 
 import jakarta.inject.Inject;
 
@@ -38,15 +39,22 @@ public class PersonalTrainerController {
 	@Inject
 	WorkoutProgramMapper wpMapper;
 	
-	public CustomerDTO createCustomer(Long ptId, Long customerId, CustomerDTO cDTO) {
+	//TODO: gestire in personal trainer e customer (dto) local date e string
+	//TODO: gestire i parametri dei metodi dei controller (e quindi dei servizi rest di post e put) in modo che prendano solo il dto
+	//--> gestire il setPersonalTrainer() delle entità a partire dal dto
+	
+	public CustomerDTO createCustomer(CustomerDTO cDTO) {
 		Customer customer = new Customer();
-		customer.setId(customerId);
+		customer.setId(cDTO.getId());
 		customer.setName(cDTO.getName());
 		customer.setSurname(cDTO.getSurname());
 		customer.setEmail(cDTO.getEmail());
-		customer.setDateOfBirth(cDTO.getDateOfBirth());
+		customer.setDateOfBirth(LocalDate.parse(cDTO.getDateOfBirth()));
 		customer.setPassword(cDTO.getPassword());
-		customer.setPersonalTrainer(ptDao.findById(ptId));
+		if(cDTO.getPersonalTrainerId() != null)
+			customer.setPersonalTrainer(ptDao.findById(Long.valueOf(cDTO.getPersonalTrainerId())));
+		else
+			customer.setPersonalTrainer(null);
 		customer.setWorkoutProgramList(null);
 		cDao.save(customer);
 		return cMapper.toDTO(customer);
@@ -68,26 +76,31 @@ public class PersonalTrainerController {
 		return customerDTOList;
 	}
 	
-	public ExerciseDTO createExercise(Long machineId, Long exId, ExerciseDTO exDTO) {
+	public ExerciseDTO createExercise(ExerciseDTO exDTO) {
 		Exercise ex = new Exercise();
-		ex.setId(exId);
+		ex.setId(exDTO.getId());
 		ex.setName(exDTO.getName());
 		ex.setDifficultyLevel(exDTO.getDifficultyLevel());
 		ex.setDescription(exDTO.getDescription());
-		if(machineId != null)
-			ex.setMachine(machineDao.findById(machineId));
+		if(exDTO.getMachineId() != null)
+			ex.setMachine(machineDao.findById(exDTO.getMachineId()));
 		else
 			ex.setMachine(null);
 		exDao.save(ex);
 		return exMapper.toDTO(ex);
 	}
 	
-	public WorkoutProgramDTO createWorkoutProgram(Long id, WorkoutProgramDTO wpDTO) {
+	public WorkoutProgramDTO createWorkoutProgram(WorkoutProgramDTO wpDTO) {
 		WorkoutProgram wp = new WorkoutProgram();
-		wp.setId(id);
+		wp.setId(wpDTO.getId());
 		wp.setDifficultyLevel(wpDTO.getDifficultyLevel());
 		wp.setEstimatedDuration(wpDTO.getEstimatedDuration());
 		wp.setWorkoutProgramType(wpDTO.getWorkoutProgramType());
+//		Gson gson = new Gson();
+//		List<Exercise> exList = new ArrayList<Exercise>();
+//		for(String exString : wpDTO.getExerciseList()) {
+//			exList.add(gson.fromJson(exString, Exercise.class));
+//		}
 		wp.setExerciseList(null);
 		wpDao.save(wp);
 		return wpMapper.toDTO(wp);

@@ -2,6 +2,7 @@ package it.unifi.dinfo.stlab.WebApp_PT_Support.dto;
 
 public class ExerciseDTO {
 	private Long id;
+	private Long machineId;
 	private String name;
 	private int difficultyLevel;
 	private String machine;
@@ -13,6 +14,14 @@ public class ExerciseDTO {
 	
 	public void setId(Long id) {
 		this.id = id;
+	}
+	
+	public Long getMachineId() {
+		return machineId;
+	}
+	
+	public void setMachineId(Long machineId) {
+		this.machineId = machineId;
 	}
 	
 	public String getName() {
