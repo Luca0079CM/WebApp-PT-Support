@@ -39,10 +39,6 @@ public class PersonalTrainerController {
 	@Inject
 	WorkoutProgramMapper wpMapper;
 	
-	//TODO: gestire in personal trainer e customer (dto) local date e string
-	//TODO: gestire i parametri dei metodi dei controller (e quindi dei servizi rest di post e put) in modo che prendano solo il dto
-	//--> gestire il setPersonalTrainer() delle entità a partire dal dto
-	
 	public CustomerDTO createCustomer(CustomerDTO cDTO) {
 		Customer customer = new Customer();
 		customer.setId(cDTO.getId());
