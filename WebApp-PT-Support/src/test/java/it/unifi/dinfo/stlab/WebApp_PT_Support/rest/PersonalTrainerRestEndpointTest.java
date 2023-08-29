@@ -16,14 +16,12 @@ import it.unifi.dinfo.stlab.WebApp_PT_Support.rest.PersonalTrainerRestEndpoint;
 public class PersonalTrainerRestEndpointTest {
 	private static final String baseUrl = "http://localhost:8080/WebApp-PT-Support/rest/";
 	private PersonalTrainerRestEndpoint ptRestEndpoint;
-	
-	//TODO: implementare test per disableCustomer(), createExercise(), createWorkoutProgram()
-	
+		
 	@Test
 	public void testCreateCustomer() {
 		ptRestEndpoint = new PersonalTrainerRestEndpoint();
 		CustomerDTO cDTO = new CustomerDTO();
-		cDTO.setId(Long.valueOf(55));
+		cDTO.setId(55L);
 		cDTO.setPersonalTrainerId(40L);
 		cDTO.setName("carlo");
 		cDTO.setSurname("ceccherelli");
