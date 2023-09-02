@@ -1,4 +1,4 @@
-package it.unifi.dinfo.stlab.WebApp_PT_Support.controller;
+package it.unifi.dinfo.stlab.WebApp_PT_Support.controllers;
 
 import java.util.List;
 import java.util.Random;

@@ -1,4 +1,4 @@
-package it.unifi.dinfo.stlab.WebApp_PT_Support.controller;
+package it.unifi.dinfo.stlab.WebApp_PT_Support.controllers;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -28,6 +28,7 @@ public abstract class JPATest {
         emf = Persistence.createEntityManagerFactory("test");
     }
 
+    
     @BeforeEach
     public void setup() throws InitializationError, IOException, ParseException {
         System.out.println("Creazione EntityManager");

@@ -10,7 +10,6 @@ import java.util.List;
 
 public class CustomerMapper {
 	
-	//da rinominare in tutte le classi mapper (toDTO e toEntity?)
 	public CustomerDTO toDTO(Customer customer) {
 		CustomerDTO customerDTO = new CustomerDTO();
 		customerDTO.setId(customer.getId());
