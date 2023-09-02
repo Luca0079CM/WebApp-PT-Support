@@ -8,7 +8,6 @@ import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.Exercise;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.dao.ExerciseDao;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.WorkoutProgram;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.dao.WorkoutProgramDao;
-import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.WorkoutProgramType;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.dao.GymMachineDao;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.mappers.*;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.dto.*;
@@ -16,7 +15,6 @@ import it.unifi.dinfo.stlab.WebApp_PT_Support.dto.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.ArrayList;
-import com.google.gson.Gson;
 
 import jakarta.inject.Inject;
 
