@@ -13,6 +13,7 @@ public class PersonalTrainerMapper {
 		ptDTO.setName(pt.getName());
 		ptDTO.setSurname(pt.getSurname());
 		ptDTO.setEmail(pt.getEmail());
+		ptDTO.setPassword(pt.getPassword());
 		ptDTO.setDateOfBirth(pt.getDateOfBirth().toString());
 		return ptDTO;
 	}
@@ -24,7 +25,7 @@ public class PersonalTrainerMapper {
 		pt.setName(ptDTO.getName());
 		pt.setSurname(pt.getSurname());
 		pt.setEmail(ptDTO.getEmail());
-		pt.setPassword("password");
+		pt.setPassword(ptDTO.getPassword());
 		pt.setDateOfBirth(LocalDate.parse(ptDTO.getDateOfBirth()));
 		pt.setCustomersList(null);
 		pt.setWorkoutProgramList(null);

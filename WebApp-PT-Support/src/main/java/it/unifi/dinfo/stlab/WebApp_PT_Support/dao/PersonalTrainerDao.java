@@ -27,6 +27,14 @@ public class PersonalTrainerDao extends BaseDao<PersonalTrainer >{
 	public PersonalTrainer findById(Long id) {
 		return em.find(PersonalTrainer.class, id);
 	}
+	
+	public PersonalTrainer findByEmail(String email) {
+		List<PersonalTrainer> results = em.createQuery("select pt from PersonalTrainer pt where pt.email = :email", PersonalTrainer.class).setParameter("email", email).getResultList();
+		if(results.isEmpty())
+			return null;
+		else
+			return results.get(0);
+	}
 
 
 	@Override

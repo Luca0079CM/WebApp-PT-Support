@@ -326,6 +326,17 @@ public class App {
     	pt1.setWorkoutProgramList(wpList);
 		em.persist(pt1);
 		
+		Long ptId2 = Long.valueOf(400);
+		PersonalTrainer pt2 = new PersonalTrainer();
+		pt2.setId(ptId2);
+		pt2.setName("Name-"+ptId2);
+		pt2.setSurname("Surname-"+ptId2);
+		pt2.setPassword("password");
+		pt2.setEmail("user"+ptId2+"@gmail.com");
+		pt2.setDateOfBirth(1997, 10, 10);
+    	pt2.setWorkoutProgramList(wpList);
+		em.persist(pt2);
+		
     	for(int i = 0; i<2; i++) {
     		Long cId = Long.valueOf(i+50);
     		Customer c1 = new Customer();

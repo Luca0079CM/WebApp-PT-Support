@@ -69,6 +69,15 @@ public class PersonalTrainerRestEndpoint {
 		return Response.status(Response.Status.OK).entity(exDTO).build();
 	}
 	
+	@PUT
+	@Path("/wprograms/{wpId}/add-ex/{exId}")
+	@Produces(MediaType.APPLICATION_JSON)
+//	@Consumes(MediaType.APPLICATION_JSON)
+	public Response addExerciseToWorkoutProgram(@PathParam("wpId") Long wpId, @PathParam("exId") Long exId) {
+		WorkoutProgramDTO responseDTO = ptController.addExerciseToWorkoutProgram(exId, wpId);
+		return Response.status(Response.Status.OK).entity(responseDTO).build();
+	}
+	
 	@POST
 	@Path("/wprograms/create")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -84,5 +93,14 @@ public class PersonalTrainerRestEndpoint {
 	public Response searchWorkoutProgram(@PathParam("wpId") Long wpId) {
 		WorkoutProgramDTO wpDTO = ptController.searchWorkoutProgram(wpId);
 		return Response.status(Response.Status.OK).entity(wpDTO).build();
+	}
+	
+	@PUT
+	@Path("/customers/{custId}/assign-wp/{wpId}")
+	@Produces(MediaType.APPLICATION_JSON)
+//	@Consumes(MediaType.APPLICATION_JSON)
+	public Response assignWorkoutProgramToCustomer(@PathParam("custId") Long custId, @PathParam("wpId") Long wpId) {
+		CustomerDTO responseDTO = ptController.assignWorkoutProgramToCustomer(wpId, custId);
+		return Response.status(Response.Status.OK).entity(responseDTO).build();
 	}
 }
