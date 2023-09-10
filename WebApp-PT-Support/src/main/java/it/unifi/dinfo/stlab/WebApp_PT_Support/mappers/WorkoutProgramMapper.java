@@ -17,7 +17,7 @@ public class WorkoutProgramMapper {
 		wpDTO.setEstimatedDuration(wp.getEstimatedDuration());
 		wpDTO.setWorkoutProgramType(wp.getWorkoutProgramType());
 		List<Exercise> exList = wp.getExerciseList();
-		if(exList != null) {
+		if(exList != null && !exList.isEmpty()) {
 			String[] exerciseListTO = new String[wp.getExerciseList().size()];
 			for(int i = 0; i < exerciseListTO.length; i++)
 				exerciseListTO[i] = exList.get(i).getName();

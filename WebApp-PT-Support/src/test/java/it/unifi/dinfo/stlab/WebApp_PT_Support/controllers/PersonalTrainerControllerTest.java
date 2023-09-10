@@ -175,7 +175,7 @@ public class PersonalTrainerControllerTest extends JPATest{
 	public void testAssignWorkoutProgramToCustomer() {
 		when(customerDao.findById(customer.getId())).thenReturn(customer);
 		when(workoutProgramDao.findById(workoutProgram.getId())).thenReturn(workoutProgram);
-		ptController.assignWorkoutProgramToCustomer(workoutProgram.getId(), customer.getId());
+		ptController.assignWorkoutProgramToCustomer(workoutProgram.getId(), customer.getId()); //penso sia wpMapper.toDTO(workoutProgram)
 		Assertions.assertEquals(1, customer.getWorkoutProgramList().size());
 		Assertions.assertEquals(workoutProgram, customer.getWorkoutProgramList().get(0));
 	}
@@ -184,7 +184,7 @@ public class PersonalTrainerControllerTest extends JPATest{
 	public void testAddExerciseToWorkoutProgram() {
 		when(exerciseDao.findById(exercise.getId())).thenReturn(exercise);
 		when(workoutProgramDao.findById(workoutProgram.getId())).thenReturn(workoutProgram);
-		ptController.addExerciseToWorkoutProgram(exercise.getId(), workoutProgram.getId());
+		ptController.addExerciseToWorkoutProgram(exercise.getId(), workoutProgram.getId()); //penso sia exMapper.toDTO(exercise)
 		Assertions.assertEquals(1, workoutProgram.getExerciseList().size());
 		Assertions.assertEquals(exercise, workoutProgram.getExerciseList().get(0));
 	}
