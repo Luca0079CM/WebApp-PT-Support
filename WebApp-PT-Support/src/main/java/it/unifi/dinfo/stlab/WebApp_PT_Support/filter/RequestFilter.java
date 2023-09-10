@@ -29,37 +29,37 @@ public class RequestFilter implements ContainerRequestFilter {
 
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
-    	String token = null; 
-        // Estrai il token JWT dall'intestazione Authorization
-        String authorizationHeader = requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
-        if(authorizationHeader == null || authorizationHeader.isEmpty()) {
-        	requestContext.abortWith(Response
-        			.status(Response.Status.UNAUTHORIZED)
-        			.entity("This request is UNAUTHORIZED")
-        			.type("text/plain")
-        			.build());
-        }
-
-
-        if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-            token = authorizationHeader.substring(7);
-            System.out.println("1 il token dentro filter() è: " + token);
-        }
-        System.out.println("2 il token dentro filter() è: " + token);
-
-       
-        if (token != null) {
-        	System.out.println("3 il token dentro filter() è: " + token);
-        	// Verifica il token JWT
-        	Map<String, Object> claims = jwtUtil.getAllClaimsFromToken(token);
-            // Estrai l'username dal token
-            String username = (String)claims.get("sub");
-
-            // Imposta l'oggetto principale per l'autenticazione
-            // Ad esempio, puoi impostare l'oggetto PersonalTrainer o l'ID dell'utente
-
-            requestContext.setSecurityContext(new AuthenticationSecurityContext(username, requestContext));
-        }
+//    	String token = null; 
+//        // Estrai il token JWT dall'intestazione Authorization
+//        String authorizationHeader = requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
+//        if(authorizationHeader == null || authorizationHeader.isEmpty()) {
+//        	requestContext.abortWith(Response
+//        			.status(Response.Status.UNAUTHORIZED)
+//        			.entity("This request is UNAUTHORIZED")
+//        			.type("text/plain")
+//        			.build());
+//        }
+//
+//
+//        if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+//            token = authorizationHeader.substring(7);
+//            System.out.println("1 il token dentro filter() è: " + token);
+//        }
+//        System.out.println("2 il token dentro filter() è: " + token);
+//
+//       
+//        if (token != null) {
+//        	System.out.println("3 il token dentro filter() è: " + token);
+//        	// Verifica il token JWT
+//        	Map<String, Object> claims = jwtUtil.getAllClaimsFromToken(token);
+//            // Estrai l'username dal token
+//            String username = (String)claims.get("sub");
+//
+//            // Imposta l'oggetto principale per l'autenticazione
+//            // Ad esempio, puoi impostare l'oggetto PersonalTrainer o l'ID dell'utente
+//
+//            requestContext.setSecurityContext(new AuthenticationSecurityContext(username, requestContext));
+//        }
 //        
     }
 }

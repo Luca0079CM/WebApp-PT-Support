@@ -70,11 +70,11 @@ public class PersonalTrainerRestEndpoint {
 	}
 	
 	@PUT
-	@Path("/wprograms/{wpId}/add-ex/{exId}")
+	@Path("/wprograms/{wpId}/add-ex")
 	@Produces(MediaType.APPLICATION_JSON)
 //	@Consumes(MediaType.APPLICATION_JSON)
-	public Response addExerciseToWorkoutProgram(@PathParam("wpId") Long wpId, @PathParam("exId") Long exId) {
-		WorkoutProgramDTO responseDTO = ptController.addExerciseToWorkoutProgram(exId, wpId);
+	public Response addExerciseToWorkoutProgram(@PathParam("wpId") Long wpId, ExerciseDTO exDTO) {
+		WorkoutProgramDTO responseDTO = ptController.addExerciseToWorkoutProgram(wpId, exDTO);
 		return Response.status(Response.Status.OK).entity(responseDTO).build();
 	}
 	
@@ -96,11 +96,11 @@ public class PersonalTrainerRestEndpoint {
 	}
 	
 	@PUT
-	@Path("/customers/{custId}/assign-wp/{wpId}")
+	@Path("/customers/{custId}/assign-wp")
 	@Produces(MediaType.APPLICATION_JSON)
 //	@Consumes(MediaType.APPLICATION_JSON)
-	public Response assignWorkoutProgramToCustomer(@PathParam("custId") Long custId, @PathParam("wpId") Long wpId) {
-		CustomerDTO responseDTO = ptController.assignWorkoutProgramToCustomer(wpId, custId);
+	public Response assignWorkoutProgramToCustomer(@PathParam("custId") Long custId, WorkoutProgramDTO wpDTO) {
+		CustomerDTO responseDTO = ptController.assignWorkoutProgramToCustomer(custId, wpDTO);
 		return Response.status(Response.Status.OK).entity(responseDTO).build();
 	}
 }

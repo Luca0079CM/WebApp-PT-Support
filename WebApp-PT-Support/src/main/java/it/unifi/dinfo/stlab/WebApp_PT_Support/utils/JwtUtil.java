@@ -8,7 +8,9 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import jakarta.enterprise.context.RequestScoped;
 
-
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,9 +18,14 @@ import java.util.Map;
 
 @RequestScoped
 public class JwtUtil {
-
-    private String secret = "dfagigidfgidfguidigwdfguiwdfgbuiqdgbiqdgbjidfgbiigvqgbivqbiqdviefvhbihbuioqdefv27856578123465sdfhgv6!$£$%£%&";
+	
+	
+//	String fileName = "Users/carlo/Desktop/Github_repos/WebApp-PT-Support/WebApp-PT-Support/secret.txt";
+	Path fileName = Path.of("C:\\Users\\carlo\\Desktop\\Github_repos\\WebApp-PT-Support\\WebApp-PT-Support\\secret.txt");
+    private String secret = Files.readString(fileName);
     private int expiration = 3600; //1 ora
+    
+    public JwtUtil() throws IOException {}
 
     public String generateToken(String subject) {
         Date now = new Date();

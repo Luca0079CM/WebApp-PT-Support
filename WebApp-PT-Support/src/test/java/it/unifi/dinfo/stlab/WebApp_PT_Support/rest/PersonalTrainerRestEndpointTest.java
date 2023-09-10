@@ -105,5 +105,36 @@ public class PersonalTrainerRestEndpointTest {
 		Assertions.assertEquals(200, response.getStatusCode());
 //		response.then().body("size()", is(1));
 	}
+	
+	@Test
+	public void testAddExerciseToWorkoutProgram() {
+		ptRestEndpoint = new PersonalTrainerRestEndpoint();
+		ExerciseDTO exDTO = new ExerciseDTO();
+		exDTO.setId(25L);
+		exDTO.setMachineId(10L);
+		exDTO.setName("push up");
+		exDTO.setDifficultyLevel(5);
+		exDTO.setMachine(null);
+		exDTO.setDescription("Allena il petto");
+		Response response = RestAssured.given().contentType(MediaType.APPLICATION_JSON).body(exDTO).pathParam("wpId", "30").put(baseUrl + "wprograms/" + "{wpId}" + "/add-ex");
+		System.out.println(response.getStatusCode());
+		System.out.println(response.getBody().asPrettyString());
+		Assertions.assertEquals(200, response.getStatusCode());
+	}
+	
+	@Test
+	public void testAssignWorkoutProgramToCustomer() {
+		ptRestEndpoint = new PersonalTrainerRestEndpoint();
+		WorkoutProgramDTO wpDTO = new WorkoutProgramDTO();
+		wpDTO.setId(35L);
+		wpDTO.setDifficultyLevel(10);
+		wpDTO.setEstimatedDuration(60);
+		wpDTO.setWorkoutProgramType(WorkoutProgramType.WEIGHTS);
+		wpDTO.setExerciseList(null);
+		Response response = RestAssured.given().contentType(MediaType.APPLICATION_JSON).body(wpDTO).pathParam("custId", "50").put(baseUrl + "customers/" + "{custId}" + "/assign-wp");
+		System.out.println(response.getStatusCode());
+		System.out.println(response.getBody().asPrettyString());
+		Assertions.assertEquals(200, response.getStatusCode());
+	}
 
 }
