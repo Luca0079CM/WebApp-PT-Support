@@ -19,8 +19,6 @@ import java.util.Map;
 @RequestScoped
 public class JwtUtil {
 	
-	
-//	String fileName = "Users/carlo/Desktop/Github_repos/WebApp-PT-Support/WebApp-PT-Support/secret.txt";
 	Path fileName = Path.of("C:\\Users\\carlo\\Desktop\\Github_repos\\WebApp-PT-Support\\WebApp-PT-Support\\secret.txt");
     private String secret = Files.readString(fileName);
     private int expiration = 3600; //1 ora
