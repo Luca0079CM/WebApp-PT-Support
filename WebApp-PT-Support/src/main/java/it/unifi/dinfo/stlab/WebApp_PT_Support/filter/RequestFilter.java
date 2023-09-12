@@ -32,7 +32,7 @@ public class RequestFilter implements ContainerRequestFilter {
     	String token = ""; 
         String authorizationHeader = requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
 
-        if(authorizationHeader != null) {
+        if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             token = authorizationHeader.substring(7);
             System.out.println("1 il token dentro filter() è: " + token);
         }
@@ -47,26 +47,18 @@ public class RequestFilter implements ContainerRequestFilter {
             String username = (String)claims.get("sub");
             requestContext.setSecurityContext(new AuthenticationSecurityContext(username, requestContext));
         }
-        else if(!(requestContext.getUriInfo().getRequestUri().getPath().contains("/login") || requestContext.getUriInfo().getRequestUri().getPath().contains("/register"))) {
+        else if(!isLoginOrRegistrationRequest(requestContext)) {
     		requestContext.abortWith(Response
         			.status(Response.Status.UNAUTHORIZED)
         			.entity("This request is UNAUTHORIZED")
         			.type("text/plain")
         			.build());
         }
-        else {
-        	return;
-        }
-        
-//        boolean isLoginOrRegistrationRequest(ContainerRequestContext requestContext) {
-//
-//            String uri = requestContext.getUriInfo().getRequestUri().getPath();
-//            return uri.contains("/login") || uri.contains("/register");
-//        }
-        
-        
-        
-        
-        
+             
+    }
+    
+    boolean isLoginOrRegistrationRequest(ContainerRequestContext requestContext) {
+        String uri = requestContext.getUriInfo().getRequestUri().getPath();
+        return uri.contains("/login") || uri.contains("/register");
     }
 }
