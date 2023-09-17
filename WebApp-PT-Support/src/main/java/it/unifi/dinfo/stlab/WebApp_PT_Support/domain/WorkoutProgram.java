@@ -13,9 +13,11 @@ import jakarta.persistence.Table;
 @Table(name = "workoutprograms")
 public class WorkoutProgram {
 	private Long id;
+	private String name;
 	private int difficultyLevel;
 	private int estimatedDuration;
 	private WorkoutProgramType workoutProgramType;
+	private String description;
 
 	private List<Exercise> exerciseList = new ArrayList<>();
 
@@ -28,6 +30,14 @@ public class WorkoutProgram {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public int getDifficultyLevel() {
@@ -52,6 +62,14 @@ public class WorkoutProgram {
 
 	public void setWorkoutProgramType(WorkoutProgramType workoutProgramType) {
 		this.workoutProgramType = workoutProgramType;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	@ManyToMany(fetch=FetchType.LAZY)//cascade = CascadeType.ALL

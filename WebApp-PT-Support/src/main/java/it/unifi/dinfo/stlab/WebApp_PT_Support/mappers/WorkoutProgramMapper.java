@@ -13,6 +13,8 @@ public class WorkoutProgramMapper {
 	public WorkoutProgramDTO toDTO(WorkoutProgram wp) {
 		WorkoutProgramDTO wpDTO = new WorkoutProgramDTO();
 		wpDTO.setId(wp.getId());
+		wpDTO.setName(wp.getName());
+		wpDTO.setDescription(wp.getDescription());
 		wpDTO.setDifficultyLevel(wp.getDifficultyLevel());
 		wpDTO.setEstimatedDuration(wp.getEstimatedDuration());
 		wpDTO.setWorkoutProgramType(wp.getWorkoutProgramType());
@@ -31,6 +33,8 @@ public class WorkoutProgramMapper {
 		ExerciseDao exDao = new ExerciseDao();
 		
 		wp.setId(wpDTO.getId());
+		wp.setName(wpDTO.getName());
+		wp.setDescription(wpDTO.getDescription());
 		wp.setDifficultyLevel(wpDTO.getDifficultyLevel());
 		wp.setEstimatedDuration(wpDTO.getEstimatedDuration());
 		wp.setWorkoutProgramType(wpDTO.getWorkoutProgramType());

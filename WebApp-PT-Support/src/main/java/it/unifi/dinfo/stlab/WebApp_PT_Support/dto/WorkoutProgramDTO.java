@@ -4,10 +4,12 @@ import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.WorkoutProgramType;
 
 public class WorkoutProgramDTO {
 	private Long id;
+	private String name;
 	private int difficultyLevel;
 	private int estimatedDuration;
 	private WorkoutProgramType workoutProgramType;
 	private String[] exerciseList;
+	private String description;
 	
 	public Long getId() {
 		return id;
@@ -17,6 +19,14 @@ public class WorkoutProgramDTO {
 		this.id = id;
 	}
 	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public int getDifficultyLevel() {
 		return difficultyLevel;
 	}
@@ -47,6 +57,14 @@ public class WorkoutProgramDTO {
 	
 	public void setExerciseList(String[] exerciseList) {
 		this.exerciseList = exerciseList;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	
 }
