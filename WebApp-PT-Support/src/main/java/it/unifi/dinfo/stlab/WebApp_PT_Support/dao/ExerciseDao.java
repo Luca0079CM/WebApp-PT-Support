@@ -33,7 +33,7 @@ public class ExerciseDao extends BaseDao<Exercise> {
 	@Override
 	public List<Exercise> findAll() {
 //		EntityManager em = emf.createEntityManager();
-		return em.createQuery("from Exercise " + " ORDER BY id DESC", Exercise.class).getResultList();
+		return em.createQuery("SELECT e FROM Exercise e ORDER BY id DESC", Exercise.class).getResultList();
 	}
 
 	@Override
