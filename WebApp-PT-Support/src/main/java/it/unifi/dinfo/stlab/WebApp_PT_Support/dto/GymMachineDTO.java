@@ -3,6 +3,7 @@ package it.unifi.dinfo.stlab.WebApp_PT_Support.dto;
 public class GymMachineDTO {
 	private Long id;
 	private String name;
+	private String description;
 	
 	public Long getId() {
 		return id;
@@ -20,4 +21,12 @@ public class GymMachineDTO {
 		this.name = name;
 	}
 
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
 }

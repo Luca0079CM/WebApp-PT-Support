@@ -9,6 +9,7 @@ public class GymMachineMapper {
 		GymMachineDTO machineDTO = new GymMachineDTO();
 		machineDTO.setId(machine.getId());
 		machineDTO.setName(machine.getName());
+		machineDTO.setDescription(machine.getDescription());
 		return machineDTO;
 	}
 	
@@ -16,7 +17,7 @@ public class GymMachineMapper {
 		GymMachine m = new GymMachine();
 		m.setId(mDTO.getId());
 		m.setName(mDTO.getName());
-		m.setDescription("EMPTY");
+		m.setDescription(mDTO.getName());
 		return m;
 	}
 	

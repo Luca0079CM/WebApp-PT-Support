@@ -72,11 +72,11 @@ public class PersonalTrainerRestEndpoint {
 	}
 	
 	@GET
-	@Path("/exercises/search/{exId}")
+	@Path("/exercise/search/{exName}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response searchExercise(@PathParam("exId") Long exId) {
-		ExerciseDTO exDTO = ptController.searchExercise(exId);
-		return Response.status(Response.Status.OK).entity(exDTO).build();
+	public Response searchExercise(@PathParam("exName") String exName) {
+		List<ExerciseDTO> responseDTO = ptController.searchExercise(exName);
+		return Response.status(Response.Status.OK).entity(responseDTO).build();
 	}
 	
 	@PUT
@@ -128,6 +128,14 @@ public class PersonalTrainerRestEndpoint {
 	public Response listExercises() {
 		List<ExerciseDTO> exDTOList = ptController.listExercises();
 		return Response.status(Response.Status.OK).entity(exDTOList).build();
+	}
+	
+	@GET
+	@Path("/ptrainers/list-wprograms")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response listWorkoutProgram() {
+		List<WorkoutProgramDTO> wpDTOList = ptController.listWorkoutProgram();
+		return Response.status(Response.Status.OK).entity(wpDTOList).build();
 	}
 	
 }
