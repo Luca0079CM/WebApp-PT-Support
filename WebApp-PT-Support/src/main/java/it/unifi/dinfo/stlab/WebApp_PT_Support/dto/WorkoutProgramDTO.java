@@ -5,11 +5,12 @@ import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.WorkoutProgramType;
 public class WorkoutProgramDTO {
 	private Long id;
 	private String name;
+	private String description;
 	private int difficultyLevel;
 	private int estimatedDuration;
 	private WorkoutProgramType workoutProgramType;
 	private String[] exerciseList;
-	private String description;
+	
 	
 	public Long getId() {
 		return id;

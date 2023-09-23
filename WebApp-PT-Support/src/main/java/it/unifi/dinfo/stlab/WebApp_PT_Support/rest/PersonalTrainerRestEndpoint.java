@@ -79,7 +79,15 @@ public class PersonalTrainerRestEndpoint {
 		return Response.status(Response.Status.OK).entity(exDTO).build();
 	}
 	
-	@PUT
+	@GET
+	@Path("/exercises/list")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response findAllExercises() {
+		List<ExerciseDTO> exListDTO = ptController.findAllExercises();
+		return Response.status(Response.Status.OK).entity(exListDTO).build();
+	}
+	
+	@POST
 	@Path("/wprograms/{wpId}/add-ex")
 	@Produces(MediaType.APPLICATION_JSON)
 //	@Consumes(MediaType.APPLICATION_JSON)
