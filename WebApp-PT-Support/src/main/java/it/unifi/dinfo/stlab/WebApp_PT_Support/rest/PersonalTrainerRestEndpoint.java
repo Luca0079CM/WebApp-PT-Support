@@ -79,14 +79,6 @@ public class PersonalTrainerRestEndpoint {
 		return Response.status(Response.Status.OK).entity(responseDTO).build();
 	}
 	
-	@GET
-	@Path("/exercises/list")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response findAllExercises() {
-		List<ExerciseDTO> exListDTO = ptController.findAllExercises();
-		return Response.status(Response.Status.OK).entity(exListDTO).build();
-	}
-	
 	@POST
 	@Path("/wprograms/{wpId}/add-ex")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -123,7 +115,7 @@ public class PersonalTrainerRestEndpoint {
 	}
 	
 	@GET
-	@Path("/ptrainers/list-gym-machines")
+	@Path("/gym-machines/list")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response listGymMachines() {
 		List<GymMachineDTO> gmDTOList = ptController.listGymMachines();
@@ -131,7 +123,7 @@ public class PersonalTrainerRestEndpoint {
 	}
 	
 	@GET
-	@Path("/ptrainers/list-exercises")
+	@Path("/exercises/list")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response listExercises() {
 		List<ExerciseDTO> exDTOList = ptController.listExercises();
@@ -139,7 +131,7 @@ public class PersonalTrainerRestEndpoint {
 	}
 	
 	@GET
-	@Path("/ptrainers/list-wprograms")
+	@Path("/wprograms/list")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response listWorkoutProgram() {
 		List<WorkoutProgramDTO> wpDTOList = ptController.listWorkoutProgram();
