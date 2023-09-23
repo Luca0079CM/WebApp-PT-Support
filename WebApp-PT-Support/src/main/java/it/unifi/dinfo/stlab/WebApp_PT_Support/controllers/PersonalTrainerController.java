@@ -8,6 +8,7 @@ import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.Exercise;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.dao.ExerciseDao;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.WorkoutProgram;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.dao.WorkoutProgramDao;
+import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.GymMachine;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.dao.GymMachineDao;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.mappers.*;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.dto.*;
@@ -36,6 +37,8 @@ public class PersonalTrainerController {
 	ExerciseMapper exMapper;
 	@Inject
 	WorkoutProgramMapper wpMapper;
+	@Inject
+	GymMachineMapper gmMapper;
 	
 	public CustomerDTO createCustomer(CustomerDTO cDTO) {
 		Customer customer = new Customer();
@@ -70,13 +73,23 @@ public class PersonalTrainerController {
 		return customerDTOList;
 	}
 	
+	public GymMachineDTO createGymMachine(GymMachineDTO gmDTO) {
+		GymMachine gm = new GymMachine();
+		gm.setId(gmDTO.getId());
+		gm.setName(gmDTO.getName());
+		gm.setDescription("Niente descrizione");
+		machineDao.save(gm);
+		return gmMapper.toDTO(gm);
+	}
+	
 	public ExerciseDTO createExercise(ExerciseDTO exDTO) {
 		Exercise ex = new Exercise();
 		ex.setId(exDTO.getId());
 		ex.setName(exDTO.getName());
 		ex.setDifficultyLevel(exDTO.getDifficultyLevel());
 		ex.setDescription(exDTO.getDescription());
-		if(exDTO.getMachineId() != null)
+
+		if(exDTO.getMachineId() != -1)
 			ex.setMachine(machineDao.findById(exDTO.getMachineId()));
 		else
 			ex.setMachine(null);
@@ -134,4 +147,19 @@ public class PersonalTrainerController {
 		wpDao.update(wp);
 		return wpMapper.toDTO(wp);
 	}
+	
+	public List<GymMachineDTO> listGymMachines(){
+		ArrayList<GymMachineDTO> gymMachineDTOList = new ArrayList<GymMachineDTO>();
+		for(GymMachine gm : machineDao.findAll())
+			gymMachineDTOList.add(gmMapper.toDTO(gm));
+		return gymMachineDTOList;
+	}
+	
+	public List<ExerciseDTO> listExercises(){
+		ArrayList<ExerciseDTO> exerciseDTOList = new ArrayList<ExerciseDTO>();
+		for(Exercise ex : exDao.findAll())
+			exerciseDTOList.add(exMapper.toDTO(ex));
+		return exerciseDTOList;
+	}
+	
 }

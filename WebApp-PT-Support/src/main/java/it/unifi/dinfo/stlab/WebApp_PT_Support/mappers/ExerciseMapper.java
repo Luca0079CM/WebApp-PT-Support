@@ -13,6 +13,7 @@ public class ExerciseMapper {
 		exDTO.setId(ex.getId());
 		exDTO.setName(ex.getName());
 		exDTO.setDifficultyLevel(ex.getDifficultyLevel());
+		exDTO.setDescription(ex.getDescription());
 		if(ex.getMachine() != null)
 			exDTO.setMachine(ex.getMachine().getName());
 		else

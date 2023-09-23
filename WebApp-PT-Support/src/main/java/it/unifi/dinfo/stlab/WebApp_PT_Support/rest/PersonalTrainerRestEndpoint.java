@@ -19,6 +19,7 @@ import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.PersonalTrainer;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.dto.CustomerDTO;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.dto.WorkoutProgramDTO;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.dto.ExerciseDTO;
+import it.unifi.dinfo.stlab.WebApp_PT_Support.dto.GymMachineDTO;
 
 @Path("") 
 public class PersonalTrainerRestEndpoint {
@@ -50,6 +51,15 @@ public class PersonalTrainerRestEndpoint {
 	public Response findCustomersByPTId(@PathParam("ptId") Long ptId) {
 		List<CustomerDTO> cListDTO = ptController.findCustomersByPTId(ptId);
 		return Response.status(Response.Status.OK).entity(cListDTO).build();
+	}
+	
+	@POST
+	@Path("/gym-machine/create")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response createGymMachine(GymMachineDTO gmDTO) {
+		GymMachineDTO responseDTO = ptController.createGymMachine(gmDTO);
+		return Response.status(Response.Status.OK).entity(responseDTO).build();
 	}
 	
 	@POST
@@ -111,4 +121,21 @@ public class PersonalTrainerRestEndpoint {
 		CustomerDTO responseDTO = ptController.assignWorkoutProgramToCustomer(custId, wpDTO);
 		return Response.status(Response.Status.OK).entity(responseDTO).build();
 	}
+	
+	@GET
+	@Path("/ptrainers/list-gym-machines")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response listGymMachines() {
+		List<GymMachineDTO> gmDTOList = ptController.listGymMachines();
+		return Response.status(Response.Status.OK).entity(gmDTOList).build();
+	}
+	
+	@GET
+	@Path("/ptrainers/list-exercises")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response listExercises() {
+		List<ExerciseDTO> exDTOList = ptController.listExercises();
+		return Response.status(Response.Status.OK).entity(exDTOList).build();
+	}
+	
 }

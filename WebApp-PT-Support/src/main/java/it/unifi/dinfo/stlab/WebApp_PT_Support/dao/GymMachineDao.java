@@ -31,7 +31,7 @@ public class GymMachineDao extends BaseDao<GymMachine> {
 	@Override
 //	@Transactional
 	public List<GymMachine> findAll() {
-		return em.createQuery("from GymMachine ORDER BY id DESC", GymMachine.class).getResultList();
+		return em.createQuery("SELECT m FROM GymMachine m ORDER BY id DESC", GymMachine.class).getResultList();
 	}
 
 	@Override
