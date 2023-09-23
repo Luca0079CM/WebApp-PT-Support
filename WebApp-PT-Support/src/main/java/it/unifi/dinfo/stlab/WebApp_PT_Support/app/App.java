@@ -307,9 +307,10 @@ public class App {
 		Long wpId = Long.valueOf(30);
 		WorkoutProgram wp1 = new WorkoutProgram();
 		wp1.setId(wpId);
-		wp1.setDifficultyLevel(8);
+		wp1.setName("Chest Day Livello Medio");
+		wp1.setDifficultyLevel(6);
 		wp1.setEstimatedDuration(60);
-		wp1.setWorkoutProgramType(WorkoutProgramType.CARDIO);
+		wp1.setWorkoutProgramType(WorkoutProgramType.CALISTHENICS);
 		wp1.setExerciseList(exList);
 		em.persist(wp1);
 		List<WorkoutProgram> wpList = new ArrayList<WorkoutProgram>();

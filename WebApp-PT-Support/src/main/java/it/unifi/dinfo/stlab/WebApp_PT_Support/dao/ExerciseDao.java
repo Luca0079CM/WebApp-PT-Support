@@ -8,7 +8,6 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 
 import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.Exercise;
-import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.GymMachine;
 
 @RequestScoped
 public class ExerciseDao extends BaseDao<Exercise> {
@@ -27,6 +26,11 @@ public class ExerciseDao extends BaseDao<Exercise> {
 	public Exercise findById(Long id) {
 //		EntityManager em = emf.createEntityManager();
 		return em.find(Exercise.class, id);
+	}
+	
+	public List<Exercise> findByName(String name) {
+		name = "%" + name + "%";
+		return em.createQuery("SELECT e FROM Exercise e WHERE e.name LIKE :name", Exercise.class).setParameter("name", name).getResultList();
 	}
 
 

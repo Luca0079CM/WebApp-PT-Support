@@ -100,21 +100,21 @@ public class PersonalTrainerController {
 	public WorkoutProgramDTO createWorkoutProgram(WorkoutProgramDTO wpDTO) {
 		WorkoutProgram wp = new WorkoutProgram();
 		wp.setId(wpDTO.getId());
+		wp.setName(wpDTO.getName());
+		wp.setDescription(wpDTO.getDescription());
 		wp.setDifficultyLevel(wpDTO.getDifficultyLevel());
 		wp.setEstimatedDuration(wpDTO.getEstimatedDuration());
 		wp.setWorkoutProgramType(wpDTO.getWorkoutProgramType());
-//		Gson gson = new Gson();
-//		List<Exercise> exList = new ArrayList<Exercise>();
-//		for(String exString : wpDTO.getExerciseList()) {
-//			exList.add(gson.fromJson(exString, Exercise.class));
-//		}
 		wp.setExerciseList(null);
 		wpDao.save(wp);
 		return wpMapper.toDTO(wp);
 	}
 	
-	public ExerciseDTO searchExercise(Long exId) {
-		return exMapper.toDTO(exDao.findById(exId));
+	public List<ExerciseDTO> searchExercise(String name) {
+		ArrayList<ExerciseDTO> exerciseDTOList = new ArrayList<ExerciseDTO>();
+		for(Exercise ex : exDao.findByName(name))
+			exerciseDTOList.add(exMapper.toDTO(ex));
+		return exerciseDTOList;
 	}
 	
 	public List<ExerciseDTO> findAllExercises() {
@@ -161,5 +161,13 @@ public class PersonalTrainerController {
 			exerciseDTOList.add(exMapper.toDTO(ex));
 		return exerciseDTOList;
 	}
+	
+	public List<WorkoutProgramDTO> listWorkoutProgram(){
+		ArrayList<WorkoutProgramDTO> workoutProgramDTOList = new ArrayList<WorkoutProgramDTO>();
+		for(WorkoutProgram wp : wpDao.findAll())
+			workoutProgramDTOList.add(wpMapper.toDTO(wp));
+		return workoutProgramDTOList;
+	}
+	
 	
 }

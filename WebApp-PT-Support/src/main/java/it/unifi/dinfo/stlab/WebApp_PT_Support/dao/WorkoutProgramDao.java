@@ -28,7 +28,7 @@ public class WorkoutProgramDao extends BaseDao<WorkoutProgram> {
 
 	@Override
 	public List<WorkoutProgram> findAll() {
-		return em.createQuery("from WorkoutProgram " + " ORDER BY id DESC", WorkoutProgram.class).getResultList();
+		return em.createQuery("SELECT wp FROM WorkoutProgram wp ORDER BY id DESC", WorkoutProgram.class).getResultList();
 	}
 
 	@Override
