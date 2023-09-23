@@ -104,6 +104,13 @@ public class PersonalTrainerController {
 		return exMapper.toDTO(exDao.findById(exId));
 	}
 	
+	public List<ExerciseDTO> findAllExercises() {
+		List<ExerciseDTO> exerciseDTOList = new ArrayList<ExerciseDTO>();
+		for(Exercise e: exDao.findAll())
+			exerciseDTOList.add(exMapper.toDTO(e));
+		return exerciseDTOList;
+	}
+	
 	public WorkoutProgramDTO searchWorkoutProgram(Long wpId) {
 		return wpMapper.toDTO(wpDao.findById(wpId));
 	}
