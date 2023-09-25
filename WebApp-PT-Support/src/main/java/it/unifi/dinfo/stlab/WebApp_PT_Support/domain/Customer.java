@@ -2,7 +2,7 @@ package it.unifi.dinfo.stlab.WebApp_PT_Support.domain;
 
 import java.time.LocalDate;
 import java.util.List;
-// import java.util.ArrayList;
+ import java.util.ArrayList;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -15,6 +15,7 @@ import jakarta.persistence.Table;
 @Table(name = "customers")
 public class Customer {
 	private Long id;
+	private Long personalTrainerId;
 	private String name;
 	private String surname;
 	private String email;
@@ -23,7 +24,7 @@ public class Customer {
 	private LocalDate dateOfBirth;
 
 	private PersonalTrainer personalTrainer;
-	private List<WorkoutProgram> workoutProgramList;
+	private List<WorkoutProgram> workoutProgramList = new ArrayList<>();
 	// private WorkoutSession workout;
 
 
@@ -35,6 +36,14 @@ public class Customer {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Long getPersonalTrainerId() {
+		return personalTrainerId;
+	}
+
+	public void setPersonalTrainerId(Long personalTrainerId) {
+		this.personalTrainerId = personalTrainerId;
 	}
 
 	public String getName() {
