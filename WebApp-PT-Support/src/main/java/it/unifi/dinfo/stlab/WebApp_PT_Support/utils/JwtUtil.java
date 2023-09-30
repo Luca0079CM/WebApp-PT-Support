@@ -62,8 +62,9 @@ public class JwtUtil {
     
     public boolean isTokenExpired(String token) {
     	Key key = Keys.hmacShaKeyFor(secret.getBytes());
-        Date expirationDate = Jwts.parser()
+        Date expirationDate = Jwts.parserBuilder()
                 .setSigningKey(key)
+                .build()
                 .parseClaimsJws(token)
                 .getBody()
                 .getExpiration();

@@ -96,7 +96,7 @@ public class PersonalTrainerRestEndpoint {
 		return Response.status(Response.Status.OK).entity(responseDTO).build();
 	}
 	
-	@POST
+	@PUT //devo fare post sennò non funziona (mette di default nell'Allow degli header cors solo POST come metodo http)
 	@Path("/wprograms/{wpId}/add-ex")
 	@Produces(MediaType.APPLICATION_JSON)
 //	@Consumes(MediaType.APPLICATION_JSON)

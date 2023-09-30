@@ -38,8 +38,9 @@ public class RequestFilter implements ContainerRequestFilter {
         }
         System.out.println("2 il token dentro filter() è: " + token);
        
-        if(token != null && !token.equals("null") && !token.isEmpty()) {
+        if(token != null && !token.equals("null") && !token.isEmpty() && !jwtUtil.isTokenExpired(token)) {
         	System.out.println("3 il token dentro filter() è: " + token);
+        	System.out.println("token expired: " + jwtUtil.isTokenExpired(token));
         	// Verifica il token JWT
         	Map<String, Object> claims = jwtUtil.getAllClaimsFromToken(token);
             // Estrai l'username dal token

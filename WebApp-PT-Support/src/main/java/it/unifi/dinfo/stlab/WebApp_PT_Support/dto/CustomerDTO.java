@@ -3,7 +3,8 @@ package it.unifi.dinfo.stlab.WebApp_PT_Support.dto;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-public class CustomerDTO{
+public class CustomerDTO {
+
 	private Long id;
 	private Long personalTrainerId;
 	private String name;

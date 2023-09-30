@@ -45,6 +45,7 @@ public class PersonalTrainerController {
 	public CustomerDTO createCustomer(CustomerDTO cDTO) {
 		Customer customer = new Customer();
 		customer.setId(cDTO.getId());
+		customer.setPersonalTrainerId(cDTO.getPersonalTrainerId());
 		customer.setName(cDTO.getName());
 		customer.setSurname(cDTO.getSurname());
 		customer.setEmail(cDTO.getEmail());
@@ -139,8 +140,8 @@ public class PersonalTrainerController {
 		return wpDTOList;
 	}
 	
-	public CustomerDTO assignWorkoutProgramToCustomer(Long cId, WorkoutProgramDTO wpDTO) {
-		Customer c = cDao.findById(cId);
+	public CustomerDTO assignWorkoutProgramToCustomer(Long custId, WorkoutProgramDTO wpDTO) {
+		Customer c = cDao.findById(custId);
 		WorkoutProgram wp = wpDao.findById(wpDTO.getId());
 		List<WorkoutProgram> wpList = c.getWorkoutProgramList();
 		wpList.add(wp);

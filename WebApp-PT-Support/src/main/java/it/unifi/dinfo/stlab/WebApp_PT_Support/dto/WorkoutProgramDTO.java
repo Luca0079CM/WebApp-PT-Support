@@ -8,7 +8,7 @@ public class WorkoutProgramDTO {
 	private String description;
 	private int difficultyLevel;
 	private int estimatedDuration;
-	private WorkoutProgramType workoutProgramType;
+	private String workoutProgramType;
 	private String[] exerciseList;
 	
 	
@@ -44,11 +44,11 @@ public class WorkoutProgramDTO {
 		this.estimatedDuration = estimatedDuration;
 	}
 	
-	public WorkoutProgramType getWorkoutProgramType() {
+	public String getWorkoutProgramType() {
 		return workoutProgramType;
 	}
 	
-	public void setWorkoutProgramType(WorkoutProgramType workoutProgramType) {
+	public void setWorkoutProgramType(String workoutProgramType) {
 		this.workoutProgramType = workoutProgramType;
 	}
 	
