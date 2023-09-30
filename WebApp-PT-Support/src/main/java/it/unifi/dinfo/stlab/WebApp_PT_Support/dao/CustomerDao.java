@@ -8,6 +8,8 @@ import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.Customer;
+import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.PersonalTrainer;
+import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.WorkoutProgram;
 
 @RequestScoped
 public class CustomerDao extends BaseDao<Customer>{
@@ -25,6 +27,19 @@ public class CustomerDao extends BaseDao<Customer>{
 	@Transactional
 	public Customer findById(Long id) {
 		return em.find(Customer.class, id);
+	}
+	
+	public List<Customer> findByName(String name) {
+		name = "%" + name + "%";
+		return em.createQuery("SELECT c FROM Customer c WHERE c.name LIKE :name", Customer.class).setParameter("name", name).getResultList();
+	}
+	
+	public Customer findByEmail(String email) {
+		List<Customer> results = em.createQuery("select c from Customer c where c.email = :email", Customer.class).setParameter("email", email).getResultList();
+		if(results.isEmpty())
+			return null;
+		else
+			return results.get(0);
 	}
 
 	@Override

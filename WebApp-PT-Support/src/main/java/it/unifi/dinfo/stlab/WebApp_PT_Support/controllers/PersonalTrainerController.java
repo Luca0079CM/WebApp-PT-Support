@@ -32,6 +32,8 @@ public class PersonalTrainerController {
 	@Inject
 	GymMachineDao machineDao;
 	@Inject
+	PersonalTrainerMapper ptMapper;
+	@Inject
 	CustomerMapper cMapper;
 	@Inject
 	ExerciseMapper exMapper;
@@ -73,6 +75,13 @@ public class PersonalTrainerController {
 		return customerDTOList;
 	}
 	
+	public List<CustomerDTO> searchCustomer(String name){
+		ArrayList<CustomerDTO> customerDTOList = new ArrayList<CustomerDTO>();
+		for (Customer c : cDao.findByName(name))
+			customerDTOList.add(cMapper.toDTO(c));
+		return customerDTOList;
+	}
+	
 	public GymMachineDTO createGymMachine(GymMachineDTO gmDTO) {
 		GymMachine gm = new GymMachine();
 		gm.setId(gmDTO.getId());
@@ -98,6 +107,7 @@ public class PersonalTrainerController {
 	}
 	
 	public WorkoutProgramDTO createWorkoutProgram(WorkoutProgramDTO wpDTO) {
+		// NON prende il tipo dell'allenamento
 		WorkoutProgram wp = new WorkoutProgram();
 		wp.setId(wpDTO.getId());
 		wp.setName(wpDTO.getName());
@@ -110,6 +120,11 @@ public class PersonalTrainerController {
 		return wpMapper.toDTO(wp);
 	}
 	
+	public PersonalTrainerDTO searchPersonalTrainerByEmail(String email) {
+		PersonalTrainer pt = ptDao.findByEmail(email);
+		return ptMapper.toDTO(pt);
+	}
+	
 	public List<ExerciseDTO> searchExercise(String name) {
 		ArrayList<ExerciseDTO> exerciseDTOList = new ArrayList<ExerciseDTO>();
 		for(Exercise ex : exDao.findByName(name))
@@ -117,8 +132,11 @@ public class PersonalTrainerController {
 		return exerciseDTOList;
 	}
 	
-	public WorkoutProgramDTO searchWorkoutProgram(Long wpId) {
-		return wpMapper.toDTO(wpDao.findById(wpId));
+	public List<WorkoutProgramDTO> searchWorkoutProgram(String wpName) {
+		ArrayList<WorkoutProgramDTO> wpDTOList = new ArrayList<WorkoutProgramDTO>();
+		for(WorkoutProgram wp : wpDao.findByContainName(wpName))
+			wpDTOList.add(wpMapper.toDTO(wp));
+		return wpDTOList;
 	}
 	
 	public CustomerDTO assignWorkoutProgramToCustomer(Long cId, WorkoutProgramDTO wpDTO) {
@@ -135,9 +153,11 @@ public class PersonalTrainerController {
 		WorkoutProgram wp = wpDao.findById(wpId);
 		Exercise ex = exDao.findById(exDTO.getId());
 		List<Exercise> exList = wp.getExerciseList();
-		exList.add(ex);
-		wp.setExerciseList(exList);
-		wpDao.update(wp);
+		if(!exList.contains(ex)) {
+			exList.add(ex);
+			wp.setExerciseList(exList);
+			wpDao.update(wp);
+		}
 		return wpMapper.toDTO(wp);
 	}
 	

@@ -351,6 +351,19 @@ public class App {
         	c1.setWorkoutProgramList(wpList);
     		em.persist(c1);	
     	}
+    	
+    	//Utente senza pt
+    	Long cId = Long.valueOf(7315462);
+		Customer c1 = new Customer();
+		c1.setId(cId);
+		c1.setName("Name-"+cId);
+		c1.setSurname("Surname-"+cId);
+		c1.setPassword("password");
+		c1.setEmail("user"+cId+"@gmail.com");
+		c1.setDateOfBirth(1997, 4, 15);
+		c1.setPersonalTrainer(null);
+    	c1.setWorkoutProgramList(null);
+		em.persist(c1);	
     }
 
 
