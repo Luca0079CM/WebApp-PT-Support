@@ -38,6 +38,7 @@ public class CustomerMapper {
 			int i = 0;
 			for(WorkoutProgram wp : customer.getWorkoutProgramList()) {
 				wpNameList[i] = wp.getName();
+				i++;
 			}
 			customerDTO.setWorkoutProgramList(wpNameList);
 		}

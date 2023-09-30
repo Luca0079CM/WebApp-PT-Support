@@ -32,7 +32,7 @@ public class AuthenticationController {
 
     public String authenticate(String email, String password) {
         PersonalTrainer pt = ptDao.findByEmail(email);
-        if (pt != null || passwordMatches(pt, password)) {
+        if (pt != null && passwordMatches(pt, password)) {
         	System.out.println("token is being generated in AuthenticationController");
             // Genera un token JWT valido
             return jwtUtil.generateToken(pt.getEmail());
@@ -43,7 +43,7 @@ public class AuthenticationController {
     
     public String authenticateCustomer(String email, String password) {
         Customer c = cDao.findByEmail(email);
-        if (c != null || customerPasswordMatches(c, password)) {
+        if (c != null && customerPasswordMatches(c, password)) {
         	System.out.println("token is being generated in AuthenticationController");
             // Genera un token JWT valido
             return jwtUtil.generateToken(c.getEmail());
@@ -66,7 +66,7 @@ public class AuthenticationController {
 	}
 
     private boolean passwordMatches(PersonalTrainer pt, String password) {
-        if(pt.getPassword() == password)
+        if(pt.getPassword().equals(password))
         	return true;
         else
         	return false;
@@ -74,7 +74,7 @@ public class AuthenticationController {
     }
     
     private boolean customerPasswordMatches(Customer c, String password) {
-        if(c.getPassword() == password)
+        if(c.getPassword().equals(password))
         	return true;
         else
         	return false;
