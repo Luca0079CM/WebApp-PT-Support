@@ -20,6 +20,7 @@ import it.unifi.dinfo.stlab.WebApp_PT_Support.dto.CustomerDTO;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.dto.WorkoutProgramDTO;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.dto.ExerciseDTO;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.dto.GymMachineDTO;
+import it.unifi.dinfo.stlab.WebApp_PT_Support.dto.PersonalTrainerDTO;
 
 @Path("") 
 public class PersonalTrainerRestEndpoint {
@@ -51,6 +52,22 @@ public class PersonalTrainerRestEndpoint {
 	public Response findCustomersByPTId(@PathParam("ptId") Long ptId) {
 		List<CustomerDTO> cListDTO = ptController.findCustomersByPTId(ptId);
 		return Response.status(Response.Status.OK).entity(cListDTO).build();
+	}
+	
+	@GET
+	@Path("/customers/search/{cName}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response searchCustomer(@PathParam("cName") String cName) {
+		List<CustomerDTO> cListDTO = ptController.searchCustomer(cName);
+		return Response.status(Response.Status.OK).entity(cListDTO).build();
+	}
+	
+	@GET
+	@Path("/ptrainers/search/{ptEmail}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response searchPersonalTrainerByEmail(@PathParam("ptEmail") String ptEmail) {
+		PersonalTrainerDTO responseDTO = ptController.searchPersonalTrainerByEmail(ptEmail);
+		return Response.status(Response.Status.OK).entity(responseDTO).build();
 	}
 	
 	@POST
@@ -98,11 +115,11 @@ public class PersonalTrainerRestEndpoint {
 	}
 	
 	@GET
-	@Path("/wprograms/search/{wpId}")
+	@Path("/wprograms/search/{wpName}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response searchWorkoutProgram(@PathParam("wpId") Long wpId) {
-		WorkoutProgramDTO wpDTO = ptController.searchWorkoutProgram(wpId);
-		return Response.status(Response.Status.OK).entity(wpDTO).build();
+	public Response searchWorkoutProgram(@PathParam("wpName") String wpName) {
+		List<WorkoutProgramDTO> wpDTOList = ptController.searchWorkoutProgram(wpName);
+		return Response.status(Response.Status.OK).entity(wpDTOList).build();
 	}
 	
 	@PUT

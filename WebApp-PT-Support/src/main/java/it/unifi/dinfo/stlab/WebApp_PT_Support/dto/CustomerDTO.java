@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 public class CustomerDTO {
+
 	private Long id;
 	private Long personalTrainerId;
 	private String name;

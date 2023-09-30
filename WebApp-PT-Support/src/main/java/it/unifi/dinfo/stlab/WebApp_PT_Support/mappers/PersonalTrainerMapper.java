@@ -23,7 +23,7 @@ public class PersonalTrainerMapper {
 		PersonalTrainer pt = new PersonalTrainer();
 		pt.setId(ptDTO.getId());
 		pt.setName(ptDTO.getName());
-		pt.setSurname(pt.getSurname());
+		pt.setSurname(ptDTO.getSurname());
 		pt.setEmail(ptDTO.getEmail());
 		pt.setPassword(ptDTO.getPassword());
 		pt.setDateOfBirth(LocalDate.parse(ptDTO.getDateOfBirth()));

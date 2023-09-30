@@ -39,7 +39,7 @@ public class PersonalTrainerDao extends BaseDao<PersonalTrainer >{
 
 	@Override
 	public List<PersonalTrainer> findAll() {
-		return em.createQuery("from PersonalTrainer " + " ORDER BY id DESC", PersonalTrainer.class).getResultList();
+		return em.createQuery("Select pt from PersonalTrainer pt ORDER BY id DESC", PersonalTrainer.class).getResultList();
 	}
 
 	@Override
