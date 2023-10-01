@@ -123,6 +123,7 @@ public class PersonalTrainerController {
 	
 	public PersonalTrainerDTO searchPersonalTrainerByEmail(String email) {
 		PersonalTrainer pt = ptDao.findByEmail(email);
+		System.out.println("PT in searchPersonalTrainerByEmail() is: " + pt);
 		return ptMapper.toDTO(pt);
 	}
 	

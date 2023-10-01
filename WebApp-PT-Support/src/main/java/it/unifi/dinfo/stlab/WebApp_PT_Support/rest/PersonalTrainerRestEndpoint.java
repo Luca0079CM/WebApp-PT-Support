@@ -13,6 +13,7 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import org.json.simple.JSONObject;
 
 import it.unifi.dinfo.stlab.WebApp_PT_Support.controllers.PersonalTrainerController;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.PersonalTrainer;
@@ -153,6 +154,15 @@ public class PersonalTrainerRestEndpoint {
 	public Response listWorkoutProgram() {
 		List<WorkoutProgramDTO> wpDTOList = ptController.listWorkoutProgram();
 		return Response.status(Response.Status.OK).entity(wpDTOList).build();
+	}
+	
+	@GET
+	@Path("/ping")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response ping() {
+		JSONObject jsonResponse = new JSONObject();
+//	    String message = "Server is up and running!";
+	    return Response.status(Response.Status.OK).entity(jsonResponse).build();
 	}
 	
 }
