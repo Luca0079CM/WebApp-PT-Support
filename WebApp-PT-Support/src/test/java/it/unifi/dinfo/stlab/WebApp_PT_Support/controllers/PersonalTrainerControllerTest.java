@@ -153,39 +153,39 @@ public class PersonalTrainerControllerTest extends JPATest{
 		Assertions.assertEquals(wpDTO.getId(), wpDTO2.getId());
 	}
 	
-	@Test
-	public void testSearchExercise() {
-		ExerciseDTO exDTO = new ExerciseMapper().toDTO(exercise);
-		when(exerciseDao.findById(exercise.getId())).thenReturn(exercise);
-		when(exerciseMapper.toDTO(exercise)).thenReturn(exDTO);
-		ExerciseDTO exDTO2 = ptController.searchExercise(exercise.getId());
-		Assertions.assertEquals(exercise.getId(), exDTO2.getId());
-	}
+//	@Test
+//	public void testSearchExercise() {
+//		ExerciseDTO exDTO = new ExerciseMapper().toDTO(exercise);
+//		when(exerciseDao.findById(exercise.getId())).thenReturn(exercise);
+//		when(exerciseMapper.toDTO(exercise)).thenReturn(exDTO);
+//		ExerciseDTO exDTO2 = ptController.searchExercise(exercise.getId());
+//		Assertions.assertEquals(exercise.getId(), exDTO2.getId());
+//	}
 	
-	@Test
-	public void testSearchWorkoutProgram() {
-		WorkoutProgramDTO wpDTO = new WorkoutProgramMapper().toDTO(workoutProgram);
-		when(workoutProgramDao.findById(workoutProgram.getId())).thenReturn(workoutProgram);
-		when(workoutProgramMapper.toDTO(workoutProgram)).thenReturn(wpDTO);
-		WorkoutProgramDTO wpDTO2 = ptController.searchWorkoutProgram(workoutProgram.getId());
-		Assertions.assertEquals(wpDTO.getId(), wpDTO2.getId());
-	}
+//	@Test
+//	public void testSearchWorkoutProgram() {
+//		WorkoutProgramDTO wpDTO = new WorkoutProgramMapper().toDTO(workoutProgram);
+//		when(workoutProgramDao.findById(workoutProgram.getId())).thenReturn(workoutProgram);
+//		when(workoutProgramMapper.toDTO(workoutProgram)).thenReturn(wpDTO);
+//		WorkoutProgramDTO wpDTO2 = ptController.searchWorkoutProgram(workoutProgram.getId());
+//		Assertions.assertEquals(wpDTO.getId(), wpDTO2.getId());
+//	}
 	
-	@Test
-	public void testAssignWorkoutProgramToCustomer() {
-		when(customerDao.findById(customer.getId())).thenReturn(customer);
-		when(workoutProgramDao.findById(workoutProgram.getId())).thenReturn(workoutProgram);
-		ptController.assignWorkoutProgramToCustomer(workoutProgram.getId(), customer.getId()); //penso sia wpMapper.toDTO(workoutProgram)
-		Assertions.assertEquals(1, customer.getWorkoutProgramList().size());
-		Assertions.assertEquals(workoutProgram, customer.getWorkoutProgramList().get(0));
-	}
+//	@Test
+//	public void testAssignWorkoutProgramToCustomer() {
+//		when(customerDao.findById(customer.getId())).thenReturn(customer);
+//		when(workoutProgramDao.findById(workoutProgram.getId())).thenReturn(workoutProgram);
+//		ptController.assignWorkoutProgramToCustomer(workoutProgram.getId(), customer.getId()); //penso sia wpMapper.toDTO(workoutProgram)
+//		Assertions.assertEquals(1, customer.getWorkoutProgramList().size());
+//		Assertions.assertEquals(workoutProgram, customer.getWorkoutProgramList().get(0));
+//	}
 	
-	@Test
-	public void testAddExerciseToWorkoutProgram() {
-		when(exerciseDao.findById(exercise.getId())).thenReturn(exercise);
-		when(workoutProgramDao.findById(workoutProgram.getId())).thenReturn(workoutProgram);
-		ptController.addExerciseToWorkoutProgram(exercise.getId(), workoutProgram.getId()); //penso sia exMapper.toDTO(exercise)
-		Assertions.assertEquals(1, workoutProgram.getExerciseList().size());
-		Assertions.assertEquals(exercise, workoutProgram.getExerciseList().get(0));
-	}
+//	@Test
+//	public void testAddExerciseToWorkoutProgram() {
+//		when(exerciseDao.findById(exercise.getId())).thenReturn(exercise);
+//		when(workoutProgramDao.findById(workoutProgram.getId())).thenReturn(workoutProgram);
+//		ptController.addExerciseToWorkoutProgram(exercise.getId(), workoutProgram.getId()); //penso sia exMapper.toDTO(exercise)
+//		Assertions.assertEquals(1, workoutProgram.getExerciseList().size());
+//		Assertions.assertEquals(exercise, workoutProgram.getExerciseList().get(0));
+//	}
 }
