@@ -22,20 +22,6 @@ public class CustomerRestEndpoint {
 
 	@Inject
 	private CustomerController customerController;
-
-	@GET
-	@Path("/ping")
-	public Response ping() {
-		return Response.ok().entity("the service is online").build();
-	}
-
-	@GET
-	@Path("/wprograms/detach/{wpId}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response detachWorkoutProgram(@PathParam("wpId") Long wpId, Long customerId) {
-		WorkoutProgramDTO wpDTO = customerController.detachWorkoutProgram(customerId, wpId);
-		return Response.status(Response.Status.OK).entity(wpDTO).build();
-	}
 	
 	@GET
 	@Path("/customers/search-by-email/{cEmail}")
@@ -61,7 +47,7 @@ public class CustomerRestEndpoint {
 		return Response.status(Response.Status.OK).entity(ptDTOList).build();
 	}
 	
-	@POST
+	@POST //mettere PUT
 	@Path("/customers/change-pt/{cId}/{ptId}")
 	@Produces(MediaType.APPLICATION_JSON)
 //	@Consumes(MediaType.APPLICATION_JSON)

@@ -1,7 +1,13 @@
 {
+	"sessionId": 123,
+	"startTimestamp": "date",
+	"endTimestamp": "date",
     "data": [
         {
-            "machineId": "1"
+            "machineId": "1",
+            "load": 10,
+            "repetitions": 10,
+            "timestamp": "date"
         },
         {
             "machineId": "1"

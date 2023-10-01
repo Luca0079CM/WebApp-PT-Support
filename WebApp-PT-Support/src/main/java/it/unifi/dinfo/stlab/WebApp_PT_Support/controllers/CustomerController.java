@@ -30,25 +30,6 @@ public class CustomerController {
 	@Inject
 	PersonalTrainerMapper ptMapper;
 	
-	public WorkoutProgramDTO detachWorkoutProgram(Long userId, Long wpId) {
-		Customer customer = cDao.findById(userId);
-		WorkoutProgramDTO wpFound = null;
-		for(WorkoutProgram wp : customer.getWorkoutProgramList()) {
-			if(wp.getId() == wpId) {
-				WorkoutProgramMapper wpMapper = new WorkoutProgramMapper();
-				wpFound = wpMapper.toDTO(wp);
-				customer.getWorkoutProgramList().remove(wp);
-				cDao.update(customer);
-				break;
-			}
-		}
-		
-		if (wpFound != null)
-			System.out.println("Workout Program eliminato con successo");
-		else
-			System.out.println("Il Workout Program non è presente nella lista dell'utente selezionato");
-		return wpFound;
-	}
 	
 	public CustomerDTO searchCustomerByEmail(String email) {
 		Customer c = cDao.findByEmail(email);
