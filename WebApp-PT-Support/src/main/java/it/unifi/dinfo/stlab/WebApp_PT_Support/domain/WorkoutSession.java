@@ -4,7 +4,8 @@ import org.json.simple.JSONObject;
 
 public class WorkoutSession {
 	private Long id;
-	private int duration;
+	private int startTime; //timestamp
+	private int endTime; //timestamp
 	private JSONObject sessionData;
 
 	public Long getId() {
@@ -15,12 +16,20 @@ public class WorkoutSession {
 		this.id = id;
 	}
 
-	public int getDuration() {
-		return duration;
+	public int getStartTime() {
+		return startTime;
 	}
 
-	public void setDuration(int duration) {
-		this.duration = duration;
+	public void setStartTime(int startTime) {
+		this.startTime = startTime;
+	}
+
+	public int getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(int endTime) {
+		this.endTime = endTime;
 	}
 
 	public JSONObject getSessionData() {
