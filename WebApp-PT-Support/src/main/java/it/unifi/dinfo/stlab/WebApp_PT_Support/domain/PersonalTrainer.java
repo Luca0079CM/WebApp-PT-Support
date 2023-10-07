@@ -23,7 +23,7 @@ public class PersonalTrainer {
 	private String password;
 
 	private List<Customer> customersList = new ArrayList<>();
-	private List<WorkoutProgram> workoutProgramList;
+//	private List<WorkoutProgram> workoutProgramList;
 
 
 	@Id
@@ -92,14 +92,14 @@ public class PersonalTrainer {
 		this.customersList = customersList;
 	}
 
-	@ManyToMany(fetch=FetchType.LAZY)
-	public List<WorkoutProgram> getWorkoutProgramList() {
-		return workoutProgramList;
-	}
-
-	public void setWorkoutProgramList(List<WorkoutProgram> workoutProgramList) {
-		this.workoutProgramList = workoutProgramList;
-	}
+//	@ManyToMany(fetch=FetchType.LAZY)
+//	public List<WorkoutProgram> getWorkoutProgramList() {
+//		return workoutProgramList;
+//	}
+//
+//	public void setWorkoutProgramList(List<WorkoutProgram> workoutProgramList) {
+//		this.workoutProgramList = workoutProgramList;
+//	}
 
 	public void addCustomer(Customer customer) {
 		this.customersList.add(customer);

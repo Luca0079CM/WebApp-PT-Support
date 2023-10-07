@@ -1,15 +1,13 @@
-package it.unifi.dinfo.stlab.WebApp_PT_Support.domain;
-
-import java.time.Instant;
+package it.unifi.dinfo.stlab.WebApp_PT_Support.dto;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-public class WorkoutSession {
+public class WorkoutSessionDTO {
 	private Long id;
 	private Long customerId;
-	private Instant startTime; //timestamp
-	private Instant endTime; //timestamp
+	private String startTime; //timestamp
+	private String endTime; //timestamp
 	private JSONArray sessionData;
 
 	public Long getId() {
@@ -28,19 +26,19 @@ public class WorkoutSession {
 		this.customerId = customerId;
 	}
 
-	public Instant getStartTime() {
+	public String getStartTime() {
 		return startTime;
 	}
 
-	public void setStartTime(Instant startTime) {
+	public void setStartTime(String startTime) {
 		this.startTime = startTime;
 	}
 
-	public Instant getEndTime() {
+	public String getEndTime() {
 		return endTime;
 	}
 
-	public void setEndTime(Instant endTime) {
+	public void setEndTime(String endTime) {
 		this.endTime = endTime;
 	}
 
@@ -51,4 +49,5 @@ public class WorkoutSession {
 	public void setSessionData(JSONArray sessionData) {
 		this.sessionData = sessionData;
 	}
+
 }

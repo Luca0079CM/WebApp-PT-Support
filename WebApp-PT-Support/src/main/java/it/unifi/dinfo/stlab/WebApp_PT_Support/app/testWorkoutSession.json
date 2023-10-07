@@ -1,22 +1,26 @@
-{
-	"sessionId": 123,
-	"startTimestamp": "date",
-	"endTimestamp": "date",
-    "data": [
-        {
-            "machineId": "1",
-            "load": 10,
-            "repetitions": 10,
-            "timestamp": "date"
-        },
-        {
-            "machineId": "1"
-        },
-        {
-            "machineId": "2"
-        },
-        {
-            "machineId": "3"
-        }
-    ]
-}
+[
+    {
+        "machineId": 1,
+        "load": 10,
+        "repetitions": 10,
+        "timestamp": "2023-10-03T15:30:00Z"
+    },
+    {
+        "machineId": 1,
+        "load": 15,
+        "repetitions": 10,
+        "timestamp": "2023-10-03T15:35:00Z"
+    },
+    {
+        "machineId": 2,
+        "load": 20,
+        "repetitions": 5,
+        "timestamp": "2023-10-03T15:40:00Z"
+    },
+    {
+        "machineId": 3,
+        "load": 20,
+        "repetitions": 5,
+        "timestamp": "2023-10-03T15:45:00Z"
+    }
+]
