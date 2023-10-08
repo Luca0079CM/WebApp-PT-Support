@@ -19,6 +19,7 @@ import it.unifi.dinfo.stlab.WebApp_PT_Support.controllers.PersonalTrainerControl
 import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.PersonalTrainer;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.dto.CustomerDTO;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.dto.WorkoutProgramDTO;
+import it.unifi.dinfo.stlab.WebApp_PT_Support.dto.WorkoutSessionDTO;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.dto.ExerciseDTO;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.dto.GymMachineDTO;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.dto.PersonalTrainerDTO;
@@ -154,6 +155,23 @@ public class PersonalTrainerRestEndpoint {
 	public Response listWorkoutProgram() {
 		List<WorkoutProgramDTO> wpDTOList = ptController.listWorkoutProgram();
 		return Response.status(Response.Status.OK).entity(wpDTOList).build();
+	}
+	
+	//probabilmente da levare perchè lista le sessions di TUTTI i customers
+	@GET
+	@Path("/sessions/list")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response listWorkoutSessions() {
+		List<WorkoutSessionDTO> wsDTOList = ptController.listWorkoutSessions();
+		return Response.status(Response.Status.OK).entity(wsDTOList).build();
+	}
+	
+	@GET
+	@Path("/ptrainers/list-sessions/{ptId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response listWorkoutSessionsOfPTCustomers(@PathParam("ptId") Long ptId) {
+		List<WorkoutSessionDTO> wsDTOList = ptController.listWorkoutSessionsOfPTCustomers(ptId);
+		return Response.status(Response.Status.OK).entity(wsDTOList).build();
 	}
 	
 	@GET

@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.time.Instant;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -20,6 +21,7 @@ import jakarta.persistence.Persistence;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.PersistenceUnit;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -61,7 +63,6 @@ public class App {
 //    	populatePersonalTrainer();
 //    	populateCustomer();
 
-//    	populateWorkoutSession();
 
 //    	System.out.println("INIZIO I TEST DI RECUPERO DALLE TABELLE");
 //    	retrieveCustomer();
@@ -72,6 +73,7 @@ public class App {
 //    	retrieveCustomersFromPersonalTrainer();
     	
     	testPopulateTablesForRestTest();
+    	populateWorkoutSession();
     }
 
 //    private void populateCustomer() {
@@ -265,23 +267,37 @@ public class App {
 //    		System.out.println("Customer: " + c.getId());
 //    }
 
-//    private void populateWorkoutSession() throws ParseException, FileNotFoundException, IOException {
-//    	System.out.println("Popolo una workout session su InfluxDB");
-//    	WorkoutSessionDao wsDao = new WorkoutSessionDao();
-//    	WorkoutSession ws = new WorkoutSession();
-//    	ws.setId(Long.valueOf(100));
-//    	ws.setDuration(60);
-//
-//    	JSONParser parser = new JSONParser();
-//		Reader reader = new FileReader("C:\\Users\\carlo\\Desktop\\Github_repos\\WebApp-PT-Support\\WebApp-PT-Support\\src\\main\\java\\it\\unifi\\dinfo\\stlab\\WebApp_PT_Support\\app\\testWorkoutSession.json");
-//		JSONObject jsonObj = (JSONObject)parser.parse(reader);
-//		ws.setSessionData(jsonObj);
-//
-//		wsDao.buildConnection("gVYfigM83pD3n2evLZx3NI8Iv_df5S00R4kFw03oTrHoazIw1MWfEBnE-lMlOe-iULDND8w8Qrrf2_kp07rW9w==", "mainbucket", "PT-Support");
-//		System.out.println("Connessione stabilita");
-//		wsDao.save(ws);
-//		System.out.println("Salvataggio finito");
-//    }
+    private void populateWorkoutSession() throws ParseException, FileNotFoundException, IOException {
+    	System.out.println("Popolo una workout session su InfluxDB");
+    	WorkoutSessionDao wsDao = new WorkoutSessionDao();
+    	WorkoutSession ws = new WorkoutSession();
+    	ws.setId(Long.valueOf(100));
+    	ws.setCustomerId(Long.valueOf(50));
+		ws.setStartTime(Instant.now());
+		ws.setEndTime(Instant.now());
+
+		JSONParser parser = new JSONParser();
+		Reader reader = new FileReader("C:\\Users\\carlo\\Desktop\\Github_repos\\WebApp-PT-Support\\WebApp-PT-Support\\src\\main\\java\\it\\unifi\\dinfo\\stlab\\WebApp_PT_Support\\app\\testWorkoutSession.json");
+		JSONArray jsonArr = (JSONArray)parser.parse(reader);
+		ws.setSessionData(jsonArr);
+
+		wsDao.buildConnection("57my30fVD2mvRW7pKOgTTqGbymad0B2U5HR7rGUszU1GPBSDnnFU4Dt8rQdNiLJaIJdm_jOLG6l4hQLK8FHB5Q==", "workoutsessions-bucket", "PT-Support");
+		System.out.println("Connessione stabilita");
+		wsDao.save(ws);
+		System.out.println("Salvataggio finito");
+		
+//		for(WorkoutSession ws1: wsDao.findAll())
+//			System.out.println("Sessions retrieved: " + ws1);
+		
+		List<Long> idList = new ArrayList<>();
+		idList.add(50l);
+//		idList.add(51l);
+//		System.out.println("ws list: " + wsDao.findAllByCustomerIdList(idList));
+		for(WorkoutSession ws2: wsDao.findAllByCustomerIdList(idList)) {
+			System.out.println("Sessions retrieved: " + ws2);
+			System.out.println("Sessions data: " + ws2.getSessionData());
+		}
+    }
     
     @Transactional
     private void testPopulateTablesForRestTest() {
@@ -304,7 +320,7 @@ public class App {
 		exList.add(ex1);
 		
 		
-		Long wpId = Long.valueOf(30);
+		Long wpId = Long.valueOf(300);
 		WorkoutProgram wp1 = new WorkoutProgram();
 		wp1.setId(wpId);
 		wp1.setName("Chest Day Livello Medio");
@@ -316,7 +332,7 @@ public class App {
 		List<WorkoutProgram> wpList = new ArrayList<WorkoutProgram>();
 		wpList.add(wp1);
     	
-    	Long ptId = Long.valueOf(40);
+    	Long ptId = Long.valueOf(41);
 		PersonalTrainer pt1 = new PersonalTrainer();
 		pt1.setId(ptId);
 		pt1.setName("Name-"+ptId);
@@ -324,10 +340,10 @@ public class App {
 		pt1.setPassword("password");
 		pt1.setEmail("user"+ptId+"@gmail.com");
 		pt1.setDateOfBirth(1997, 10, 10);
-    	pt1.setWorkoutProgramList(wpList);
+//    	pt1.setWorkoutProgramList(wpList);
 		em.persist(pt1);
 		
-		Long ptId2 = Long.valueOf(400);
+		Long ptId2 = Long.valueOf(401);
 		PersonalTrainer pt2 = new PersonalTrainer();
 		pt2.setId(ptId2);
 		pt2.setName("Name-"+ptId2);
@@ -335,7 +351,7 @@ public class App {
 		pt2.setPassword("password");
 		pt2.setEmail("user"+ptId2+"@gmail.com");
 		pt2.setDateOfBirth(1997, 10, 10);
-    	pt2.setWorkoutProgramList(wpList);
+//    	pt2.setWorkoutProgramList(wpList);
 		em.persist(pt2);
 		
     	for(int i = 0; i<2; i++) {

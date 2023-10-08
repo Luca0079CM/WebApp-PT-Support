@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -17,6 +18,7 @@ import com.influxdb.client.write.Point;
 import com.influxdb.query.FluxRecord;
 import com.influxdb.query.FluxTable;
 
+import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.WorkoutProgram;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.WorkoutSession;
 
 public class WorkoutSessionDao {
@@ -35,44 +37,132 @@ public class WorkoutSessionDao {
 
 	public void save(WorkoutSession ws) {
 		WriteApiBlocking writeApi = influxClient.getWriteApiBlocking();
-		JSONObject sessionData = ws.getSessionData();
-		System.out.println("2");
-		JSONArray array = (JSONArray)sessionData.get("data");
+		JSONArray dataArray = ws.getSessionData();
+		System.out.println("data: "+ dataArray);
 		@SuppressWarnings("unchecked")
-		Iterator<JSONObject> itr = array.iterator();
+		Iterator<JSONObject> itr = dataArray.iterator();
 		while(itr.hasNext()) {
 			JSONObject i = itr.next();
-			Point point = Point
-					  .measurement("machinedata")
-					  .addTag("gym", "virgin")
-					  .addTag("sessionid", ws.getId().toString())
-					  .addField("machineid", i.get("machineId").toString())
-					  .time(Instant.now(), WritePrecision.NS);
-			writeApi.writePoint(this.bucket, this.org, point);
+			Point sessionpoint = Point
+					  .measurement("workout-sessions")
+					  .addTag("sessionId", ws.getId().toString())
+					  .addTag("customerId", ws.getCustomerId().toString())
+					  .addTag("startTime", ws.getStartTime().toString())
+					  .addTag("endTime", ws.getEndTime().toString())
+					  .addTag("machineId", i.get("machineId").toString())//oppure è un field?
+					  .addField("load", i.get("load").toString())
+					  .addField("repetitions", i.get("repetitions").toString())
+					  .time(Instant.parse(i.get("timestamp").toString()), WritePrecision.NS);
+			System.out.println("sessionId: "+ ws.getId());
+			writeApi.writePoint(this.bucket, this.org, sessionpoint);
 		}
 	}
 	
-	public List<FluxRecord> findAll(){
-		List<FluxRecord> result = new ArrayList<FluxRecord>();
-		String fluxQuery = "from(bucket: \"workoutsessions\") |> range(start: -1h) |> filter(fn: (r) => r[\"_measurement\"] == \"machinedata\") |> filter(fn: (r) => r[\"_field\"] == \"machineid\")";
+	public List<WorkoutSession> findAll(){
+		List<WorkoutSession> result = new ArrayList<WorkoutSession>();
+		String fluxQuery = "from(bucket: \"workoutsessions-bucket\") |> range(start: -30d) |> filter(fn: (r) => r[\"_measurement\"] == \"workout-sessions\")";
 		QueryApi queryApi = influxClient.getQueryApi();
 		List<FluxTable> tables = queryApi.query(fluxQuery, "PT-Support");
 		for(FluxTable table : tables) {
 			for(FluxRecord record : table.getRecords()) {
-				result.add(record);
+				WorkoutSession ws = new WorkoutSession();
+				Long wsId = Long.parseLong(record.getValueByKey("sessionId").toString());
+				ws.setId(wsId);
+				ws.setCustomerId(Long.parseLong(record.getValueByKey("customerId").toString()));
+				ws.setStartTime(Instant.parse(record.getValueByKey("startTime").toString()));
+				ws.setEndTime(Instant.parse(record.getValueByKey("endTime").toString()));
+				ws.setSessionData(getMachineDataFromSession(wsId));
+				result.add(ws);
 			}
 		}
 		return result;
 	}
 	
-	public List<FluxRecord> findByGymName(String gymName){
+	public List<WorkoutSession> findAllByCustomerIdList(List<Long> idList){
+		List<WorkoutSession> result = new ArrayList<WorkoutSession>();
+		String idString = "[\"" + idList.stream()
+		        .map(Object::toString)
+		        .collect(Collectors.joining("\", \"")) + "\"]";
+		String fluxQuery = "from(bucket: \"workoutsessions-bucket\") |> range(start: -30d) |> filter(fn: (r) => r[\"_measurement\"] == \"workout-sessions\" and contains(value: r.customerId, set: " + idString + "))";
+		QueryApi queryApi = influxClient.getQueryApi();
+		Long custId = -1l;
+		Long wsId = -1l;
+		List<FluxTable> tables = queryApi.query(fluxQuery, "PT-Support");
+		for(FluxTable table : tables) {
+			for(FluxRecord record : table.getRecords()) {
+				if((Long.parseLong(record.getValueByKey("customerId").toString()) != custId) || (Long.parseLong(record.getValueByKey("sessionId").toString()) != wsId)) {
+					WorkoutSession ws = new WorkoutSession();
+					custId = Long.parseLong(record.getValueByKey("customerId").toString());
+					ws.setCustomerId(custId);
+					wsId = Long.parseLong(record.getValueByKey("sessionId").toString());
+					ws.setId(wsId);
+					ws.setStartTime(Instant.parse(record.getValueByKey("startTime").toString()));
+					ws.setEndTime(Instant.parse(record.getValueByKey("endTime").toString()));
+					ws.setSessionData(getMachineDataFromSession(wsId));
+					result.add(ws);
+				}
+			}
+		}
+		return result;
+	}
+	
+	public List<WorkoutSession> findByCustomerId(Long customerId){
+		List<WorkoutSession> result = new ArrayList<WorkoutSession>();
+		String fluxQuery = "from(bucket: \"workoutsessions-bucket\") |> range(start: -30d) |> filter(fn: (r) => r[\"_measurement\"] == \"workout-sessions\") |> filter(fn: (r) => r.customerId == \""+customerId+"\")";
+		QueryApi queryApi = influxClient.getQueryApi();
+		List<FluxTable> tables = queryApi.query(fluxQuery, "PT-Support");
+		Long wsId = null;
+		for(FluxTable table : tables) {
+			for(FluxRecord record : table.getRecords()) {
+				if(Long.parseLong(record.getValueByKey("sessionId").toString()) != wsId) {
+					WorkoutSession ws = new WorkoutSession();
+					ws.setCustomerId(Long.parseLong(record.getValueByKey("customerId").toString())); //should always be equal to customerId
+					wsId = Long.parseLong(record.getValueByKey("sessionId").toString());
+					ws.setId(wsId);
+					ws.setStartTime(Instant.parse(record.getValueByKey("startTime").toString()));
+					ws.setEndTime(Instant.parse(record.getValueByKey("endTime").toString()));
+					ws.setSessionData(getMachineDataFromSession(wsId));
+					result.add(ws);
+				}
+			}
+		}
+		return result;
+	}
+	
+	@SuppressWarnings("unchecked")
+	private JSONArray getMachineDataFromSession(Long sessionId) {
+		JSONArray jsonArray = new JSONArray();
+		String fluxQuery = "from(bucket: \"workoutsessions-bucket\") |> range(start: -30d) |> filter(fn: (r) => r[\"_measurement\"] == \"workout-sessions\") |> filter(fn: (r) => r.sessionId == \""+sessionId+"\")";
+		QueryApi queryApi = influxClient.getQueryApi();
+		List<FluxTable> tables = queryApi.query(fluxQuery, "PT-Support");
+		for(FluxTable table : tables) {
+	        for(FluxRecord record : table.getRecords()) {
+	            JSONObject jsonObject = new JSONObject();
+	            jsonObject.put("machineId", record.getValueByKey("machineId"));
+	            if(record.getField().equals("load"))
+	            	jsonObject.put("load", record.getValue());
+	            else if(record.getField().equals("repetitions"))
+	            	jsonObject.put("repetitions", record.getValue());
+	            jsonObject.put("timestamp", record.getTime());
+
+	            jsonArray.add(jsonObject);
+	        }
+	    }
+	    return jsonArray;
+	}
+	
+	
+	
+	//non serve?, le statistiche sulle macchine si tirano fuori sul fe a partire dalle sessions
+	public List<FluxRecord> findByMachineId(String machineId){
 		List<FluxRecord> result = new ArrayList<FluxRecord>();
-		String fluxQuery = "from(bucket: \"workoutsessions\") |> range(start: -1h) |> filter(fn: (r) => r[\"_measurement\"] == \"machinedata\") |> filter(fn: (r) => r[\"_field\"] == \"machineid\")";
+		String fluxQuery = "from(bucket: \"workoutsessions-bucket\") |> range(start: -1h) |> filter(fn: (r) => r[\"_measurement\"] == \"workout-sessions\") |> filter(fn: (r) => r[\"_field\"] == \"sessionId\")";
 		QueryApi queryApi = influxClient.getQueryApi();
 		List<FluxTable> tables = queryApi.query(fluxQuery, "PT-Support");
 		for(FluxTable table : tables) {
 			for(FluxRecord record : table.getRecords()) {
-				if(record.getValueByKey("gym") != null && record.getValueByKey("gym").toString().equals(gymName)) {
+				//the getValueByKey() must be a tag
+				if(record.getValueByKey("machineId") != null && record.getValueByKey("machineId").toString().equals(machineId)) {
 					result.add(record);
 				}
 			}

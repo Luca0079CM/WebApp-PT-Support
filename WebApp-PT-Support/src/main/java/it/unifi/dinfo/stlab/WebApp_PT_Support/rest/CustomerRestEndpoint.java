@@ -1,8 +1,10 @@
 package it.unifi.dinfo.stlab.WebApp_PT_Support.rest;
 
 import jakarta.inject.Inject;
+import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
@@ -16,6 +18,7 @@ import it.unifi.dinfo.stlab.WebApp_PT_Support.dto.CustomerDTO;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.dto.ExerciseDTO;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.dto.PersonalTrainerDTO;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.dto.WorkoutProgramDTO;
+import it.unifi.dinfo.stlab.WebApp_PT_Support.dto.WorkoutSessionDTO;
 
 @Path("")
 public class CustomerRestEndpoint {
@@ -55,12 +58,21 @@ public class CustomerRestEndpoint {
 		return Response.status(Response.Status.OK).entity(responseDTO).build();
 	}
 	
-	@POST //mettere PUT
+	@PUT
 	@Path("/customers/change-pt/{cId}/{ptId}")
 	@Produces(MediaType.APPLICATION_JSON)
 //	@Consumes(MediaType.APPLICATION_JSON)
 	public Response changePersonalTrainer(@PathParam("cId") Long cId, @PathParam("ptId") Long ptId) {
 		CustomerDTO responseDTO = customerController.changePersonalTrainer(cId, ptId);
+		return Response.status(Response.Status.OK).entity(responseDTO).build();
+	}
+	
+	@POST
+	@Path("/customers/save-session")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response saveWorkoutSession(WorkoutSessionDTO wsDTO) {
+		WorkoutSessionDTO responseDTO = customerController.saveWorkoutSession(wsDTO);
 		return Response.status(Response.Status.OK).entity(responseDTO).build();
 	}
 	

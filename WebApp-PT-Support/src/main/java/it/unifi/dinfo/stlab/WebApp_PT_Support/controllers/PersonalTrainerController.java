@@ -7,7 +7,9 @@ import it.unifi.dinfo.stlab.WebApp_PT_Support.dao.CustomerDao;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.Exercise;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.dao.ExerciseDao;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.WorkoutProgram;
+import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.WorkoutSession;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.dao.WorkoutProgramDao;
+import it.unifi.dinfo.stlab.WebApp_PT_Support.dao.WorkoutSessionDao;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.GymMachine;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.dao.GymMachineDao;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.mappers.*;
@@ -30,6 +32,8 @@ public class PersonalTrainerController {
 	@Inject
 	WorkoutProgramDao wpDao;
 	@Inject
+	WorkoutSessionDao wsDao;
+	@Inject
 	GymMachineDao machineDao;
 	@Inject
 	PersonalTrainerMapper ptMapper;
@@ -39,6 +43,8 @@ public class PersonalTrainerController {
 	ExerciseMapper exMapper;
 	@Inject
 	WorkoutProgramMapper wpMapper;
+	@Inject
+	WorkoutSessionMapper wsMapper;
 	@Inject
 	GymMachineMapper gmMapper;
 	
@@ -182,6 +188,24 @@ public class PersonalTrainerController {
 		for(WorkoutProgram wp : wpDao.findAll())
 			workoutProgramDTOList.add(wpMapper.toDTO(wp));
 		return workoutProgramDTOList;
+	}
+	
+	public List<WorkoutSessionDTO> listWorkoutSessions(){
+		List<WorkoutSessionDTO> workoutSessionDTOList = new ArrayList<WorkoutSessionDTO>();
+		for(WorkoutSession ws : wsDao.findAll())
+			workoutSessionDTOList.add(wsMapper.toDTO(ws));
+		return workoutSessionDTOList;
+	}
+	
+	public List<WorkoutSessionDTO> listWorkoutSessionsOfPTCustomers(Long ptId){
+		List<WorkoutSessionDTO> workoutSessionDTOList = new ArrayList<WorkoutSessionDTO>();
+		PersonalTrainer pt = ptDao.findById(ptId);
+		List<Long> customerIdList = new ArrayList<>();
+		for(Customer c : pt.getCustomersList())
+			customerIdList.add(c.getId());
+		for(WorkoutSession ws : wsDao.findAllByCustomerIdList(customerIdList))
+			workoutSessionDTOList.add(wsMapper.toDTO(ws));
+		return workoutSessionDTOList;
 	}
 	
 	

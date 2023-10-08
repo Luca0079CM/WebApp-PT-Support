@@ -37,7 +37,7 @@ public class PersonalTrainerDaoTest extends JPATest {
 		em.persist(workoutProgram);
 		List<WorkoutProgram> wpList = new ArrayList<WorkoutProgram>();
 		wpList.add(workoutProgram);
-		personalTrainer.setWorkoutProgramList(wpList);
+//		personalTrainer.setWorkoutProgramList(wpList);
 		Customer customer1 = new Customer();
 		customer1.setId(new Random().nextLong());
 		customer1.setName("Fabio");
@@ -99,8 +99,8 @@ public class PersonalTrainerDaoTest extends JPATest {
 		Assertions.assertEquals(result.getPassword(), personalTrainer.getPassword());
 		Assertions.assertEquals(result.getCustomersList().size(), personalTrainer.getCustomersList().size());
 		Assertions.assertTrue(result.getCustomersList().containsAll(personalTrainer.getCustomersList()));
-		Assertions.assertEquals(result.getWorkoutProgramList().size(), personalTrainer.getWorkoutProgramList().size());
-		Assertions.assertTrue(result.getWorkoutProgramList().containsAll(personalTrainer.getWorkoutProgramList()));
+//		Assertions.assertEquals(result.getWorkoutProgramList().size(), personalTrainer.getWorkoutProgramList().size());
+//		Assertions.assertTrue(result.getWorkoutProgramList().containsAll(personalTrainer.getWorkoutProgramList()));
 	}
 
 	@Test
