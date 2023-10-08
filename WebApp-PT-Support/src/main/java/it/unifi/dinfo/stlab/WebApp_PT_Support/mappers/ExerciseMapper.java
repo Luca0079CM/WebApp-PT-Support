@@ -14,8 +14,10 @@ public class ExerciseMapper {
 		exDTO.setName(ex.getName());
 		exDTO.setDifficultyLevel(ex.getDifficultyLevel());
 		exDTO.setDescription(ex.getDescription());
-		if(ex.getMachine() != null)
+		if(ex.getMachine() != null) {
 			exDTO.setMachine(ex.getMachine().getName());
+			exDTO.setMachineId(ex.getMachine().getId());
+		}
 		else
 			exDTO.setMachine("Nessun macchinario per l'esercizio");
 		return exDTO;
