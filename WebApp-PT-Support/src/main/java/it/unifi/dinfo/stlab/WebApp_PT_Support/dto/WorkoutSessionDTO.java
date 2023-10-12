@@ -6,6 +6,7 @@ import org.json.simple.JSONObject;
 public class WorkoutSessionDTO {
 	private Long id;
 	private Long customerId;
+	private String programName;
 	private String startTime; //timestamp
 	private String endTime; //timestamp
 	private JSONArray sessionData;
@@ -24,6 +25,14 @@ public class WorkoutSessionDTO {
 
 	public void setCustomerId(Long customerId) {
 		this.customerId = customerId;
+	}
+
+	public String getProgramName() {
+		return programName;
+	}
+
+	public void setProgramName(String programName) {
+		this.programName = programName;
 	}
 
 	public String getStartTime() {

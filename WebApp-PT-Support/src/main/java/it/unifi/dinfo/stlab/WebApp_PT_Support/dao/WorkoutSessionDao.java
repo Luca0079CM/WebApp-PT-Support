@@ -20,6 +20,7 @@ import com.influxdb.query.FluxTable;
 
 import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.WorkoutProgram;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.WorkoutSession;
+import jakarta.inject.Inject;
 
 public class WorkoutSessionDao {
 	private InfluxDBClient influxClient;
@@ -27,6 +28,10 @@ public class WorkoutSessionDao {
 	private String token;
 	private String bucket;
 	private String org;
+	@Inject
+	CustomerDao custDao = new CustomerDao();
+	@Inject
+	WorkoutProgramDao wpDao = new WorkoutProgramDao();
 
 	public void buildConnection(String token, String bucket, String org) {
 		this.setToken(token);
@@ -46,12 +51,15 @@ public class WorkoutSessionDao {
 			Point sessionpoint = Point
 					  .measurement("workout-sessions")
 					  .addTag("sessionId", ws.getId().toString())
-					  .addTag("customerId", ws.getCustomerId().toString())
+					  .addTag("customerId", ws.getCustomer().getId().toString())
+					  .addTag("programName", ws.getProgram().getName())
 					  .addTag("startTime", ws.getStartTime().toString())
 					  .addTag("endTime", ws.getEndTime().toString())
+					  .addTag("exerciseName", i.get("exerciseName").toString())
 					  .addTag("machineId", i.get("machineId").toString())//oppure è un field?
-					  .addField("load", i.get("load").toString())
-					  .addField("repetitions", i.get("repetitions").toString())
+					  .addTag("load", i.get("load").toString())
+					  .addTag("repetitions", i.get("repetitions").toString())
+					  .addField("necessaryfield", 0)
 					  .time(Instant.parse(i.get("timestamp").toString()), WritePrecision.NS);
 			System.out.println("sessionId: "+ ws.getId());
 			writeApi.writePoint(this.bucket, this.org, sessionpoint);
@@ -68,7 +76,8 @@ public class WorkoutSessionDao {
 				WorkoutSession ws = new WorkoutSession();
 				Long wsId = Long.parseLong(record.getValueByKey("sessionId").toString());
 				ws.setId(wsId);
-				ws.setCustomerId(Long.parseLong(record.getValueByKey("customerId").toString()));
+				ws.setCustomer(custDao.findById(Long.parseLong(record.getValueByKey("customerId").toString())));
+				ws.setProgram(wpDao.findByName(record.getValueByKey("programName").toString()));
 				ws.setStartTime(Instant.parse(record.getValueByKey("startTime").toString()));
 				ws.setEndTime(Instant.parse(record.getValueByKey("endTime").toString()));
 				ws.setSessionData(getMachineDataFromSession(wsId));
@@ -78,45 +87,47 @@ public class WorkoutSessionDao {
 		return result;
 	}
 	
-	public List<WorkoutSession> findAllByCustomerIdList(List<Long> idList){
-		List<WorkoutSession> result = new ArrayList<WorkoutSession>();
-		String idString = "[\"" + idList.stream()
-		        .map(Object::toString)
-		        .collect(Collectors.joining("\", \"")) + "\"]";
-		String fluxQuery = "from(bucket: \"workoutsessions-bucket\") |> range(start: -30d) |> filter(fn: (r) => r[\"_measurement\"] == \"workout-sessions\" and contains(value: r.customerId, set: " + idString + "))";
-		QueryApi queryApi = influxClient.getQueryApi();
-		Long custId = -1l;
-		Long wsId = -1l;
-		List<FluxTable> tables = queryApi.query(fluxQuery, "PT-Support");
-		for(FluxTable table : tables) {
-			for(FluxRecord record : table.getRecords()) {
-				if((Long.parseLong(record.getValueByKey("customerId").toString()) != custId) || (Long.parseLong(record.getValueByKey("sessionId").toString()) != wsId)) {
-					WorkoutSession ws = new WorkoutSession();
-					custId = Long.parseLong(record.getValueByKey("customerId").toString());
-					ws.setCustomerId(custId);
-					wsId = Long.parseLong(record.getValueByKey("sessionId").toString());
-					ws.setId(wsId);
-					ws.setStartTime(Instant.parse(record.getValueByKey("startTime").toString()));
-					ws.setEndTime(Instant.parse(record.getValueByKey("endTime").toString()));
-					ws.setSessionData(getMachineDataFromSession(wsId));
-					result.add(ws);
-				}
-			}
-		}
-		return result;
-	}
+	//da cestinare
+//	public List<WorkoutSession> findAllByCustomerIdList(List<Long> idList){
+//		List<WorkoutSession> result = new ArrayList<WorkoutSession>();
+//		String idString = "[\"" + idList.stream()
+//		        .map(Object::toString)
+//		        .collect(Collectors.joining("\", \"")) + "\"]";
+//		String fluxQuery = "from(bucket: \"workoutsessions-bucket\") |> range(start: -30d) |> filter(fn: (r) => r[\"_measurement\"] == \"workout-sessions\" and contains(value: r.customerId, set: " + idString + "))";
+//		QueryApi queryApi = influxClient.getQueryApi();
+//		Long custId = -1l;
+//		Long wsId = -1l;
+//		List<FluxTable> tables = queryApi.query(fluxQuery, "PT-Support");
+//		for(FluxTable table : tables) {
+//			for(FluxRecord record : table.getRecords()) {
+//				if((Long.parseLong(record.getValueByKey("customerId").toString()) != custId) || (Long.parseLong(record.getValueByKey("sessionId").toString()) != wsId)) {
+//					WorkoutSession ws = new WorkoutSession();
+//					custId = Long.parseLong(record.getValueByKey("customerId").toString());
+//					ws.setCustomer(custDao.findById(custId));
+//					wsId = Long.parseLong(record.getValueByKey("sessionId").toString());
+//					ws.setId(wsId);
+//					ws.setStartTime(Instant.parse(record.getValueByKey("startTime").toString()));
+//					ws.setEndTime(Instant.parse(record.getValueByKey("endTime").toString()));
+//					ws.setSessionData(getMachineDataFromSession(wsId));
+//					result.add(ws);
+//				}
+//			}
+//		}
+//		return result;
+//	}
 	
 	public List<WorkoutSession> findByCustomerId(Long customerId){
 		List<WorkoutSession> result = new ArrayList<WorkoutSession>();
 		String fluxQuery = "from(bucket: \"workoutsessions-bucket\") |> range(start: -30d) |> filter(fn: (r) => r[\"_measurement\"] == \"workout-sessions\") |> filter(fn: (r) => r.customerId == \""+customerId+"\")";
 		QueryApi queryApi = influxClient.getQueryApi();
 		List<FluxTable> tables = queryApi.query(fluxQuery, "PT-Support");
-		Long wsId = null;
+		Long wsId = -1l;
 		for(FluxTable table : tables) {
 			for(FluxRecord record : table.getRecords()) {
 				if(Long.parseLong(record.getValueByKey("sessionId").toString()) != wsId) {
 					WorkoutSession ws = new WorkoutSession();
-					ws.setCustomerId(Long.parseLong(record.getValueByKey("customerId").toString())); //should always be equal to customerId
+					ws.setCustomer(custDao.findById(Long.parseLong(record.getValueByKey("customerId").toString()))); //should always be equal to customerId
+					ws.setProgram(wpDao.findByName(record.getValueByKey("programName").toString()));
 					wsId = Long.parseLong(record.getValueByKey("sessionId").toString());
 					ws.setId(wsId);
 					ws.setStartTime(Instant.parse(record.getValueByKey("startTime").toString()));
@@ -138,11 +149,14 @@ public class WorkoutSessionDao {
 		for(FluxTable table : tables) {
 	        for(FluxRecord record : table.getRecords()) {
 	            JSONObject jsonObject = new JSONObject();
+	            jsonObject.put("exerciseName", record.getValueByKey("exerciseName"));
 	            jsonObject.put("machineId", record.getValueByKey("machineId"));
-	            if(record.getField().equals("load"))
-	            	jsonObject.put("load", record.getValue());
-	            else if(record.getField().equals("repetitions"))
-	            	jsonObject.put("repetitions", record.getValue());
+//	            if(record.getField().equals("load"))
+//	            	jsonObject.put("load", record.getValue());
+//	            else if(record.getField().equals("repetitions"))
+//	            	jsonObject.put("repetitions", record.getValue());
+	            jsonObject.put("load", record.getValueByKey("load"));
+	            jsonObject.put("repetitions", record.getValueByKey("repetitions"));
 	            jsonObject.put("timestamp", record.getTime());
 
 	            jsonArray.add(jsonObject);

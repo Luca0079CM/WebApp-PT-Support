@@ -95,4 +95,13 @@ public class CustomerController {
 		}
 		return exDTOList;
 	}
+	
+	public List<WorkoutSessionDTO> listWorkoutSessionOfCustomer(Long custId){
+		List<WorkoutSessionDTO> wsDTOList = new ArrayList<WorkoutSessionDTO>();
+		for(WorkoutSession ws : wsDao.findByCustomerId(custId)) {
+			wsDTOList.add(wsMapper.toDTO(ws));
+		}
+		return wsDTOList;
+	}
+
 }
