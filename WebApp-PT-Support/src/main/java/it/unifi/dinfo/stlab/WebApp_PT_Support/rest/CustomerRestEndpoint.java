@@ -68,12 +68,21 @@ public class CustomerRestEndpoint {
 	}
 	
 	@POST
-	@Path("/customers/save-session")
+	@Path("/sessions/save")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response saveWorkoutSession(WorkoutSessionDTO wsDTO) {
 		WorkoutSessionDTO responseDTO = customerController.saveWorkoutSession(wsDTO);
 		return Response.status(Response.Status.OK).entity(responseDTO).build();
+	}
+	
+	//questo sarà usato anche dal PT, il fe deve chiamare questo path su ptService
+	@GET
+	@Path("/sessions/list/{custId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response listWorkoutSessionOfCustomer(@PathParam("custId") Long custId) {
+		List<WorkoutSessionDTO> ptDTOList = customerController.listWorkoutSessionOfCustomer(custId);
+		return Response.status(Response.Status.OK).entity(ptDTOList).build();
 	}
 	
 }

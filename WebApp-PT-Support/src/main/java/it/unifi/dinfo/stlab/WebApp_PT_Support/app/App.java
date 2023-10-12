@@ -28,7 +28,6 @@ import org.json.simple.parser.ParseException;
 
 import it.unifi.dinfo.stlab.WebApp_PT_Support.dao.CustomerDao;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.dao.WorkoutSessionDao;
-import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.WorkoutSession;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.rest.CustomerRestEndpoint;
 
 import it.unifi.dinfo.stlab.WebApp_PT_Support.dao.*;
@@ -272,7 +271,8 @@ public class App {
     	WorkoutSessionDao wsDao = new WorkoutSessionDao();
     	WorkoutSession ws = new WorkoutSession();
     	ws.setId(Long.valueOf(100));
-    	ws.setCustomerId(Long.valueOf(50));
+    	ws.setCustomer(em.find(Customer.class, 50l));
+    	ws.setProgram(em.find(WorkoutProgram.class, 300l));
 		ws.setStartTime(Instant.now());
 		ws.setEndTime(Instant.now());
 
@@ -293,7 +293,7 @@ public class App {
 		idList.add(50l);
 //		idList.add(51l);
 //		System.out.println("ws list: " + wsDao.findAllByCustomerIdList(idList));
-		for(WorkoutSession ws2: wsDao.findAllByCustomerIdList(idList)) {
+		for(WorkoutSession ws2: wsDao.findAll()) {
 			System.out.println("Sessions retrieved: " + ws2);
 			System.out.println("Sessions data: " + ws2.getSessionData());
 		}

@@ -173,29 +173,19 @@ public class PersonalTrainerRestEndpoint {
 		return Response.status(Response.Status.OK).entity(wpDTOList).build();
 	}
 	
-	//probabilmente da levare perchè lista le sessions di TUTTI i customers
-	@GET
-	@Path("/sessions/list")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response listWorkoutSessions() {
-		List<WorkoutSessionDTO> wsDTOList = ptController.listWorkoutSessions();
-		return Response.status(Response.Status.OK).entity(wsDTOList).build();
-	}
-	
-	@GET
-	@Path("/ptrainers/list-sessions/{ptId}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response listWorkoutSessionsOfPTCustomers(@PathParam("ptId") Long ptId) {
-		List<WorkoutSessionDTO> wsDTOList = ptController.listWorkoutSessionsOfPTCustomers(ptId);
-		return Response.status(Response.Status.OK).entity(wsDTOList).build();
-	}
+//	@GET
+//	@Path("/ptrainers/list-machinedata")
+//	@Produces(MediaType.APPLICATION_JSON)
+//	public Response listAllMachinesData() {
+//		JSONArray response = ptController.listAllMachinesData();
+//		return Response.status(Response.Status.OK).entity(response).build();
+//	}
 	
 	@GET
 	@Path("/ping")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response ping() {
 		JSONObject jsonResponse = new JSONObject();
-//	    String message = "Server is up and running!";
 	    return Response.status(Response.Status.OK).entity(jsonResponse).build();
 	}
 	

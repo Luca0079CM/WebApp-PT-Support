@@ -239,15 +239,22 @@ public class PersonalTrainerController {
 		return workoutSessionDTOList;
 	}
 	
-	public List<WorkoutSessionDTO> listWorkoutSessionsOfPTCustomers(Long ptId){
-		List<WorkoutSessionDTO> workoutSessionDTOList = new ArrayList<WorkoutSessionDTO>();
-		PersonalTrainer pt = ptDao.findById(ptId);
-		List<Long> customerIdList = new ArrayList<>();
-		for(Customer c : pt.getCustomersList())
-			customerIdList.add(c.getId());
-		for(WorkoutSession ws : wsDao.findAllByCustomerIdList(customerIdList))
-			workoutSessionDTOList.add(wsMapper.toDTO(ws));
-		return workoutSessionDTOList;
-	}
+	//da cestinare
+//	public List<WorkoutSessionDTO> listWorkoutSessionsOfPTCustomers(Long ptId){
+//		List<WorkoutSessionDTO> workoutSessionDTOList = new ArrayList<WorkoutSessionDTO>();
+//		PersonalTrainer pt = ptDao.findById(ptId);
+//		List<Long> customerIdList = new ArrayList<>();
+//		for(Customer c : pt.getCustomersList())
+//			customerIdList.add(c.getId());
+//		for(WorkoutSession ws : wsDao.findAllByCustomerIdList(customerIdList))
+//			workoutSessionDTOList.add(wsMapper.toDTO(ws));
+//		return workoutSessionDTOList;
+//	}
+	
+//	public JSONArray listAllMachinesData() {
+//		for(WorkoutSession ws : wsDao.findAll()) {
+//			//filtra le ws estraendo solo i pacchetti ed appendendoli ad un jsonarray
+//		}
+//	}
 	
 }

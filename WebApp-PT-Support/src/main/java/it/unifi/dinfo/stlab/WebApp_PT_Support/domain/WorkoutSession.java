@@ -7,7 +7,8 @@ import org.json.simple.JSONObject;
 
 public class WorkoutSession {
 	private Long id;
-	private Long customerId;
+	private Customer customer; 
+	private WorkoutProgram program;
 	private Instant startTime; //timestamp
 	private Instant endTime; //timestamp
 	private JSONArray sessionData;
@@ -20,12 +21,20 @@ public class WorkoutSession {
 		this.id = id;
 	}
 
-	public Long getCustomerId() {
-		return customerId;
+	public Customer getCustomer() {
+		return customer;
 	}
 
-	public void setCustomerId(Long customerId) {
-		this.customerId = customerId;
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+
+	public WorkoutProgram getProgram() {
+		return program;
+	}
+
+	public void setProgram(WorkoutProgram program) {
+		this.program = program;
 	}
 
 	public Instant getStartTime() {
