@@ -19,7 +19,7 @@ public class ExerciseMapper {
 			exDTO.setMachineId(ex.getMachine().getId());
 		}
 		else
-			exDTO.setMachine("Nessun macchinario per l'esercizio");
+			exDTO.setMachine("Nessuno");
 		return exDTO;
 	}
 	

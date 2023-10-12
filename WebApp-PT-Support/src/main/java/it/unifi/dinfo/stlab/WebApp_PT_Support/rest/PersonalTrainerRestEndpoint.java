@@ -98,12 +98,12 @@ public class PersonalTrainerRestEndpoint {
 		return Response.status(Response.Status.OK).entity(responseDTO).build();
 	}
 	
-	@PUT //devo fare post sennò non funziona (mette di default nell'Allow degli header cors solo POST come metodo http)
+	@PUT
 	@Path("/wprograms/{wpId}/add-ex")
 	@Produces(MediaType.APPLICATION_JSON)
 //	@Consumes(MediaType.APPLICATION_JSON)
-	public Response addExerciseToWorkoutProgram(@PathParam("wpId") Long wpId, ExerciseDTO exDTO) {
-		WorkoutProgramDTO responseDTO = ptController.addExerciseToWorkoutProgram(wpId, exDTO);
+	public Response addExerciseToWorkoutProgram(@PathParam("wpId") Long wpId, List<ExerciseDTO> exDTOList) {
+		WorkoutProgramDTO responseDTO = ptController.addExercisesToWorkoutProgram(wpId, exDTOList);
 		return Response.status(Response.Status.OK).entity(responseDTO).build();
 	}
 	
@@ -150,10 +150,26 @@ public class PersonalTrainerRestEndpoint {
 	}
 	
 	@GET
+	@Path("/exercises/list-not-wp/{wpId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response listExercisesNotInWp(@PathParam("wpId") Long wpId) {
+		List<ExerciseDTO> exDTOList = ptController.listExercisesNotInWP(wpId);
+		return Response.status(Response.Status.OK).entity(exDTOList).build();
+	}
+	
+	@GET
 	@Path("/wprograms/list")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response listWorkoutProgram() {
 		List<WorkoutProgramDTO> wpDTOList = ptController.listWorkoutProgram();
+		return Response.status(Response.Status.OK).entity(wpDTOList).build();
+	}
+	
+	@GET
+	@Path("/wprograms/list-not-customer/{cId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response listWorkoutProgramNotOfCustomer(@PathParam("cId") Long cId) {
+		List<WorkoutProgramDTO> wpDTOList = ptController.listWorkoutProgramNotOfCustomer(cId);
 		return Response.status(Response.Status.OK).entity(wpDTOList).build();
 	}
 	
