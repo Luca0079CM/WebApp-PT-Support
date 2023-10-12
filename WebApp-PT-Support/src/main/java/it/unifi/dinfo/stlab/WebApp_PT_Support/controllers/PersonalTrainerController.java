@@ -157,15 +157,16 @@ public class PersonalTrainerController {
 		return cMapper.toDTO(c);
 	}
 	
-	public WorkoutProgramDTO addExerciseToWorkoutProgram(Long wpId, ExerciseDTO exDTO) {
+	public WorkoutProgramDTO addExercisesToWorkoutProgram(Long wpId, List<ExerciseDTO> exDTOList) {
 		WorkoutProgram wp = wpDao.findById(wpId);
-		Exercise ex = exDao.findById(exDTO.getId());
 		List<Exercise> exList = wp.getExerciseList();
-		if(!exList.contains(ex)) {
-			exList.add(ex);
-			wp.setExerciseList(exList);
-			wpDao.update(wp);
+		for(ExerciseDTO exDTO : exDTOList) {
+			Exercise ex = exDao.findById(exDTO.getId());
+			if(!exList.contains(ex)) 
+				exList.add(ex);
 		}
+		wp.setExerciseList(exList);
+		wpDao.update(wp);
 		return wpMapper.toDTO(wp);
 	}
 	
@@ -183,10 +184,51 @@ public class PersonalTrainerController {
 		return exerciseDTOList;
 	}
 	
+	public List<ExerciseDTO> listExercisesNotInWP(Long wpId){
+		WorkoutProgram wp = wpDao.findById(wpId);
+		ArrayList<ExerciseDTO> exerciseDTOList = new ArrayList<ExerciseDTO>();
+		if(wp != null) {
+			for(Exercise ex : exDao.findAll()) {
+				boolean found = false;
+				for(Exercise exWp : wp.getExerciseList()) {
+					if(ex.getId().equals(exWp.getId())) {
+						found = true;
+						break;
+					}
+				}
+				if(!found) {
+					exerciseDTOList.add(exMapper.toDTO(ex));
+				}
+			}
+		}else {
+			for(Exercise ex: exDao.findAll())
+				exerciseDTOList.add(exMapper.toDTO(ex));
+		}
+		return exerciseDTOList;
+	}
+	
 	public List<WorkoutProgramDTO> listWorkoutProgram(){
 		ArrayList<WorkoutProgramDTO> workoutProgramDTOList = new ArrayList<WorkoutProgramDTO>();
 		for(WorkoutProgram wp : wpDao.findAll())
 			workoutProgramDTOList.add(wpMapper.toDTO(wp));
+		return workoutProgramDTOList;
+	}
+	
+	
+	public List<WorkoutProgramDTO> listWorkoutProgramNotOfCustomer(Long cId){
+		ArrayList<WorkoutProgramDTO> workoutProgramDTOList = new ArrayList<WorkoutProgramDTO>();
+		Customer c = cDao.findById(cId);
+		for(WorkoutProgram wp : wpDao.findAll()) {
+			boolean found = false;
+			for(WorkoutProgram cWp: c.getWorkoutProgramList()) {
+				if(wp.getId().equals(cWp.getId())) {
+					found = true;
+					break;
+				}
+			}
+			if(!found)
+				workoutProgramDTOList.add(wpMapper.toDTO(wp));
+		}
 		return workoutProgramDTOList;
 	}
 	
@@ -214,6 +256,5 @@ public class PersonalTrainerController {
 //			//filtra le ws estraendo solo i pacchetti ed appendendoli ad un jsonarray
 //		}
 //	}
-	
 	
 }
