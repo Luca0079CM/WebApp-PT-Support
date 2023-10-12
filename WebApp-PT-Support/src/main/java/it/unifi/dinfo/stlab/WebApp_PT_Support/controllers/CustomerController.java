@@ -9,15 +9,19 @@ import java.util.List;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.dao.CustomerDao;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.dao.PersonalTrainerDao;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.dao.WorkoutSessionDao;
+import it.unifi.dinfo.stlab.WebApp_PT_Support.dao.WorkoutProgramDao;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.Customer;
+import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.Exercise;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.PersonalTrainer;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.WorkoutProgram;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.domain.WorkoutSession;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.dto.CustomerDTO;
+import it.unifi.dinfo.stlab.WebApp_PT_Support.dto.ExerciseDTO;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.dto.PersonalTrainerDTO;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.dto.WorkoutProgramDTO;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.dto.WorkoutSessionDTO;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.mappers.CustomerMapper;
+import it.unifi.dinfo.stlab.WebApp_PT_Support.mappers.ExerciseMapper;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.mappers.PersonalTrainerMapper;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.mappers.WorkoutProgramMapper;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.mappers.WorkoutSessionMapper;
@@ -30,6 +34,8 @@ public class CustomerController {
 	PersonalTrainerDao ptDao;
 	@Inject
 	WorkoutSessionDao wsDao;
+  @Inject
+	WorkoutProgramDao wpDao;
 	@Inject
 	CustomerMapper cMapper;
 	@Inject
@@ -38,6 +44,8 @@ public class CustomerController {
 	PersonalTrainerMapper ptMapper;
 	@Inject
 	WorkoutSessionMapper wsMapper;
+  @Inject
+	ExerciseMapper exMapper;
 	
 	
 	public CustomerDTO searchCustomerByEmail(String email) {
@@ -68,6 +76,7 @@ public class CustomerController {
 		return cMapper.toDTO(c);
 	}
 	
+
 	public WorkoutSessionDTO saveWorkoutSession(WorkoutSessionDTO wsDTO) {
 		WorkoutSession ws = new WorkoutSession();
 		ws.setId(wsDTO.getId());
@@ -76,6 +85,15 @@ public class CustomerController {
 		ws.setSessionData(wsDTO.getSessionData());
 		wsDao.save(ws);
 		return wsMapper.toDTO(ws);
+  }
+
+	public List<ExerciseDTO> searchExerciseOfWorkoutProgram(Long wpId) {
+		WorkoutProgram wp = wpDao.findById(wpId);
+		List<ExerciseDTO> exDTOList = new ArrayList<ExerciseDTO>();
+		for(Exercise e : wp.getExerciseList()) {
+			exDTOList.add(exMapper.toDTO(e));
+		}
+		return exDTOList;
 	}
 	
 	public List<WorkoutSessionDTO> listWorkoutSessionOfCustomer(Long custId){
@@ -85,5 +103,5 @@ public class CustomerController {
 		}
 		return wsDTOList;
 	}
-	
+
 }

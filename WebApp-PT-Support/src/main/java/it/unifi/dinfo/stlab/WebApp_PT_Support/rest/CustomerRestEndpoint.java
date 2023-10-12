@@ -50,7 +50,15 @@ public class CustomerRestEndpoint {
 		return Response.status(Response.Status.OK).entity(ptDTOList).build();
 	}
 	
-	@PUT //mettere PUT
+	@GET
+	@Path("/wprogram/search-exercise/{wpId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response searchExerciseOfWprogram(@PathParam("wpId") Long wpId) {
+		List<ExerciseDTO> responseDTO = customerController.searchExerciseOfWorkoutProgram(wpId);
+		return Response.status(Response.Status.OK).entity(responseDTO).build();
+	}
+	
+	@PUT
 	@Path("/customers/change-pt/{cId}/{ptId}")
 	@Produces(MediaType.APPLICATION_JSON)
 //	@Consumes(MediaType.APPLICATION_JSON)
