@@ -72,7 +72,7 @@ public class App {
 //    	retrieveCustomersFromPersonalTrainer();
     	
     	testPopulateTablesForRestTest();
-//    	populateWorkoutSession();
+    	populateWorkoutSession();
     }
 
 //    private void populateCustomer() {
@@ -277,7 +277,7 @@ public class App {
 		ws.setEndTime(Instant.now());
 
 		JSONParser parser = new JSONParser();
-		Reader reader = new FileReader("/home/luca/git/repository/WebApp-PT-Support/src/main/java/it/unifi/dinfo/stlab/WebApp_PT_Support/app/testWorkoutSession.json");
+		Reader reader = new FileReader("C:\\Users\\carlo\\Desktop\\Github_repos\\WebApp-PT-Support\\WebApp-PT-Support\\src\\main\\java\\it\\unifi\\dinfo\\stlab\\WebApp_PT_Support\\app\\testWorkoutSession.json");
 		JSONArray jsonArr = (JSONArray)parser.parse(reader);
 		ws.setSessionData(jsonArr);
 

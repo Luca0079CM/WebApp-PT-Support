@@ -13,6 +13,8 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import it.unifi.dinfo.stlab.WebApp_PT_Support.controllers.PersonalTrainerController;
@@ -173,13 +175,13 @@ public class PersonalTrainerRestEndpoint {
 		return Response.status(Response.Status.OK).entity(wpDTOList).build();
 	}
 	
-//	@GET
-//	@Path("/ptrainers/list-machinedata")
-//	@Produces(MediaType.APPLICATION_JSON)
-//	public Response listAllMachinesData() {
-//		JSONArray response = ptController.listAllMachinesData();
-//		return Response.status(Response.Status.OK).entity(response).build();
-//	}
+	@GET
+	@Path("/ptrainers/list-machinedata")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response listAllMachinesData() {
+		JSONArray response = ptController.listAllMachinesData();
+		return Response.status(Response.Status.OK).entity(response).build();
+	}
 	
 	@GET
 	@Path("/ping")
