@@ -17,6 +17,10 @@ import it.unifi.dinfo.stlab.WebApp_PT_Support.dto.*;
 
 import java.time.LocalDate;
 import java.util.List;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 import java.util.ArrayList;
 
 import jakarta.inject.Inject;
@@ -251,10 +255,14 @@ public class PersonalTrainerController {
 //		return workoutSessionDTOList;
 //	}
 	
-//	public JSONArray listAllMachinesData() {
-//		for(WorkoutSession ws : wsDao.findAll()) {
-//			//filtra le ws estraendo solo i pacchetti ed appendendoli ad un jsonarray
-//		}
-//	}
+	@SuppressWarnings("unchecked")
+	public JSONArray listAllMachinesData() {
+		JSONArray jsonArray = new JSONArray();
+		for(WorkoutSession ws : wsDao.findAll()) {
+			//filtra le ws estraendo solo i pacchetti ed appendendoli ad un jsonarray
+			jsonArray.add(ws.getSessionData());
+		}
+		return jsonArray;
+	}
 	
 }
