@@ -86,7 +86,7 @@ public class App {
     	
     	testPopulateTablesForRestTest();
     	populateWorkoutSession();
-//    provaInflux();
+//    	provaInflux();
 
     }
 
@@ -296,7 +296,7 @@ public class App {
 		JSONArray jsonArr = (JSONArray)parser.parse(reader);
 		ws.setSessionData(jsonArr);
 
-		wsDao.buildConnection("M_eR6oFSVaFfVKj-UfdVgud1Kumz_Aa55_iPPM_e4-pFui3irqUYc6eMh8_Y-N51CAcG5JfDhroO9a4xHVJcPA==", "workoutsessions-bucket", "PT-Support");
+		wsDao.buildConnection("57my30fVD2mvRW7pKOgTTqGbymad0B2U5HR7rGUszU1GPBSDnnFU4Dt8rQdNiLJaIJdm_jOLG6l4hQLK8FHB5Q==", "workoutsessions-bucket", "PT-Support");
 		System.out.println("Connessione stabilita");
 		wsDao.save(ws);
 		System.out.println("Salvataggio finito");
