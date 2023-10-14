@@ -78,6 +78,7 @@ public class CustomerController {
 	
 
 	public WorkoutSessionDTO saveWorkoutSession(WorkoutSessionDTO wsDTO) {
+		wsDao.buildConnection("M_eR6oFSVaFfVKj-UfdVgud1Kumz_Aa55_iPPM_e4-pFui3irqUYc6eMh8_Y-N51CAcG5JfDhroO9a4xHVJcPA==", "workoutsessions-bucket", "PT-Support");
 		WorkoutSession ws = new WorkoutSession();
 		ws.setId(wsDTO.getId());
 		ws.setStartTime(Instant.parse(wsDTO.getStartTime()));
