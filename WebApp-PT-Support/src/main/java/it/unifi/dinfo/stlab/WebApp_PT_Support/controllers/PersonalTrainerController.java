@@ -17,6 +17,9 @@ import it.unifi.dinfo.stlab.WebApp_PT_Support.dto.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Iterator;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -256,13 +259,24 @@ public class PersonalTrainerController {
 //	}
 	
 	@SuppressWarnings("unchecked")
-	public JSONArray listAllMachinesData() {
-		JSONArray jsonArray = new JSONArray();
+	public Map<Long, Integer> getAllMachinesUsage() {
+		wsDao.buildConnection("57my30fVD2mvRW7pKOgTTqGbymad0B2U5HR7rGUszU1GPBSDnnFU4Dt8rQdNiLJaIJdm_jOLG6l4hQLK8FHB5Q==", "workoutsessions-bucket", "PT-Support");
+		Map<Long, Integer> machineFrequency = new HashMap<Long, Integer>();
 		for(WorkoutSession ws : wsDao.findAll()) {
-			//filtra le ws estraendo solo i pacchetti ed appendendoli ad un jsonarray
-			jsonArray.add(ws.getSessionData());
+			List<HashMap<String, String>> sessionData = ws.getSessionData();
+			for(HashMap<String, String> i : sessionData) {
+				System.out.println(i);
+				Long machineId = Long.parseLong(i.get("machineId"));
+	            if (machineFrequency.containsKey(machineId)) {
+	                machineFrequency.put(machineId, machineFrequency.get(machineId) + Integer.parseInt(i.get("repetitions")));
+	            } 
+	            else {
+	            	machineFrequency.put(machineId, Integer.parseInt(i.get("repetitions")));
+	            }
+			}
 		}
-		return jsonArray;
+		System.out.println(machineFrequency);
+		return machineFrequency;
 	}
 	
 }

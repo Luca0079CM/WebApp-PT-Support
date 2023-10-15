@@ -1,6 +1,9 @@
 package it.unifi.dinfo.stlab.WebApp_PT_Support.domain;
 
 import java.time.Instant;
+import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -11,7 +14,8 @@ public class WorkoutSession {
 	private WorkoutProgram program;
 	private Instant startTime; //timestamp
 	private Instant endTime; //timestamp
-	private JSONArray sessionData;
+//	private JSONArray sessionData;
+	private List<HashMap<String, String>> sessionData;
 
 	public Long getId() {
 		return id;
@@ -53,11 +57,11 @@ public class WorkoutSession {
 		this.endTime = endTime;
 	}
 
-	public JSONArray getSessionData() {
+	public List<HashMap<String, String>> getSessionData() {
 		return sessionData;
 	}
 
-	public void setSessionData(JSONArray sessionData) {
+	public void setSessionData(List<HashMap<String, String>> sessionData) {
 		this.sessionData = sessionData;
 	}
 }

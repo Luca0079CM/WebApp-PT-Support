@@ -279,24 +279,24 @@ public class App {
 		JSONParser parser = new JSONParser();
 		Reader reader = new FileReader("C:\\Users\\carlo\\Desktop\\Github_repos\\WebApp-PT-Support\\WebApp-PT-Support\\src\\main\\java\\it\\unifi\\dinfo\\stlab\\WebApp_PT_Support\\app\\testWorkoutSession.json");
 		JSONArray jsonArr = (JSONArray)parser.parse(reader);
-		ws.setSessionData(jsonArr);
-
-		wsDao.buildConnection("57my30fVD2mvRW7pKOgTTqGbymad0B2U5HR7rGUszU1GPBSDnnFU4Dt8rQdNiLJaIJdm_jOLG6l4hQLK8FHB5Q==", "workoutsessions-bucket", "PT-Support");
-		System.out.println("Connessione stabilita");
-		wsDao.save(ws);
-		System.out.println("Salvataggio finito");
+//		ws.setSessionData(jsonArr);
+//
+//		wsDao.buildConnection("57my30fVD2mvRW7pKOgTTqGbymad0B2U5HR7rGUszU1GPBSDnnFU4Dt8rQdNiLJaIJdm_jOLG6l4hQLK8FHB5Q==", "workoutsessions-bucket", "PT-Support");
+//		System.out.println("Connessione stabilita");
+//		wsDao.save(ws);
+//		System.out.println("Salvataggio finito");
 		
 //		for(WorkoutSession ws1: wsDao.findAll())
 //			System.out.println("Sessions retrieved: " + ws1);
 		
-		List<Long> idList = new ArrayList<>();
-		idList.add(50l);
-//		idList.add(51l);
-//		System.out.println("ws list: " + wsDao.findAllByCustomerIdList(idList));
-		for(WorkoutSession ws2: wsDao.findAll()) {
-			System.out.println("Sessions retrieved: " + ws2);
-			System.out.println("Sessions data: " + ws2.getSessionData());
-		}
+//		List<Long> idList = new ArrayList<>();
+//		idList.add(50l);
+////		idList.add(51l);
+////		System.out.println("ws list: " + wsDao.findAllByCustomerIdList(idList));
+//		for(WorkoutSession ws2: wsDao.findAll()) {
+//			System.out.println("Sessions retrieved: " + ws2);
+//			System.out.println("Sessions data: " + ws2.getSessionData());
+//		}
     }
     
     @Transactional
