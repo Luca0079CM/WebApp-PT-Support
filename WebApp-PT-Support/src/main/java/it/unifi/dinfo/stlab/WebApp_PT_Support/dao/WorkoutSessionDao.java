@@ -43,17 +43,12 @@ public class WorkoutSessionDao {
 
 	public void save(WorkoutSession ws) {
 		WriteApiBlocking writeApi = influxClient.getWriteApiBlocking();
-		JSONArray dataArray = ws.getSessionData();
+		List<HashMap<String, String>> dataArray = ws.getSessionData();
 		System.out.println("data: "+ dataArray);
-		@SuppressWarnings("unchecked")
-		Iterator<JSONObject> itr = (Iterator<JSONObject>) dataArray.iterator();
-//		for(Object obj: dataArray) {
-//			JSONObject obj2 = (JSONObject) obj;
-//			System.out.println("++++++"+obj2);
-//		}
-		while(itr.hasNext()) {
-			@SuppressWarnings("unchecked")
-			HashMap<String, String> i = itr.next();
+//		@SuppressWarnings("unchecked")
+//		Iterator<JSONObject> itr = dataArray.iterator();
+		for(HashMap<String, String> i : dataArray) {
+//			JSONObject i = itr.next();
 			Point sessionpoint = Point
 					  .measurement("workout-sessions")
 					  .addTag("sessionId", ws.getId().toString())
@@ -77,17 +72,20 @@ public class WorkoutSessionDao {
 		String fluxQuery = "from(bucket: \"workoutsessions-bucket\") |> range(start: -30d) |> filter(fn: (r) => r[\"_measurement\"] == \"workout-sessions\")";
 		QueryApi queryApi = influxClient.getQueryApi();
 		List<FluxTable> tables = queryApi.query(fluxQuery, "PT-Support");
+		Long wsId = -1l;
 		for(FluxTable table : tables) {
 			for(FluxRecord record : table.getRecords()) {
-				WorkoutSession ws = new WorkoutSession();
-				Long wsId = Long.parseLong(record.getValueByKey("sessionId").toString());
-				ws.setId(wsId);
-				ws.setCustomer(custDao.findById(Long.parseLong(record.getValueByKey("customerId").toString())));
-				ws.setProgram(wpDao.findByName(record.getValueByKey("programName").toString()));
-				ws.setStartTime(Instant.parse(record.getValueByKey("startTime").toString()));
-				ws.setEndTime(Instant.parse(record.getValueByKey("endTime").toString()));
-				ws.setSessionData(getMachineDataFromSession(wsId));
-				result.add(ws);
+				if(Long.parseLong(record.getValueByKey("sessionId").toString()) != wsId) {
+					WorkoutSession ws = new WorkoutSession();
+					wsId = Long.parseLong(record.getValueByKey("sessionId").toString());
+					ws.setId(wsId);
+					ws.setCustomer(custDao.findById(Long.parseLong(record.getValueByKey("customerId").toString())));
+					ws.setProgram(wpDao.findByName(record.getValueByKey("programName").toString()));
+					ws.setStartTime(Instant.parse(record.getValueByKey("startTime").toString()));
+					ws.setEndTime(Instant.parse(record.getValueByKey("endTime").toString()));
+					ws.setSessionData(getMachineDataFromSession(wsId));
+					result.add(ws);
+				}
 			}
 		}
 		return result;
@@ -122,9 +120,9 @@ public class WorkoutSessionDao {
 //		return result;
 //	}
 	
-	public List<WorkoutSession> findByCustomerId(Long customerId){
+	public List<WorkoutSession> findByCustomerIdAndProgramName(Long customerId, String programName){
 		List<WorkoutSession> result = new ArrayList<WorkoutSession>();
-		String fluxQuery = "from(bucket: \"workoutsessions-bucket\") |> range(start: -30d) |> filter(fn: (r) => r[\"_measurement\"] == \"workout-sessions\") |> filter(fn: (r) => r.customerId == \""+customerId+"\")";
+		String fluxQuery = "from(bucket: \"workoutsessions-bucket\") |> range(start: -30d) |> filter(fn: (r) => r[\"_measurement\"] == \"workout-sessions\") |> filter(fn: (r) => r.customerId == \""+customerId+"\" and r.programName == \""+programName+"\")";
 		QueryApi queryApi = influxClient.getQueryApi();
 		List<FluxTable> tables = queryApi.query(fluxQuery, "PT-Support");
 		Long wsId = -1l;

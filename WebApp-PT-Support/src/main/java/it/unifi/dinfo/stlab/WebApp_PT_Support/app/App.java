@@ -294,12 +294,13 @@ public class App {
 		JSONParser parser = new JSONParser();
 		Reader reader = new FileReader("/home/luca/git/repository/WebApp-PT-Support/src/main/java/it/unifi/dinfo/stlab/WebApp_PT_Support/app/testWorkoutSession.json");
 		JSONArray jsonArr = (JSONArray)parser.parse(reader);
-		ws.setSessionData(jsonArr);
 
-		wsDao.buildConnection("M_eR6oFSVaFfVKj-UfdVgud1Kumz_Aa55_iPPM_e4-pFui3irqUYc6eMh8_Y-N51CAcG5JfDhroO9a4xHVJcPA==", "workoutsessions-bucket", "PT-Support");
-		System.out.println("Connessione stabilita");
-		wsDao.save(ws);
-		System.out.println("Salvataggio finito");
+//		ws.setSessionData(jsonArr);
+//
+//		wsDao.buildConnection("M_eR6oFSVaFfVKj-UfdVgud1Kumz_Aa55_iPPM_e4-pFui3irqUYc6eMh8_Y-N51CAcG5JfDhroO9a4xHVJcPA==", "workoutsessions-bucket", "PT-Support");
+//		System.out.println("Connessione stabilita");
+//		wsDao.save(ws);
+//		System.out.println("Salvataggio finito");
 		
 //		for(WorkoutSession ws1: wsDao.findAll())
 //			System.out.println("Sessions retrieved: " + ws1);
