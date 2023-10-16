@@ -3,6 +3,7 @@ package it.unifi.dinfo.stlab.WebApp_PT_Support.dao;
 import java.util.Iterator;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,9 +46,14 @@ public class WorkoutSessionDao {
 		JSONArray dataArray = ws.getSessionData();
 		System.out.println("data: "+ dataArray);
 		@SuppressWarnings("unchecked")
-		Iterator<JSONObject> itr = dataArray.iterator();
+		Iterator<JSONObject> itr = (Iterator<JSONObject>) dataArray.iterator();
+//		for(Object obj: dataArray) {
+//			JSONObject obj2 = (JSONObject) obj;
+//			System.out.println("++++++"+obj2);
+//		}
 		while(itr.hasNext()) {
-			JSONObject i = itr.next();
+			@SuppressWarnings("unchecked")
+			HashMap<String, String> i = itr.next();
 			Point sessionpoint = Point
 					  .measurement("workout-sessions")
 					  .addTag("sessionId", ws.getId().toString())

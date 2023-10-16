@@ -84,6 +84,9 @@ public class CustomerController {
 		ws.setStartTime(Instant.parse(wsDTO.getStartTime()));
 		ws.setEndTime(Instant.parse(wsDTO.getEndTime()));
 		ws.setSessionData(wsDTO.getSessionData());
+		ws.setCustomer(cDao.findById(wsDTO.getCustomerId()));
+		System.out.println(wsDTO.getProgramName());
+		ws.setProgram(wpDao.findByName(wsDTO.getProgramName()));
 		wsDao.save(ws);
 		return wsMapper.toDTO(ws);
   }
