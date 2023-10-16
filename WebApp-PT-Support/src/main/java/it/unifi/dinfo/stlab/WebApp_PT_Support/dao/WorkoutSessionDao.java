@@ -61,7 +61,7 @@ public class WorkoutSessionDao {
 					  .addTag("load", i.get("load").toString())
 					  .addTag("repetitions", i.get("repetitions").toString())
 					  .addField("necessaryfield", 0)
-					  .time(Instant.parse(i.get("timestamp").toString()), WritePrecision.NS);
+					  .time(Instant.parse(i.get("timestamp").toString()), WritePrecision.S);
 			System.out.println("sessionId: "+ ws.getId());
 			writeApi.writePoint(this.bucket, this.org, sessionpoint);
 		}
