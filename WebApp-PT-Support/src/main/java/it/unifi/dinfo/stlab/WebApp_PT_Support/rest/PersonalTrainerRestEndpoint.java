@@ -185,6 +185,15 @@ public class PersonalTrainerRestEndpoint {
 	}
 	
 	@GET
+	@Path("/ptrainers/get-exercise-progression/{cId}/{programName}/{exName}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getExerciseProgressionOnWProgram(@PathParam("cId") Long cId, @PathParam("programName") String programName, 
+			@PathParam("exName") String exName) {
+		Map<String, String> response = ptController.getExerciseProgressionOnWProgram(cId, programName, exName);
+		return Response.status(Response.Status.OK).entity(response).build();
+	}
+	
+	@GET
 	@Path("/ping")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response ping() {

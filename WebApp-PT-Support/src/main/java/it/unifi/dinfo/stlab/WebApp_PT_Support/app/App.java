@@ -86,8 +86,6 @@ public class App {
     	
     	testPopulateTablesForRestTest();
 //    	populateWorkoutSession();
-//    provaInflux();
-
     }
 
 //    private void populateCustomer() {
@@ -317,156 +315,123 @@ public class App {
     
     @Transactional
     private void testPopulateTablesForRestTest() {
-    	Long gmId = Long.valueOf(10);
+    	Long gmId = 54974L;
     	GymMachine gm1 = new GymMachine();
     	gm1.setId(gmId);
-    	gm1.setName("Name-"+gmId);
-    	gm1.setDescription("Serve per allenarsi");
+    	gm1.setName("Chest Press");
+    	gm1.setDescription("Sedersi sul macchinario e spingere in avanti i braccioli chiudendo il petto");
 		em.persist(gm1);
 		
-		Long exId = Long.valueOf(20);
+		Long gmId2 = 54332L;
+    	GymMachine gm2 = new GymMachine();
+    	gm2.setId(gmId2);
+    	gm2.setName("Pectoral Machine");
+    	gm2.setDescription("Sedersi sul macchinario e avvicinare tra loro i braccioli chiudendo il petto");
+		em.persist(gm2);
+		
+		Long exId = 45223L;
 		Exercise ex1 = new Exercise();
 		ex1.setId(exId);
-    	ex1.setName("Name-"+exId);
+    	ex1.setName("Spinte alla chest press");
     	ex1.setDifficultyLevel(5);
-    	ex1.setDescription("Allena le spalle");
+    	ex1.setDescription("Allena il petto e i tricipiti");
     	ex1.setMachine(gm1);
 		em.persist(ex1);
 		List<Exercise> exList = new ArrayList<Exercise>();
 		exList.add(ex1);
 		
+		Long exId2 = 47854L;
+		Exercise ex2 = new Exercise();
+		ex2.setId(exId2);
+    	ex2.setName("Chiusure del petto alla Pectoral Machine");
+    	ex2.setDifficultyLevel(4);
+    	ex2.setDescription("Allena il petto");
+    	ex2.setMachine(gm2);
+		em.persist(ex2);
+		exList.add(ex2);
 		
-		Long wpId = Long.valueOf(300);
+		Long exId3 = 22245L;
+		Exercise ex3 = new Exercise();
+		ex3.setId(exId3);
+    	ex3.setName("Push Up");
+    	ex3.setDifficultyLevel(4);
+    	ex3.setDescription("Allena il petto e i tricipiti senza attrezzi");
+		em.persist(ex3);
+		exList.add(ex3);
+		
+		
+		Long wpId = 35623L;
 		WorkoutProgram wp1 = new WorkoutProgram();
 		wp1.setId(wpId);
 		wp1.setName("Chest Day Livello Medio");
 		wp1.setDifficultyLevel(6);
 		wp1.setEstimatedDuration(60);
-		wp1.setWorkoutProgramType(WorkoutProgramType.CALISTHENICS);
+		wp1.setWorkoutProgramType(WorkoutProgramType.WEIGHTS);
 		wp1.setExerciseList(exList);
 		em.persist(wp1);
 		List<WorkoutProgram> wpList = new ArrayList<WorkoutProgram>();
 		wpList.add(wp1);
     	
-    	Long ptId = Long.valueOf(41);
+    	Long ptId = 12345L;
 		PersonalTrainer pt1 = new PersonalTrainer();
 		pt1.setId(ptId);
-		pt1.setName("Name-"+ptId);
-		pt1.setSurname("Surname-"+ptId);
+		pt1.setName("Carlo");
+		pt1.setSurname("Ceccherelli");
 		pt1.setPassword("password");
-		pt1.setEmail("user"+ptId+"@gmail.com");
+		pt1.setEmail("carlo-pt@gmail.com");
 		pt1.setDateOfBirth(1997, 10, 10);
 //    	pt1.setWorkoutProgramList(wpList);
 		em.persist(pt1);
 		
-		Long ptId2 = Long.valueOf(401);
+		Long ptId2 = 54321L;
 		PersonalTrainer pt2 = new PersonalTrainer();
 		pt2.setId(ptId2);
-		pt2.setName("Name-"+ptId2);
-		pt2.setSurname("Surname-"+ptId2);
+		pt2.setName("Francesco");
+		pt2.setSurname("Ballerini");
 		pt2.setPassword("password");
-		pt2.setEmail("user"+ptId2+"@gmail.com");
+		pt2.setEmail("fraballe-pt@gmail.com");
 		pt2.setDateOfBirth(1997, 10, 10);
 //    	pt2.setWorkoutProgramList(wpList);
 		em.persist(pt2);
 		
-    	for(int i = 0; i<2; i++) {
-    		Long cId = Long.valueOf(i+50);
-    		Customer c1 = new Customer();
-    		c1.setId(cId);
-    		c1.setName("Name-"+cId);
-    		c1.setSurname("Surname-"+cId);
-    		c1.setPassword("password");
-    		c1.setEmail("user"+cId+"@gmail.com");
-    		c1.setDateOfBirth(1997, i%12+1, i%30+1);
-    		c1.setPersonalTrainer(pt1);
-        	c1.setWorkoutProgramList(wpList);
-    		em.persist(c1);	
-    	}
+    	
+		Long cId1 = 34251L;
+		Customer c1 = new Customer();
+		c1.setId(cId1);
+		c1.setName("Luca");
+		c1.setSurname("Leuter");
+		c1.setPassword("password");
+		c1.setEmail("luca.leuter@gmail.com");
+		c1.setDateOfBirth(1997, 3, 8);
+		c1.setPersonalTrainer(pt1);
+    	c1.setWorkoutProgramList(wpList);
+		em.persist(c1);	
+		
+		Long cId2 = 11122L;
+		Customer c2 = new Customer();
+		c2.setId(cId2);
+		c2.setName("Leonardo");
+		c2.setSurname("Di Iorio");
+		c2.setPassword("password");
+		c2.setEmail("leo.iorio@gmail.com");
+		c2.setDateOfBirth(1997, 7, 3);
+		c2.setPersonalTrainer(pt2);
+    	c2.setWorkoutProgramList(wpList);
+		em.persist(c2);	
+    	
     	
     	//Utente senza pt
-    	Long cId = Long.valueOf(7315462);
-		Customer c1 = new Customer();
-		c1.setId(cId);
-		c1.setName("Name-"+cId);
-		c1.setSurname("Surname-"+cId);
-		c1.setPassword("password");
-		c1.setEmail("user"+cId+"@gmail.com");
-		c1.setDateOfBirth(1997, 4, 15);
-		c1.setPersonalTrainer(null);
-    	c1.setWorkoutProgramList(null);
-		em.persist(c1);	
-    }
-
-    public void provaInflux() throws ParseException, FileNotFoundException, IOException, java.text.ParseException{
-    	String token = "M_eR6oFSVaFfVKj-UfdVgud1Kumz_Aa55_iPPM_e4-pFui3irqUYc6eMh8_Y-N51CAcG5JfDhroO9a4xHVJcPA==";
-        String bucket = "workoutsessions-bucket";
-        String org = "PT-Support";
-
-        InfluxDBClient client = InfluxDBClientFactory.create("http://localhost:8086", token.toCharArray());
-        WorkoutSession ws = new WorkoutSession();
-    	ws.setId(Long.valueOf(100));
-    	ws.setCustomer(em.find(Customer.class, 50l));
-    	ws.setProgram(em.find(WorkoutProgram.class, 300l));
-		ws.setStartTime(Instant.now());
-		ws.setEndTime(Instant.now());
-
-		JSONParser parser = new JSONParser();
-		Reader reader = new FileReader("/home/luca/git/repository/WebApp-PT-Support/src/main/java/it/unifi/dinfo/stlab/WebApp_PT_Support/app/testWorkoutSession.json");
-		JSONArray jsonArr = (JSONArray)parser.parse(reader);
-		ws.setSessionData(jsonArr);
-        JSONArray dataArray = ws.getSessionData();
-		Iterator<JSONObject> itr = dataArray.iterator();
-		WriteApiBlocking writeApi = client.getWriteApiBlocking();
-		JSONObject i = itr.next();
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-		Date date = dateFormat.parse(i.get("timestamp").toString());
-		Instant instant = Instant.parse("2023-10-05T15:30:56.5544554Z");
-		
-
-		Point sessionpoint = Point
-				  .measurement("workout-sessions")
-//				  .addTag("host", "host1")
-				  .addTag("sessionId", ws.getId().toString())
-				  
-//				  .addField("used_percent", 23.43234543)
-				  .addField("necessaryfield", 0)
-//				  .time(Instant.now(), WritePrecision.NS);
-				  .time(Instant.parse(i.get("timestamp").toString()), WritePrecision.S);
-//				  .time((long) instant.toEpochMilli(), WritePrecision.MS)
-//				  .time(1696519856554l, WritePrecision.MS);
-//				  .time(1697214464757l, WritePrecision.MS);
-		
-		
-//					  .addTag("customerId", ws.getCustomer().getId().toString())
-//					  .addTag("programName", ws.getProgram().getName())
-//					  .addTag("startTime", ws.getStartTime().toString())
-//					  .addTag("endTime", ws.getEndTime().toString())
-//					  .addTag("exerciseName", i.get("exerciseName").toString())
-//					  .addTag("machineId", i.get("machineId").toString())//oppure è un field?
-//					  .addTag("load", i.get("load").toString())
-//					  .addTag("repetitions", i.get("repetitions").toString())
-//				  
-//				  .time(Instant.parse(i.get("timestamp").toString()), WritePrecision.NS);
-				  
-		System.out.println(ws.getId().toString());
-		System.out.println(Instant.parse(i.get("timestamp").toString()));
-		System.out.println(Instant.now());
-		System.out.println(instant.toEpochMilli());
-		System.out.println(System.currentTimeMillis());
-		writeApi.writePoint(bucket, org, sessionpoint);
-		
-		
-		String query = "from(bucket: \"workoutsessions-bucket\") |> range(start: -1h)";
-		List<FluxTable> tables = client.getQueryApi().query(query, org);
-
-		for (FluxTable table : tables) {
-		  for (FluxRecord record : table.getRecords()) {
-		    System.out.println("-+-+-+-++-+-+-+-+-"+record);
-		  }
-		}
-		
-		client.close();
+    	Long cId = 73154L;
+		Customer c3 = new Customer();
+		c3.setId(cId);
+		c3.setName("Chiara");
+		c3.setSurname("Tesi");
+		c3.setPassword("password");
+		c3.setEmail("chiara.tesi@gmail.com");
+		c3.setDateOfBirth(1997, 8, 1);
+		c3.setPersonalTrainer(null);
+    	c3.setWorkoutProgramList(null);
+		em.persist(c3);
     }
 
 }
