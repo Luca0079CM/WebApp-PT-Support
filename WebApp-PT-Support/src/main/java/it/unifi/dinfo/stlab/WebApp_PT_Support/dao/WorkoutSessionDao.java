@@ -122,7 +122,7 @@ public class WorkoutSessionDao {
 	
 	public List<WorkoutSession> findByCustomerIdAndProgramName(Long customerId, String programName){
 		List<WorkoutSession> result = new ArrayList<WorkoutSession>();
-		String fluxQuery = "from(bucket: \"workoutsessions-bucket\") |> range(start: -30d) |> filter(fn: (r) => r[\"_measurement\"] == \"workout-sessions\") |> filter(fn: (r) => r.customerId == \""+customerId+"\" and r.programName == \""+programName+"\")";
+		String fluxQuery = "from(bucket: \"workoutsessions-bucket\") |> range(start: -30d) |> filter(fn: (r) => r[\"_measurement\"] == \"workout-sessions\") |> filter(fn: (r) => r.customerId == \""+customerId+"\" and r.programName == \""+programName+"\") |> sort(columns: [\"startTime\"])";
 		QueryApi queryApi = influxClient.getQueryApi();
 		List<FluxTable> tables = queryApi.query(fluxQuery, "PT-Support");
 		Long wsId = -1l;
