@@ -16,7 +16,11 @@ import it.unifi.dinfo.stlab.WebApp_PT_Support.mappers.*;
 import it.unifi.dinfo.stlab.WebApp_PT_Support.dto.*;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Iterator;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -256,13 +260,47 @@ public class PersonalTrainerController {
 //	}
 	
 	@SuppressWarnings("unchecked")
-	public JSONArray listAllMachinesData() {
-		JSONArray jsonArray = new JSONArray();
+	public Map<Long, Integer> getAllMachinesUsage() {
+		wsDao.buildConnection("M_eR6oFSVaFfVKj-UfdVgud1Kumz_Aa55_iPPM_e4-pFui3irqUYc6eMh8_Y-N51CAcG5JfDhroO9a4xHVJcPA==", "workoutsessions-bucket", "PT-Support");
+		Map<Long, Integer> machineFrequency = new HashMap<Long, Integer>();
 		for(WorkoutSession ws : wsDao.findAll()) {
-			//filtra le ws estraendo solo i pacchetti ed appendendoli ad un jsonarray
-			jsonArray.add(ws.getSessionData());
+			List<HashMap<String, String>> sessionData = ws.getSessionData();
+			for(HashMap<String, String> i : sessionData) {
+				System.out.println(i);
+				Long machineId = Long.parseLong(i.get("machineId"));
+	            if (machineFrequency.containsKey(machineId)) {
+	                machineFrequency.put(machineId, machineFrequency.get(machineId) + Integer.parseInt(i.get("repetitions")));
+	            } 
+	            else {
+	            	machineFrequency.put(machineId, Integer.parseInt(i.get("repetitions")));
+	            }
+			}
 		}
-		return jsonArray;
+		System.out.println(machineFrequency);
+		return machineFrequency;
 	}
+	
+	public Map<String, String> getExerciseProgressionOnWProgram(Long customerId, String programName, String exName){
+		wsDao.buildConnection("M_eR6oFSVaFfVKj-UfdVgud1Kumz_Aa55_iPPM_e4-pFui3irqUYc6eMh8_Y-N51CAcG5JfDhroO9a4xHVJcPA==", "workoutsessions-bucket", "PT-Support");
+		List<WorkoutSession> wSessions =  wsDao.findByCustomerIdAndProgramName(customerId, programName);
+		Map<String, String> exerciseLoadProgression = new HashMap<String, String>();
+		int i = 0;
+		for(WorkoutSession wSession : wSessions) {
+			for(HashMap<String, String> sessionData : wSession.getSessionData()) {
+				if(sessionData.containsValue(exName)) {
+					String date = wSession.getStartTime().toString();
+					int indiceT = date.indexOf('T');
+					date = date.substring(0, indiceT);
+					if(exerciseLoadProgression.containsKey(date)) {
+						date += "-"+i;
+						i++;
+					}
+					exerciseLoadProgression.put(date, sessionData.get("load"));
+				}
+			}
+		}
+		return exerciseLoadProgression;
+	}
+	
 	
 }

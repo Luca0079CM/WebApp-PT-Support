@@ -1,6 +1,7 @@
 package it.unifi.dinfo.stlab.WebApp_PT_Support.rest;
 
 import java.util.List;
+import java.util.Map;
 
 import it.unifi.dinfo.stlab.WebApp_PT_Support.controllers.CustomerController;
 import jakarta.inject.Inject;
@@ -176,10 +177,19 @@ public class PersonalTrainerRestEndpoint {
 	}
 	
 	@GET
-	@Path("/ptrainers/list-machinedata")
+	@Path("/ptrainers/machine-usage")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response listAllMachinesData() {
-		JSONArray response = ptController.listAllMachinesData();
+	public Response getAllMachinesUsage() {
+		Map<Long, Integer> response = ptController.getAllMachinesUsage();
+		return Response.status(Response.Status.OK).entity(response).build();
+	}
+	
+	@GET
+	@Path("/ptrainers/get-exercise-progression/{cId}/{programName}/{exName}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getExerciseProgressionOnWProgram(@PathParam("cId") Long cId, @PathParam("programName") String programName, 
+			@PathParam("exName") String exName) {
+		Map<String, String> response = ptController.getExerciseProgressionOnWProgram(cId, programName, exName);
 		return Response.status(Response.Status.OK).entity(response).build();
 	}
 	

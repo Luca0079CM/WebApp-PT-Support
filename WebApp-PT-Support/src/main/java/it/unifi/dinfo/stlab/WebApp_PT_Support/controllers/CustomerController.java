@@ -34,7 +34,7 @@ public class CustomerController {
 	PersonalTrainerDao ptDao;
 	@Inject
 	WorkoutSessionDao wsDao;
-  @Inject
+	@Inject
 	WorkoutProgramDao wpDao;
 	@Inject
 	CustomerMapper cMapper;
@@ -44,7 +44,7 @@ public class CustomerController {
 	PersonalTrainerMapper ptMapper;
 	@Inject
 	WorkoutSessionMapper wsMapper;
-  @Inject
+	@Inject
 	ExerciseMapper exMapper;
 	
 	
@@ -78,12 +78,14 @@ public class CustomerController {
 	
 
 	public WorkoutSessionDTO saveWorkoutSession(WorkoutSessionDTO wsDTO) {
-		wsDao.buildConnection("M_eR6oFSVaFfVKj-UfdVgud1Kumz_Aa55_iPPM_e4-pFui3irqUYc6eMh8_Y-N51CAcG5JfDhroO9a4xHVJcPA==", "workoutsessions-bucket", "PT-Support");
 		WorkoutSession ws = new WorkoutSession();
 		ws.setId(wsDTO.getId());
+		ws.setCustomer(cDao.findById(wsDTO.getCustomerId()));
+		ws.setProgram(wpDao.findByName(wsDTO.getProgramName()));
 		ws.setStartTime(Instant.parse(wsDTO.getStartTime()));
 		ws.setEndTime(Instant.parse(wsDTO.getEndTime()));
 		ws.setSessionData(wsDTO.getSessionData());
+		wsDao.buildConnection("M_eR6oFSVaFfVKj-UfdVgud1Kumz_Aa55_iPPM_e4-pFui3irqUYc6eMh8_Y-N51CAcG5JfDhroO9a4xHVJcPA==", "workoutsessions-bucket", "PT-Support");
 		wsDao.save(ws);
 		return wsMapper.toDTO(ws);
   }
@@ -97,12 +99,12 @@ public class CustomerController {
 		return exDTOList;
 	}
 	
-	public List<WorkoutSessionDTO> listWorkoutSessionOfCustomer(Long custId){
-		List<WorkoutSessionDTO> wsDTOList = new ArrayList<WorkoutSessionDTO>();
-		for(WorkoutSession ws : wsDao.findByCustomerId(custId)) {
-			wsDTOList.add(wsMapper.toDTO(ws));
-		}
-		return wsDTOList;
-	}
+//	public List<WorkoutSessionDTO> listWorkoutSessionOfCustomer(Long custId){
+//		List<WorkoutSessionDTO> wsDTOList = new ArrayList<WorkoutSessionDTO>();
+//		for(WorkoutSession ws : wsDao.findByCustomerId(custId)) {
+//			wsDTOList.add(wsMapper.toDTO(ws));
+//		}
+//		return wsDTOList;
+//	}
 
 }

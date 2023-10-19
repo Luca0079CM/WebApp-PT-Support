@@ -77,12 +77,12 @@ public class CustomerRestEndpoint {
 	}
 	
 	//questo sarà usato anche dal PT, il fe deve chiamare questo path su ptService
-	@GET
-	@Path("/sessions/list/{custId}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response listWorkoutSessionOfCustomer(@PathParam("custId") Long custId) {
-		List<WorkoutSessionDTO> ptDTOList = customerController.listWorkoutSessionOfCustomer(custId);
-		return Response.status(Response.Status.OK).entity(ptDTOList).build();
-	}
+//	@GET
+//	@Path("/sessions/list/{custId}")
+//	@Produces(MediaType.APPLICATION_JSON)
+//	public Response listWorkoutSessionOfCustomer(@PathParam("custId") Long custId) {
+//		List<WorkoutSessionDTO> ptDTOList = customerController.listWorkoutSessionOfCustomer(custId);
+//		return Response.status(Response.Status.OK).entity(ptDTOList).build();
+//	}
 	
 }
