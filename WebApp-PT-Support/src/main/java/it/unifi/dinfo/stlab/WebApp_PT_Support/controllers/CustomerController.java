@@ -85,7 +85,7 @@ public class CustomerController {
 		ws.setStartTime(Instant.parse(wsDTO.getStartTime()));
 		ws.setEndTime(Instant.parse(wsDTO.getEndTime()));
 		ws.setSessionData(wsDTO.getSessionData());
-		wsDao.buildConnection("M_eR6oFSVaFfVKj-UfdVgud1Kumz_Aa55_iPPM_e4-pFui3irqUYc6eMh8_Y-N51CAcG5JfDhroO9a4xHVJcPA==", "workoutsessions-bucket", "PT-Support");
+		wsDao.buildConnection("57my30fVD2mvRW7pKOgTTqGbymad0B2U5HR7rGUszU1GPBSDnnFU4Dt8rQdNiLJaIJdm_jOLG6l4hQLK8FHB5Q==", "workoutsessions-bucket", "PT-Support");
 		wsDao.save(ws);
 		return wsMapper.toDTO(ws);
   }

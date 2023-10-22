@@ -261,7 +261,7 @@ public class PersonalTrainerController {
 	
 	@SuppressWarnings("unchecked")
 	public Map<Long, Integer> getAllMachinesUsage() {
-		wsDao.buildConnection("M_eR6oFSVaFfVKj-UfdVgud1Kumz_Aa55_iPPM_e4-pFui3irqUYc6eMh8_Y-N51CAcG5JfDhroO9a4xHVJcPA==", "workoutsessions-bucket", "PT-Support");
+		wsDao.buildConnection("57my30fVD2mvRW7pKOgTTqGbymad0B2U5HR7rGUszU1GPBSDnnFU4Dt8rQdNiLJaIJdm_jOLG6l4hQLK8FHB5Q==", "workoutsessions-bucket", "PT-Support");
 		Map<Long, Integer> machineFrequency = new HashMap<Long, Integer>();
 		for(WorkoutSession ws : wsDao.findAll()) {
 			List<HashMap<String, String>> sessionData = ws.getSessionData();
@@ -281,7 +281,7 @@ public class PersonalTrainerController {
 	}
 	
 	public Map<String, String> getExerciseProgressionOnWProgram(Long customerId, String programName, String exName){
-		wsDao.buildConnection("M_eR6oFSVaFfVKj-UfdVgud1Kumz_Aa55_iPPM_e4-pFui3irqUYc6eMh8_Y-N51CAcG5JfDhroO9a4xHVJcPA==", "workoutsessions-bucket", "PT-Support");
+		wsDao.buildConnection("57my30fVD2mvRW7pKOgTTqGbymad0B2U5HR7rGUszU1GPBSDnnFU4Dt8rQdNiLJaIJdm_jOLG6l4hQLK8FHB5Q==", "workoutsessions-bucket", "PT-Support");
 		List<WorkoutSession> wSessions =  wsDao.findByCustomerIdAndProgramName(customerId, programName);
 		Map<String, String> exerciseLoadProgression = new HashMap<String, String>();
 		int i = 0;
@@ -296,6 +296,7 @@ public class PersonalTrainerController {
 						i++;
 					}
 					exerciseLoadProgression.put(date, sessionData.get("load"));
+					break;
 				}
 			}
 		}

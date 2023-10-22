@@ -53,12 +53,6 @@ public class JwtUtil {
 
         return claims;
     }
-
-//    public boolean isTokenExpired(String token) {
-//        Date expirationDate = getAllClaimsFromToken(token).getExpiration();
-//        Date now = new Date();
-//        return expirationDate.before(now);
-//    }
     
     public boolean isTokenExpired(String token) {
     	Key key = Keys.hmacShaKeyFor(secret.getBytes());

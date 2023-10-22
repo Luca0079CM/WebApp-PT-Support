@@ -26,7 +26,6 @@ public class AuthenticationController {
     private PersonalTrainerMapper ptMapper;
     @Inject
     private CustomerMapper cMapper;
-
     @Inject
     private JwtUtil jwtUtil;
 
@@ -34,7 +33,6 @@ public class AuthenticationController {
         PersonalTrainer pt = ptDao.findByEmail(email);
         if (pt != null && passwordMatches(pt, password)) {
         	System.out.println("token is being generated in AuthenticationController");
-            // Genera un token JWT valido
             return jwtUtil.generateToken(pt.getEmail());
         }
         System.out.println("pt is null in AuthenticationController or password is wrong");
@@ -45,7 +43,6 @@ public class AuthenticationController {
         Customer c = cDao.findByEmail(email);
         if (c != null && customerPasswordMatches(c, password)) {
         	System.out.println("token is being generated in AuthenticationController");
-            // Genera un token JWT valido
             return jwtUtil.generateToken(c.getEmail());
         }
         System.out.println("customer is null in AuthenticationController or password is wrong");
@@ -66,19 +63,11 @@ public class AuthenticationController {
 	}
 
     private boolean passwordMatches(PersonalTrainer pt, String password) {
-        if(pt.getPassword().equals(password))
-        	return true;
-        else
-        	return false;
-//        return BCrypt.checkpw(password, pt.getPassword());
+        return pt.getPassword().equals(password) ? true : false;
     }
     
     private boolean customerPasswordMatches(Customer c, String password) {
-        if(c.getPassword().equals(password))
-        	return true;
-        else
-        	return false;
-//        return BCrypt.checkpw(password, pt.getPassword());
+    	return c.getPassword().equals(password) ? true : false;
     }
 }
 
